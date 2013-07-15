@@ -1,4 +1,4 @@
-package actions;
+package com.hanna.mobsters.actions;
 
 public class mathAction extends Action{
 	double a,b;

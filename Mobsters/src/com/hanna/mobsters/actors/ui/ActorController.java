@@ -11,7 +11,7 @@ import com.hanna.mobsters.actors.Actor;
  */
 public class ActorController {
 
-	Actor actor; //TODO make actor an 'Actor' and not an 'Object'
+	Actor actor;
 	ActorPanel panel;
 	public ActorController(Actor actor){
 		this.actor = actor;	

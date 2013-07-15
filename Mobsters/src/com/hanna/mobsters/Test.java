@@ -3,8 +3,10 @@
  */
 package com.hanna.mobsters;
 
+import com.hanna.mobsters.actions.*;
+import com.hanna.mobsters.actors.Actor;
+
 import actors.*;
-import actions.*;
 
 /**
  * @author Chris Hanna
