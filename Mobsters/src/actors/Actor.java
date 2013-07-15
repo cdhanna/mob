@@ -5,20 +5,22 @@ import java.util.PriorityQueue;
 public class Actor {
 int money;
 PriorityQueue<Action> pq;
+double feeling;
 
 	// constructor - really just a stub right now
 	public Actor(int money)
 {
 	this.money = money;
 	pq = new PriorityQueue<Action>();
+	feeling = 1.0; // default feeling generation for now.
 }
-	// static decison making method common to all actors
-	private static double decider(Action a){
-		return 1;
+	// static decision making method common to all actors
+	private static double decider(Action a, double feeling){
+		return feeling * a.getFeelVal();
 	}
 	public String decide(Action a){
 		String str;
-		double decision = decider(a);
+		double decision = decider(a,feeling);
 		if (decision > 0){
 			str = "I will do it";
 			pq.add(a);
@@ -31,8 +33,7 @@ PriorityQueue<Action> pq;
 	
 	public void evaluateActions(){
 		for (Action a:pq)
-			a.doIt();
-		
+			a.doIt();	
 	}
 	
 }

@@ -9,26 +9,34 @@ public class mathAction extends Action{
 		this.b = b;
 		this.op = op;
 		this.priority = priority;
+		if (op == '-')
+			feelVal = -0.4;
+		else
+			feelVal = 1.0;
 			
 		}
 	
 	public void doIt(){
-		double result;
+		String str;
 		
 		switch (op){
-		case '+': result = a + b; break;
-		case '-': result = a - b; break;
-		case '*': result = a * b; break;
-		case '/':
-		if (b!=0)
-			result = a/b;
-		else
-			result = 0; // not right
+		case '+': str = "I added " +a+ " and " +b+ " and got " + (a+b);
 		break;
-		default: result = 0; break;
+		case '-': str = "I subtracted " +b+ " from " +a+ " and got " + (a-b);
+		break;
+		case '*': str = "I multiplied " +a+ " and b and got " + (a*b);
+		break;
+		case '/':
+		if (b!=0){
+			str = "I divided " +a+ " by " +b+ " and got " + (a/b);}
+		else
+			str = " I cannot divide " +a+ "by zero boss";
+		break;
+		default: str = "Unkown operation " +op;
+		break;
 		}
 		
-		System.out.println("I performed the operation. The result was " + result);
+		System.out.println(str);
 			
 	}
 
