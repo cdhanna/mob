@@ -60,9 +60,9 @@ public class ActorPanel extends Panel{
 		this.clearOutputButton = new JButton("Clear Output");
 		
 		this.actorDetailsLabel = new JLabel("Actor Details");
-		//this.detailsModel = new ActorDetailsTableModel();
-		//this.actorDetailsTable = new ActorDetailsTable(this.detailsModel);
-		
+		this.detailsModel = new ActorDetailsTableModel();
+		this.actorDetailsTable = new ActorDetailsTable(this.detailsModel);
+		this.actorDetailsTable.setPreferredSize(new Dimension(300,200));
 	}
 
 	@Override
@@ -90,8 +90,10 @@ public class ActorPanel extends Panel{
 		this.add(actionOutputButtons, "cell 0 6, right");
 		
 		//actor details
-		//this.add(this.actorDetailsLabel, "cell 0 7");
-		//this.add(new JScrollPane(this.actorDetailsTable), "cell 0 7");
+		this.add(this.actorDetailsLabel, "cell 0 7");
+		JScrollPane tablePane = new JScrollPane(this.actorDetailsTable);
+		tablePane.setPreferredSize(new Dimension(320,200));
+		this.add(tablePane, "cell 0 8");
 	}
 
 

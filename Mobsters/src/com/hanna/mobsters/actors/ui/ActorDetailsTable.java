@@ -12,20 +12,11 @@ import javax.swing.table.DefaultTableModel;
  */
 public class ActorDetailsTable extends JTable{
 
-	public ActorDetailsTable(DefaultTableModel detailsModel) {
+	public ActorDetailsTable(ActorDetailsTableModel detailsModel) {
 		super(detailsModel);
 		
-		
+		this.getColumnModel().getColumn(0).setHeaderValue("Field");
+		this.getColumnModel().getColumn(1).setHeaderValue("Value");
 	}
 
-	@Override
-	public int getRowCount(){
-		return 3;
-	}
-	
-	@Override
-	public int getColumnCount(){
-		return 2;
-	}
-	
 }
