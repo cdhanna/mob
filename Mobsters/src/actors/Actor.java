@@ -3,9 +3,9 @@ import actions.*;
 import java.util.PriorityQueue;
 
 public class Actor {
-int money;
-PriorityQueue<Action> pq;
-double feeling;
+int money; // dummy variable
+PriorityQueue<Action> pq; // for holding "to do list" of actions
+double feeling; // expand on this as we build - it should be an array eventually
 
 	// constructor - really just a stub right now
 	public Actor(int money)
@@ -18,6 +18,7 @@ double feeling;
 	private static double decider(Action a, double feeling){
 		return feeling * a.getFeelVal();
 	}
+	
 	public String decide(Action a){
 		String str;
 		double decision = decider(a,feeling);
@@ -32,10 +33,8 @@ double feeling;
 	}
 	
 	public void evaluateActions(){
-		Action a;
 		while (!pq.isEmpty()){
-			a = pq.remove();
-			a.doIt();
+			pq.remove().doIt();
 		}
 				
 	}

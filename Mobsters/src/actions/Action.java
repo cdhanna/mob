@@ -3,7 +3,7 @@ package actions;
 public abstract class Action implements Comparable<Action> {
 	
 	int priority; // must have a priority.
-	double feelVal; // must have a feeling value (set of them eventually)
+	double feelVal; // must have a feeling value (array of them eventually)
 	
 	// all actions must have a method that describes how to complete the action
 	public void doIt(){

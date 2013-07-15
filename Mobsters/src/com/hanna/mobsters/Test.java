@@ -22,12 +22,12 @@ public class Test {
 		System.out.println("Here is a simple test of actor decision making and reporting");
 		int cash = 100; // some dummy actor property. Placeholder for now.
 		
-		// now we will instantiate a new actor called joe and we will make 3 actions to give to him.
+		// now we will instantiate a new actor called joe and we will make some actions to give to him.
 		Actor joe = new Actor(cash);
 		Action addAction = new mathAction(10.0,5.0,'+',1);
 		Action minusAction = new mathAction(7.0,4.0,'-',1);
-		Action divideAction = new mathAction(100.0,10.0,'/',4); // note priority level 3
-		Action multiplyAction = new mathAction(8.0,5.0,'*',3);	
+		Action divideAction = new mathAction(100.0,10.0,'/',4); // note priority level 4
+		Action multiplyAction = new mathAction(8.0,5.0,'*',3);	// note priority level 3
 		
 		// joe decides if he will do each action.
 		String decision;
