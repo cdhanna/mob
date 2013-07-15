@@ -24,7 +24,7 @@ public class mathAction extends Action{
 		break;
 		case '-': str = "I subtracted " +b+ " from " +a+ " and got " + (a-b);
 		break;
-		case '*': str = "I multiplied " +a+ " and b and got " + (a*b);
+		case '*': str = "I multiplied " +a+ " and " +b+ " and got " + (a*b);
 		break;
 		case '/':
 		if (b!=0){

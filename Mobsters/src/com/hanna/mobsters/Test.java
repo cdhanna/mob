@@ -26,8 +26,8 @@ public class Test {
 		Actor joe = new Actor(cash);
 		Action addAction = new mathAction(10.0,5.0,'+',1);
 		Action minusAction = new mathAction(7.0,4.0,'-',1);
-		Action divideAction = new mathAction(100.0,10.0,'/',3); // note priority level 3
-																// this should be done first
+		Action divideAction = new mathAction(100.0,10.0,'/',4); // note priority level 3
+		Action multiplyAction = new mathAction(8.0,5.0,'*',3);	
 		
 		// joe decides if he will do each action.
 		String decision;
@@ -40,7 +40,9 @@ public class Test {
 		System.out.println("Oh crap Joe, I really need you to divide 100 by ten right away!");
 		decision = joe.decide(divideAction);
 		System.out.println(decision);
-		
+		System.out.println("Joe, you should also multiply 8 and 5. Its fairly important");
+		decision = joe.decide(multiplyAction);
+		System.out.println(decision);
 		// joe does all of the actions he decided to do.
 		System.out.println("Joe says...");
 		joe.evaluateActions();

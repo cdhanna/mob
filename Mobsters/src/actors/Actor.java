@@ -32,8 +32,12 @@ double feeling;
 	}
 	
 	public void evaluateActions(){
-		for (Action a:pq)
-			a.doIt();	
+		Action a;
+		while (!pq.isEmpty()){
+			a = pq.remove();
+			a.doIt();
+		}
+				
 	}
 	
 }
