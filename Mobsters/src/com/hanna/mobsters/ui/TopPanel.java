@@ -43,7 +43,7 @@ public class TopPanel extends Panel{
 
 
 	public void addActor(){
-		this.controller = new ActorController(new Actor(2)); //TODO replace '5' with an 'Actor'
+		this.controller = new ActorController(new Actor("Mike",2)); //TODO replace '5' with an 'Actor'
 		ActorPanel actorPanel = this.controller.getPanel();
 		this.add(actorPanel);
 	}

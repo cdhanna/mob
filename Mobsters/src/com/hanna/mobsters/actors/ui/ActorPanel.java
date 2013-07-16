@@ -102,19 +102,8 @@ public class ActorPanel extends Panel{
 			
 			
 			this.pendingActionsList.addElement("test");
-			this.pendingActionsList.addElement("test");
-			this.pendingActionsList.addElement("test");
-			this.pendingActionsList.addElement("test");
-			this.pendingActionsList.addElement("test");
-			this.pendingActionsList.addElement("test");
-			this.pendingActionsList.addElement("test");
-			this.pendingActionsList.addElement("test");
-			this.pendingActionsList.addElement("test");
-			this.pendingActionsList.addElement("test");
-			this.pendingActionsList.addElement("test");
-			this.pendingActionsList.addElement("test");
-			this.pendingActionsList.addElement("test");
-			this.pendingActionsList.addElement("test");
+			
+			
 			
 		} else System.err.println("Could not set up actor because parameters did not match expected");
 	}

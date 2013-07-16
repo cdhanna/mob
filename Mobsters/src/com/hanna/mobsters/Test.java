@@ -7,7 +7,6 @@ import com.hanna.mobsters.actions.*;
 import com.hanna.mobsters.actors.Actor;
 
 
-
 /**
  * @author Chris Hanna
  *
@@ -25,7 +24,7 @@ public class Test {
 		int cash = 100; // some dummy actor property. Placeholder for now.
 		
 		// now we will instantiate a new actor called joe and we will make some actions to give to him.
-		Actor joe = new Actor(cash);
+		Actor joe = new Actor("Joe",cash);
 		Action addAction = new mathAction(10.0,5.0,'+',1);
 		Action minusAction = new mathAction(7.0,4.0,'-',1);
 		Action divideAction = new mathAction(100.0,10.0,'/',4); // note priority level 4
@@ -47,7 +46,8 @@ public class Test {
 		System.out.println(decision);
 		// joe does all of the actions he decided to do.
 		System.out.println("Joe says...");
-		joe.evaluateActions();
+		
+		System.out.println(joe.evaluateAction());
 		// end of Will's edits.
 	}
 

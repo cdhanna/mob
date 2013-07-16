@@ -16,7 +16,7 @@ public class mathAction extends Action{
 			
 		}
 	
-	public void doIt(){
+	public String doIt(){
 		String str;
 		
 		switch (op){
@@ -36,7 +36,7 @@ public class mathAction extends Action{
 		break;
 		}
 		
-		System.out.println(str);
+		return str;
 			
 	}
 

@@ -9,9 +9,8 @@ public abstract class Action implements Comparable<Action> {
 	/**
 	 * all actions must have a method that describes how to complete the action
 	 */
-	public void doIt(){
+	public abstract String doIt();
 	
-	}
 	
 	
 	/**
