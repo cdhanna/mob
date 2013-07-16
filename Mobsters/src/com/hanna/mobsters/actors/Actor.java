@@ -4,13 +4,15 @@ import java.util.PriorityQueue;
 import com.hanna.mobsters.actions.*;
 
 public class Actor {
+	String name;
 	int money; // dummy variable
 	PriorityQueue<Action> pq; // for holding "to do list" of actions
 	double feeling; // expand on this as we build - it should be an array eventually
 
 	// constructor - really just a stub right now
-	public Actor(int money)
+	public Actor(String name,int money)
 	{
+		this.name = name;
 		this.money = money;
 		pq = new PriorityQueue<Action>();
 		feeling = 1.0; // default feeling generation for now.
@@ -33,11 +35,11 @@ public class Actor {
 		return str;
 	}
 
-	public void evaluateActions(){
-		while (!pq.isEmpty()){
-			pq.remove().doIt();
+	public String evaluateAction(){
+		return pq.remove().doIt();
 		}
-
-	}
+	
+	public String getName(){return name;}
+	public PriorityQueue<Action> getPQ(){return pq;}
 
 }
