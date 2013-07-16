@@ -39,33 +39,30 @@ public abstract class Panel extends JPanel{
 	 * This will tell you what the panel expects to receive in its <i> setUpComponents(Object... x) <i> function.
 	 * @return
 	 */
-	public abstract Object[] getSetUpParameterTypes();
+	public abstract Class<?>[] getSetUpParameterTypes();
 	
 	
-	protected boolean doesInputMatchExpected(Object[] parameters){
+	protected final boolean doesInputMatchExpected(Object[] parameters){
+		
+//		System.out.println("expected:");
+//		for (Class<?> c : getSetUpParameterTypes())
+//			System.out.println("\t"+c.getSimpleName());
+//		System.out.println("got:");
+//		for (Object o : parameters)
+//			System.out.println("\t"+o.getClass().getSimpleName());
+		
+		
 		Object[] types = this.getSetUpParameterTypes();
 		if (types.length != parameters.length) 
 			return false;
-		else for (int i = 0 ; i < types.length ; i ++)
+		else for (int i = 0 ; i < types.length ; i ++){
+			
 			if (types[i] != parameters[i].getClass())
-				return false;
+				if (parameters[i].getClass().getSuperclass() != types[i])
+					return false;
+		}
 		return true;
 	}
 	
-	private static class SetUpException extends Exception{
-		public SetUpException(Object[] parameters, Class<?>[] types){
-			super(assembleMessage(parameters, types));
-		}
-		private static String assembleMessage(Object[] parameters, Class<?>[] types){
-			String message = "SetUpException.\nRequired Types : ";
-			for (Class<?> type : types)
-				message += type.getSimpleName() + ", ";
-			message += "}\nGiven Types and Values : ";
-			for (Object param : parameters)
-				message += param.getClass().getSimpleName() + " = " + param + ", ";
-			message += "\n";
-			return message;
-		}
-	}
 	
 }

@@ -4,6 +4,8 @@
 package com.hanna.mobsters.ui;
 
 
+import com.hanna.mobsters.actions.MathAction;
+import com.hanna.mobsters.actions.ui.ActionController;
 import com.hanna.mobsters.actors.Actor;
 import com.hanna.mobsters.actors.ui.ActorController;
 import com.hanna.mobsters.actors.ui.ActorPanel;
@@ -29,22 +31,34 @@ public class TopPanel extends Panel{
 
 	@Override
 	public void setUpComponents(Object... parameters) {
+		
+		
+		
 		if (this.doesInputMatchExpected(parameters)){
 			this.addActor();
+			
+			MathAction action = new MathAction(1, 1, '-', 2);
+			ActionController ac = new ActionController(action);
+			this.add(ac.getPanel());
 		}
 	}
 
 
 	@Override
-	public Object[] getSetUpParameterTypes() {
-		return new Object[]{};
+	public Class<?>[] getSetUpParameterTypes() {
+		return new Class<?>[]{};
 	}
 
 
 
 	public void addActor(){
-		this.controller = new ActorController(new Actor("Mike",2)); //TODO replace '5' with an 'Actor'
+		
+		Actor mike = new Actor("Mike", 2);
+		
+		this.controller = new ActorController(mike); 
 		ActorPanel actorPanel = this.controller.getPanel();
 		this.add(actorPanel);
+		
+		controller.speakTo(new MathAction(2,3,'+',2));
 	}
 }

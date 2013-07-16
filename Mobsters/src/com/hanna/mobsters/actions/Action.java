@@ -1,5 +1,6 @@
 package com.hanna.mobsters.actions;
 
+
 public abstract class Action implements Comparable<Action> {
 	
 	int priority; // must have a priority.

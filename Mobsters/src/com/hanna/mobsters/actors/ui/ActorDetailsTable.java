@@ -4,7 +4,6 @@
 package com.hanna.mobsters.actors.ui;
 
 import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
 
 /**
  * @author Chris Hanna

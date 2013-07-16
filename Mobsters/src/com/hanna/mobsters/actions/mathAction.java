@@ -1,10 +1,10 @@
 package com.hanna.mobsters.actions;
 
-public class mathAction extends Action{
+public class MathAction extends Action{
 	double a,b;
 	char op;
 	
-	public mathAction(double a, double b,char op, int priority) {
+	public MathAction(double a, double b,char op, int priority) {
 		this.a = a;
 		this.b = b;
 		this.op = op;

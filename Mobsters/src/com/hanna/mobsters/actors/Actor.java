@@ -22,7 +22,7 @@ public class Actor {
 		return feeling * a.getFeelVal();
 	}
 
-	public String decide(Action a){
+	public String speakTo(Action a){
 		String str;
 		double decision = decider(a,feeling);
 		if (decision > 0){

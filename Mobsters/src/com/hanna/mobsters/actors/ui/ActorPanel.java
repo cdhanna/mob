@@ -5,17 +5,11 @@ package com.hanna.mobsters.actors.ui;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
-
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
-
-
 import com.hanna.mobsters.actions.Action;
 import com.hanna.mobsters.actors.Actor;
 import com.hanna.mobsters.ui.shared.ObjectList;
@@ -30,7 +24,7 @@ public class ActorPanel extends Panel{
 	private JLabel title;
 	
 	private JLabel pendingActionsLabel;
-	private ObjectList<String> pendingActionsList;
+	private ObjectList<Action> pendingActionsList;
 	private JButton wakeUpButton, sleepButton, postButton;
 	
 	private JLabel actionOutputLabel;
@@ -100,17 +94,20 @@ public class ActorPanel extends Panel{
 	public void setUpComponents(Object... parameters) {
 		if (this.doesInputMatchExpected(parameters)){
 			
-			
-			this.pendingActionsList.addElement("test");
-			
-			
-			
 		} else System.err.println("Could not set up actor because parameters did not match expected");
 	}
 
 	@Override
-	public Object[] getSetUpParameterTypes() {
-		return new Object[]{Actor.class};
+	public Class<?>[] getSetUpParameterTypes() {
+		return new Class<?>[]{Actor.class};
 	}
 
+	
+	protected ObjectList<Action> getPendingActionList(){
+		return this.pendingActionsList;
+	}
+	
+	protected JButton getPostButton(){
+		return this.postButton;
+	}
 }
