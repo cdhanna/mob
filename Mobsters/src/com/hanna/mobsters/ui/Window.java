@@ -23,6 +23,7 @@ public class Window extends JFrame{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		new Window();
 	}
 	

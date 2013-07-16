@@ -39,11 +39,11 @@ public abstract class Panel extends JPanel{
 	 * This will tell you what the panel expects to receive in its <i> setUpComponents(Object... x) <i> function.
 	 * @return
 	 */
-	public abstract Class<?>[] getSetUpParameters();
+	public abstract Object[] getSetUpParameterTypes();
 	
 	
 	protected boolean doesInputMatchExpected(Object[] parameters){
-		Class<?>[] types = this.getSetUpParameters();
+		Object[] types = this.getSetUpParameterTypes();
 		if (types.length != parameters.length) 
 			return false;
 		else for (int i = 0 ; i < types.length ; i ++)

@@ -116,12 +116,12 @@ public class ActorPanel extends Panel{
 			this.pendingActionsList.addElement("test");
 			this.pendingActionsList.addElement("test");
 			
-		} else System.out.println("Could not set up actor because parameters did not match expected");
+		} else System.err.println("Could not set up actor because parameters did not match expected");
 	}
 
 	@Override
-	public Class<?>[] getSetUpParameters() {
-		return new Class<?>[]{Actor.class};
+	public Object[] getSetUpParameterTypes() {
+		return new Object[]{Actor.class};
 	}
 
 }

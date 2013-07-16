@@ -3,6 +3,9 @@
  */
 package com.hanna.mobsters.actors.ui;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 
@@ -12,13 +15,15 @@ import javax.swing.table.DefaultTableModel;
  */
 public class ActorDetailsTableModel extends AbstractTableModel {
 	
+	List<Object[]> data;
+	
 	public ActorDetailsTableModel(){
-		
+		this.data = new ArrayList<>();
 	}
 
 	@Override
 	public int getRowCount() {
-		return 3;
+		return this.data.size();
 	}
 
 	@Override
@@ -30,6 +35,10 @@ public class ActorDetailsTableModel extends AbstractTableModel {
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public void addRow(Object field, Object value) {
+		
 	}
 
 }

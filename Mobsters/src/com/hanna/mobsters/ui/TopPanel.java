@@ -36,8 +36,8 @@ public class TopPanel extends Panel{
 
 
 	@Override
-	public Class<?>[] getSetUpParameters() {
-		return new Class[]{};
+	public Object[] getSetUpParameterTypes() {
+		return new Object[]{};
 	}
 
 
