@@ -39,6 +39,10 @@ public class mathAction extends Action{
 		return str;
 			
 	}
+	
+	public String toString(){
+		return "OPERATION IS " +a+op+b +", PRIORITY IS " + priority + "FEELING IS " + feelVal;
+	}
 
 	@Override
 	public int compareTo(Action arg0) {
