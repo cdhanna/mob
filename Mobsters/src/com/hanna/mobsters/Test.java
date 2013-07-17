@@ -22,7 +22,9 @@ public class Test {
 		// Will - 15 July 2013
 		Actor joe = new Actor("Joe",100);
 		SongAction mySong = new SongAction("Home on the range!",1,1.0);
+		System.out.println(mySong.toString());
 		MathAction minusAction = new MathAction(5.0,2.5,"-",2,-1.0);
+		System.out.println(minusAction.toString());
 		System.out.println(joe.speakTo(mySong));
 		System.out.println(joe.speakTo(minusAction));
 		System.out.println(joe.evaluateAction());

@@ -27,7 +27,7 @@ public class SongAction extends Action {
 	
 	@Override
 	public String toString(){
-		return song + " , PRIORITY IS " + priority;
+		return song + " , PRIORITY IS " + priority + ", COST IS " + traitVals.get(MoneyTrait.class).getNumVal();
 	}
 
 }

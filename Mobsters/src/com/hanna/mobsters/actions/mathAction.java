@@ -41,7 +41,7 @@ public class MathAction extends Action{
 	
 	@Override
 	public String toString(){
-		return "OPERATION IS " +a+op+b +", PRIORITY IS " + priority;
+		return "OPERATION IS " +a+op+b +", PRIORITY IS " + priority + ", COST IS " + traitVals.get(MoneyTrait.class).getNumVal();
 	}
 
 	@Override
