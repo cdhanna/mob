@@ -36,7 +36,10 @@ public class Actor {
 	}
 
 	public String evaluateAction(){
-		return pq.remove().doIt();
+		if (!pq.isEmpty())
+			return pq.remove().doIt();
+		else
+			return "I ain't got shit to do";
 		}
 	
 	public String getName(){return name;}

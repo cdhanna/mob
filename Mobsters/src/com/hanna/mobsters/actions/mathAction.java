@@ -46,7 +46,6 @@ public class MathAction extends Action{
 
 	@Override
 	public int compareTo(Action arg0) {
-		// TODO Auto-generated method stub
 		return arg0.priority - this.priority;
 	}
 
