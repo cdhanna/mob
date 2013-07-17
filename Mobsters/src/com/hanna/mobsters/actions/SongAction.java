@@ -2,7 +2,7 @@ package com.hanna.mobsters.actions;
 
 public class SongAction extends Action {
 	String song;
-	public SongAction(String song, int priority, int feelVal) {
+	public SongAction(String song, Integer priority, Integer feelVal) {
 		this.song = song;
 		this.priority = priority;
 		this.feelVal = feelVal;

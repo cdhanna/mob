@@ -119,7 +119,7 @@ public class ActorPanel extends Panel{
 			if (this.contains(this.actionPanel))
 				this.remove(this.actionPanel);
 			this.actionPanel = panel;
-			this.add(this.actionPanel, "cell 1 1");
+			this.add(this.actionPanel, "cell 1 1, spany, top");
 
 			this.revalidate();
 			this.repaint();

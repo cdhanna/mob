@@ -2,14 +2,14 @@ package com.hanna.mobsters.actions;
 
 public class MathAction extends Action{
 	double a,b;
-	char op;
+	String op;
 	
-	public MathAction(double a, double b,char op, int priority) {
+	public MathAction(Double a, Double b,String op, Integer priority) {
 		this.a = a;
 		this.b = b;
 		this.op = op;
 		this.priority = priority;
-		if (op == '-')
+		if (op == "-")
 			feelVal = -0.4;
 		else
 			feelVal = 1.0;
@@ -19,7 +19,7 @@ public class MathAction extends Action{
 	public String doIt(){
 		String str;
 		
-		switch (op){
+		switch (op.charAt(0)){
 		case '+': str = "I added " +a+ " and " +b+ " and got " + (a+b);
 		break;
 		case '-': str = "I subtracted " +b+ " from " +a+ " and got " + (a-b);
