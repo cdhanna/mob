@@ -57,6 +57,6 @@ public class TopPanel extends Panel{
 		ActorPanel actorPanel = this.controller.getPanel();
 		this.add(actorPanel);
 		
-		controller.speakTo(new MathAction(2.0,3.0,"+",2));
+		controller.speakTo(new MathAction(2.0,3.0,"+",2,10.0));
 	}
 }

@@ -1,19 +1,18 @@
 package com.hanna.mobsters.actions;
 
+import com.hanna.mobsters.actors.traits.*;
+
 public class MathAction extends Action{
 	double a,b;
 	String op;
 	
-	public MathAction(Double a, Double b,String op, Integer priority) {
+	public MathAction(Double a, Double b,String op, Integer priority, Double moneyVal) {
 		this.a = a;
 		this.b = b;
 		this.op = op;
 		this.priority = priority;
-		if (op == "-")
-			feelVal = -0.4;
-		else
-			feelVal = 1.0;
-			
+		ActionTraitElement t = new ActionTraitElement("",moneyVal);
+		traitVals.put(MoneyTrait.class, t);
 		}
 	
 	public String doIt(){
@@ -42,7 +41,7 @@ public class MathAction extends Action{
 	
 	@Override
 	public String toString(){
-		return "OPERATION IS " +a+op+b +", PRIORITY IS " + priority + " FEELING IS " + feelVal;
+		return "OPERATION IS " +a+op+b +", PRIORITY IS " + priority;
 	}
 
 	@Override
