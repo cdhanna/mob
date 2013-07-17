@@ -41,7 +41,18 @@ public class ActorController {
 				panel.setActionPanel(actionController.getPanel());
 			}});
 		
+		this.panel.getWakeUpButton().addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				runAction();
+			}});
 		
+		this.panel.getClearOutputButton().addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				panel.getOutputList().removeAllElements();
+				panel.repaint();
+			}});
 		
 	}
 	
@@ -51,6 +62,13 @@ public class ActorController {
 	
 	public ActorPanel getPanel(){
 		return this.panel;
+	}
+	
+	public void runAction(){
+		this.panel.getPendingActionList().removeElement(this.actor.getPQ().peek());
+		String output = this.actor.evaluateAction();
+		this.panel.getOutputList().addElement(output);
+		this.panel.repaint();
 	}
 	
 	public void speakTo(Action action){

@@ -29,4 +29,8 @@ public class ObjectList<T> extends JList<T>{
 	public void removeElement(T object){
 		this.model.removeElement(object);
 	}
+	
+	public void removeAllElements(){
+		this.model.removeAllElements();
+	}
 }

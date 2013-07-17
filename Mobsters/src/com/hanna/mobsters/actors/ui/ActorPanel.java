@@ -47,7 +47,7 @@ public class ActorPanel extends Panel{
 		this.pendingActionsLabel = new JLabel("Pending Actions");
 		this.pendingActionsList = new ObjectList<>();
 		this.pendingActionsList.setPreferredSize(new Dimension(300,400));
-		this.wakeUpButton = new JButton("Wake Up");
+		this.wakeUpButton = new JButton("Run Action");
 		this.sleepButton = new JButton("Sleep");
 		this.postButton = new JButton("Post");
 
@@ -72,7 +72,7 @@ public class ActorPanel extends Panel{
 
 		JPanel pendingActionButtons = new JPanel();
 		pendingActionButtons.add(this.wakeUpButton);
-		pendingActionButtons.add(this.sleepButton);
+		//pendingActionButtons.add(this.sleepButton);
 		pendingActionButtons.add(this.postButton);
 
 		this.add(pendingActionButtons, "cell 0 3, right");
@@ -109,9 +109,19 @@ public class ActorPanel extends Panel{
 	protected ObjectList<Action> getPendingActionList(){
 		return this.pendingActionsList;
 	}
+	
+	protected ObjectList<String> getOutputList(){
+		return this.actionOutputList;
+	}
 
 	protected JButton getPostButton(){
 		return this.postButton;
+	}
+	protected JButton getWakeUpButton(){
+		return this.wakeUpButton;
+	}
+	protected JButton getClearOutputButton(){
+		return this.clearOutputButton;
 	}
 
 	public void setActionPanel(ActionPanel panel) {
