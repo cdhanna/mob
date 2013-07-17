@@ -37,9 +37,7 @@ public class TopPanel extends Panel{
 		if (this.doesInputMatchExpected(parameters)){
 			this.addActor();
 			
-			MathAction action = new MathAction(1, 1, '-', 2);
-			ActionController ac = new ActionController(action);
-			this.add(ac.getPanel());
+			
 		}
 	}
 

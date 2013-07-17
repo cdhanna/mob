@@ -40,8 +40,9 @@ public class MathAction extends Action{
 			
 	}
 	
+	@Override
 	public String toString(){
-		return "OPERATION IS " +a+op+b +", PRIORITY IS " + priority + "FEELING IS " + feelVal;
+		return "OPERATION IS " +a+op+b +", PRIORITY IS " + priority + " FEELING IS " + feelVal;
 	}
 
 	@Override

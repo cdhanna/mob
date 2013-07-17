@@ -29,5 +29,5 @@ public class ActionRegistry {
 	public List<Class<? extends Action>> getRegisteredClasses(){
 		return this.actions;
 	}
-	
+
 }

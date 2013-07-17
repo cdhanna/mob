@@ -3,6 +3,8 @@
  */
 package com.hanna.mobsters.ui.shared;
 
+import java.awt.Component;
+
 import javax.swing.JPanel;
 
 import net.miginfocom.swing.MigLayout;
@@ -25,7 +27,13 @@ public abstract class Panel extends JPanel{
 	protected abstract void initComponents();
 	protected abstract void addComponents();
 	
-	
+	public final boolean contains(Component com){
+		Component[] coms = this.getComponents();
+		for (Component comp : coms)
+			if (comp.equals(com))
+				return true;
+		return false;
+	}
 	
 	/**
 	 * Give the panel all of the information it needs to populate. This will vary for different implementations
