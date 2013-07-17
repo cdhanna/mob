@@ -46,12 +46,16 @@ public class ActionController {
 				if (clazz!=null){
 					Object[] parameters = panel.getValues();
 					Action a = ActionRegistry.getInstance().createAction(clazz, parameters);
-					System.out.println(a);
+					fireActionCreation(a);
 				}
 			}});
 		
 	}
 
+	public Action fireActionCreation(Action a){
+		return a;
+	}
+	
 	public Action getAction(){
 		return this.action;
 	}

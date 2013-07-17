@@ -27,13 +27,21 @@ public class ActorController {
 		this.panel = new ActorPanel();
 		this.panel.setUpComponents(this.actor);
 		
-		this.actionController = new ActionController(new MathAction(1.0,1.0,"+",1,100.0));
+		this.actionController = new ActionController(new MathAction(1.0,1.0,"+",1,100.0)){
+			@Override
+			public Action fireActionCreation(Action a){
+				speakTo(a);
+				return a;
+			}
+		};
 		
 		this.panel.getPostButton().addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				panel.setActionPanel(actionController.getPanel());
 			}});
+		
+		
 		
 	}
 	

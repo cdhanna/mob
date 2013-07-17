@@ -23,8 +23,7 @@ public class ActionRegistry {
 		this.register(MathAction.class);
 		this.register(SongAction.class);
 		
-		Action test = this.createAction(MathAction.class, 1.0,1.0,'-',1);
-		System.out.println(test);
+		
 		
 	}
 

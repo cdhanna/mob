@@ -81,8 +81,10 @@ public class ValuesPanel extends Panel{
 	
 	protected Object[] getValues(){
 		Object[] vals = new Object[this.values.size()];
-		for (int i = 0 ; i < vals.length ; i ++)
+		for (int i = 0 ; i < vals.length ; i ++){
+			this.values.get(i).valueString = this.valueStrings.get(i).getText();
 			vals[i] = this.values.get(i).getValue();
+		}
 		return vals;
 	}
 	
@@ -94,13 +96,20 @@ public class ValuesPanel extends Panel{
 		}
 		public Object getValue(){
 			Object val = null;
-			try{val = Double.parseDouble(this.valueString);}
-			catch (Exception e){
-				try{val = Integer.parseInt(this.valueString);}
-				catch (Exception e2){
-					return valueString;
-				}
-			}
+			
+			if (this.type == Integer.class)
+				try { val = Integer.parseInt(this.valueString);} catch (Exception e){}
+			else if (this.type == Double.class)
+				try { val = Double.parseDouble(this.valueString);} catch (Exception e){}
+			else if (this.type == String.class)
+				return this.valueString;
+//			try{val = Integer.parseInt(this.valueString);}
+//			catch (Exception e){
+//				try{val = Double.parseDouble(this.valueString);}
+//				catch (Exception e2){
+//					return valueString;
+//				}
+//			}
 			
 			return val;
 		}
