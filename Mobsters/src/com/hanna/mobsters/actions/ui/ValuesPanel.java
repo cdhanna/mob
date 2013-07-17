@@ -11,6 +11,8 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import com.hanna.mobsters.actions.core.ActionRegistry;
+import com.hanna.mobsters.actions.core.ActionRegistry.ActionInfo;
 import com.hanna.mobsters.ui.shared.Panel;
 import com.hanna.mobsters.ui.shared.TextField;
 
@@ -32,6 +34,8 @@ public class ValuesPanel extends Panel{
 		this.values = new ArrayList<>();
 		this.valueTypes = new ArrayList<>();
 		this.valueStrings = new ArrayList<>();
+	
+		
 	}
 
 	@Override
@@ -43,40 +47,64 @@ public class ValuesPanel extends Panel{
 	@Override
 	public void setUpComponents(Object... parameters) {
 		
-
-	//	if (this.doesInputMatchExpected(parameters)){
+		
+		if (this.doesInputMatchExpected(parameters)){
 			this.removeAll();
 			this.values.clear();
 			this.valueStrings.clear();
 			this.valueTypes.clear();
-			//Class[] classes = (Class[])parameters[0];
-			for (Object c : parameters)
-				this.addValue((Class<?>)c);
+			Class<?>[] classes = (Class[])parameters[1];
+			ActionInfo info = (ActionInfo)parameters[0];
+			if (classes.length != info.getParameters().length)
+			{
+				System.err.println("could not create values panel. Wrong number of annotations");
+				return;
+			}
+//			if (info.getParameters().length != parameters.length-1){
+//				System.err.println("wrong number of arguements. Annotations count is off");
+//				return;
+//			}
+			for (int i = 0 ; i < classes.length ; i ++)
+				this.addValue(info.getParameters()[i], classes[i]);
 			this.finalizeValues();
 			
 			
 			
-		//} else System.err.println("could not create values panel");
+		} else System.err.println("could not create values panel");
 	}
 
 	@Override
 	public Class<?>[] getSetUpParameterTypes() {
-		return new Class<?>[]{Class[].class};
+		return new Class<?>[]{ActionInfo.class, Class[].class};
 	}
-
-	private void addValue(Class<?> type){
+	
+	private void addValue(String desc, Class<?> type){
 		this.values.add(new Value(type));
-		this.valueTypes.add(new JLabel(type.getSimpleName()));
+		this.valueTypes.add(new JLabel(type.getSimpleName() + " " + desc));
 		this.valueStrings.add(new TextField("null"));
 	}
 	
 	private void finalizeValues(){
+
 		for (int i = 0 ; i < this.values.size() ; i ++){
-			this.add(this.valueTypes.get(i), "cell 0 " + i + ", growx, pushx");
+			
+			this.add(this.valueTypes.get(i), "cell 0 " + i );
 			this.add(this.valueStrings.get(i), "cell 1 " + i + ", growx, pushx");
 		}
 		this.revalidate();
 		this.repaint();
+	}
+	
+	protected boolean hasAllValues(){
+		boolean n = true;
+		Object[] vals = this.getValues();
+		for (Object val : vals)
+			n = n && (val!=null);
+		return n;
+	}
+	
+	protected List<TextField> getTextFields(){
+		return this.valueStrings;
 	}
 	
 	protected Object[] getValues(){

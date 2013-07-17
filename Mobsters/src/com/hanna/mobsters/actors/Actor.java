@@ -2,6 +2,7 @@ package com.hanna.mobsters.actors;
 
 import java.util.*;
 import com.hanna.mobsters.actions.*;
+import com.hanna.mobsters.actions.core.Action;
 import com.hanna.mobsters.actors.traits.*;
 
 public class Actor {
@@ -28,17 +29,20 @@ public class Actor {
 		return w;
 	}
 
-	public String speakTo(Action a){
+	public Response speakTo(Action a){
 		String str;
+		boolean yesno = false;
 		double decision = decider(a,personality);
 		if (decision > 0){
 			str = "I will do it";
+			yesno = true;
 			pq.add(a);
 		}
-		else
+		else{
 			str = "I will not do it";
-
-		return str;
+			yesno = false;
+		}
+		return new Response(yesno, str);
 	}
 
 	public String evaluateAction(){

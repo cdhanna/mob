@@ -10,7 +10,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JComboBox;
 
-import com.hanna.mobsters.actions.Action;
+import com.hanna.mobsters.actions.core.Action;
 
 /**
  * @author Chris Hanna

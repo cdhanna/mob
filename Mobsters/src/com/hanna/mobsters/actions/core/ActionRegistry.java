@@ -1,9 +1,12 @@
-package com.hanna.mobsters.actions;
+package com.hanna.mobsters.actions.core;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.hanna.mobsters.actions.MathAction;
+import com.hanna.mobsters.actions.SongAction;
 
 public class ActionRegistry {
 
@@ -22,9 +25,9 @@ public class ActionRegistry {
 		//TODO replace with reflections
 		this.register(MathAction.class);
 		this.register(SongAction.class);
-		
-		
-		
+
+
+
 	}
 
 	private void register(Class<? extends Action> actionClass){
@@ -52,13 +55,37 @@ public class ActionRegistry {
 			return con.getParameterTypes();
 		} else return null;
 	}
-	
+
+	public ActionInfo parseAnnotation(Class<? extends Action> clazz){
+		Constructor<?> con = ActionRegistry.getInstance().getActionConstructor(clazz);
+		if (con != null){
+			if (con.isAnnotationPresent(ActionInfoAnnotation.class)){
+				ActionInfoAnnotation test = (ActionInfoAnnotation) con.getAnnotation(ActionInfoAnnotation.class);
+				String name = test.name();
+				String[] params = test.params();
+				return new ActionInfo(name, params);
+			}
+		}
+		return null;
+	}
+	public ActionInfo parseAnnotation(Constructor<?> con){
+		if (con != null){
+			if (con.isAnnotationPresent(ActionInfoAnnotation.class)){
+				ActionInfoAnnotation test = (ActionInfoAnnotation) con.getAnnotation(ActionInfoAnnotation.class);
+				String name = test.name();
+				String[] params = test.params();
+				return new ActionInfo(name, params);
+			}
+		}
+		return null;
+	}
+
 	public Action createAction(Class<? extends Action> clazz, Object... parameters){
-		
+
 		Constructor<?> con = this.getActionConstructor(clazz);
 		if (con != null){
 			Class<?>[] paramTypes = con.getParameterTypes();
-			
+
 			boolean typesMatch = true;
 			if (paramTypes.length != parameters.length)
 				typesMatch = false;
@@ -81,9 +108,31 @@ public class ActionRegistry {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
+
 				return null;
 			} else return null;
 		} else return null;
+	}
+	
+	
+	
+	public class ActionInfo {
+
+		private String name;
+		private String[] patameters;
+		public ActionInfo(String name, String[] parameters){
+			this.name = name;
+			this.patameters = parameters;
+			if (name == null)
+				this.name = "";
+			if (parameters == null)
+				this.patameters = new String[]{};
+		}
+		public String getName(){
+			return this.name;
+		}
+		public String[] getParameters(){
+			return this.patameters;
+		}
 	}
 }

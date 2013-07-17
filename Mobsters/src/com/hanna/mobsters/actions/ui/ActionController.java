@@ -7,10 +7,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 import java.lang.reflect.Constructor;
 
-import com.hanna.mobsters.actions.Action;
-import com.hanna.mobsters.actions.ActionRegistry;
+import com.hanna.mobsters.actions.core.Action;
+import com.hanna.mobsters.actions.core.ActionRegistry;
+import com.hanna.mobsters.actions.core.ActionRegistry.ActionInfo;
 
 /**
  * @author Chris Hanna
@@ -21,6 +26,12 @@ public class ActionController {
 	private Action action;
 	private ActionPanel panel;
 
+
+	public @interface Disp{
+		String text() default "test";
+	}
+
+	@Disp(text = "This is a test display text")
 	public ActionController(Action action){
 
 		this.action = action;
@@ -35,7 +46,10 @@ public class ActionController {
 				if (clazz!=null){
 					Constructor c = ActionRegistry.getInstance().getActionConstructor(clazz);
 					Class<?>[] p = ActionRegistry.getInstance().getActionConstructorParameterTypes(clazz);
-					panel.getValuesPanel().setUpComponents((Object[])p);
+					panel.setConstructor(c);
+					ActionInfo info = ActionRegistry.getInstance().parseAnnotation(clazz);
+					panel.setUpValuesPanel(info, (Object[])p);
+					
 				}
 			}});
 
@@ -50,10 +64,16 @@ public class ActionController {
 				}
 			}});
 		
+		
+		
 	}
 
 	public Action fireActionCreation(Action a){
 		return a;
+	}
+	
+	public void setMessage(String message){
+		this.panel.setMessage(message);
 	}
 	
 	public Action getAction(){
@@ -64,6 +84,6 @@ public class ActionController {
 		return this.panel;
 	}
 
-
+	
 
 }

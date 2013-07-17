@@ -1,11 +1,14 @@
 package com.hanna.mobsters.actions;
 
+import com.hanna.mobsters.actions.core.Action;
+import com.hanna.mobsters.actions.core.ActionInfoAnnotation;
 import com.hanna.mobsters.actors.traits.*;
 
 public class MathAction extends Action{
 	double a,b;
 	String op;
 	
+	@ActionInfoAnnotation(params = { "a", "b","Operation", "Priority", "moneyVal" })
 	public MathAction(Double a, Double b,String op, Integer priority, Double moneyVal) {
 		this.a = a;
 		this.b = b;
@@ -13,7 +16,7 @@ public class MathAction extends Action{
 		this.priority = priority;
 		ActionTraitElement t = new ActionTraitElement("",moneyVal);
 		traitVals.put(MoneyTrait.class, t);
-		}
+	}
 	
 	public String doIt(){
 		String str;
@@ -46,7 +49,7 @@ public class MathAction extends Action{
 
 	@Override
 	public int compareTo(Action arg0) {
-		return arg0.priority - this.priority;
+		return arg0.getPriority() - this.priority;
 	}
 
 }

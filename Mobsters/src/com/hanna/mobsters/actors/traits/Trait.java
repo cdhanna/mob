@@ -1,5 +1,5 @@
 package com.hanna.mobsters.actors.traits;
-import com.hanna.mobsters.actions.Action;
+import com.hanna.mobsters.actions.core.Action;
 public abstract class Trait {
 	
 	int importance;

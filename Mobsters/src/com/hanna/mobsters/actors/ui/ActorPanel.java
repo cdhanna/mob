@@ -10,7 +10,8 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import com.hanna.mobsters.actions.Action;
+
+import com.hanna.mobsters.actions.core.Action;
 import com.hanna.mobsters.actions.ui.ActionPanel;
 import com.hanna.mobsters.actors.Actor;
 import com.hanna.mobsters.ui.shared.ObjectList;
