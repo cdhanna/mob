@@ -1,6 +1,6 @@
 package com.hanna.mobsters.actions.core;
 import java.util.*;
-import com.hanna.mobsters.actors.traits.ActionTraitElement;
+import com.hanna.mobsters.actors.traits.*;
 /* THREE IMPORTANT NOTES ABOUT ACTIONS:
 // 1: There can only be ONE constructor for any particular action
 // 2: Constructor input parameters cannot be primitives, make them wrapper classes
@@ -13,7 +13,7 @@ import com.hanna.mobsters.actors.traits.ActionTraitElement;
 public abstract class Action implements Comparable<Action> {
 	
 	protected int priority; // must have a priority.
-	protected HashMap<Class<?>,ActionTraitElement> traitVals;
+	protected HashMap<Class<? extends Trait>,ActionTraitElement> traitVals;
 	
 	/**
 	THREE IMPORTANT NOTES ABOUT ACTIONS:<br>
@@ -25,14 +25,14 @@ public abstract class Action implements Comparable<Action> {
 	 */
 	@ActionInfoAnnotation(name = "Base Action", params = {  })
 	public Action(){
-		traitVals = new HashMap<Class<?>,ActionTraitElement>();
+		traitVals = new HashMap<Class<? extends Trait>,ActionTraitElement>();
 	}
 	/**
 	 * all actions must have a method that describes how to complete the action
 	 */
 	public abstract String doIt();
 	
-	public ActionTraitElement getTraitVal(Class<?> key){
+	public ActionTraitElement getTraitVal(Class<? extends Trait> key ){
 		if (traitVals.containsKey(key))
 			return traitVals.get(key);
 		else
