@@ -44,7 +44,12 @@ public class ActionPanel extends Panel{
 		this.setBorder(BorderFactory.createLineBorder(Color.black));
 		
 		this.title = new JLabel("Action");
-		this.availableActionsBox = new ComboBox<>("Select an Action");
+		this.availableActionsBox = new ComboBox<Class<? extends Action>>("Select an Action"){
+			@Override
+			public String elementToString(Class<? extends Action> e){
+				return e.getSimpleName();
+			}
+		};
 		this.actionLabel = new JLabel("Action Constructor");
 		this.valuesPanel = new ValuesPanel();
 		this.messageLabel = new JLabel("Awaiting Order:");
@@ -69,6 +74,8 @@ public class ActionPanel extends Panel{
 		this.add(this.postButton, "cell 0 4, right, pushx, growx");
 		this.add(this.messageLabel, "cell 0 5");
 		this.add(this.closeButton, "cell 0 6, right, pushx, growx");
+		
+		
 	}
 
 	@Override
@@ -99,6 +106,10 @@ public class ActionPanel extends Panel{
 		return this.postButton;
 	}
 	
+	protected JButton getCloseButton() {
+		return this.closeButton;
+	}
+	
 	protected Object[] getValues(){
 		return this.valuesPanel.getValues();
 	}
@@ -113,14 +124,15 @@ public class ActionPanel extends Panel{
 		
 	}
 
-	public void setConstructor(Constructor c) {
+	protected void setConstructor(Constructor c) {
 		this.actionLabel.setText(ActionRegistry.getInstance().parseAnnotation(c).getName());
 		this.repaint();
 	}
 	
-	public void setMessage(String string){
-		System.out.println("nope");
+	protected void setMessage(String string){
 		this.messageLabel.setText(string);
 		this.repaint();
 	}
+
+
 }

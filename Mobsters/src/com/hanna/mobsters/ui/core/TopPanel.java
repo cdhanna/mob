@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.hanna.mobsters.ui;
+package com.hanna.mobsters.ui.core;
 
 
 import com.hanna.mobsters.actions.MathAction;
@@ -19,14 +19,16 @@ public class TopPanel extends Panel{
 
 	private ActorController controller;
 
+	private ToolBarController toolBar;
+	
 	@Override
 	protected void initComponents() {
-
+		this.toolBar = new ToolBarController();
 	}
 
 	@Override
 	protected void addComponents() {
-
+		this.add(this.toolBar.getPanel(), "cell 0 0, pushx, pushy, growy");
 	}
 
 	@Override
@@ -35,8 +37,7 @@ public class TopPanel extends Panel{
 		
 		
 		if (this.doesInputMatchExpected(parameters)){
-			this.addActor();
-			
+
 			
 		}
 	}
@@ -47,16 +48,15 @@ public class TopPanel extends Panel{
 		return new Class<?>[]{};
 	}
 
+	public ToolBarController getToolBarController(){
+		return this.toolBar;
+	}
 
-
-	public void addActor(){
+	public ActorController addActor(Actor actor){
 		
-		Actor mike = new Actor("Mike", 2);
-		
-		this.controller = new ActorController(mike); 
-		ActorPanel actorPanel = this.controller.getPanel();
+		ActorController actorController = new ActorController(actor); 
+		ActorPanel actorPanel = actorController.getPanel();
 		this.add(actorPanel);
-		
-		controller.speakTo(new MathAction(2.0,3.0,"+",2,10.0));
+		return actorController;
 	}
 }

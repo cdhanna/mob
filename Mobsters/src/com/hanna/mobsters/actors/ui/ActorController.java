@@ -9,8 +9,11 @@ import java.awt.event.ActionListener;
 import com.hanna.mobsters.actions.MathAction;
 import com.hanna.mobsters.actions.core.Action;
 import com.hanna.mobsters.actions.ui.ActionController;
+import com.hanna.mobsters.actions.ui.ActionPanel;
 import com.hanna.mobsters.actors.Actor;
 import com.hanna.mobsters.actors.Response;
+import com.hanna.mobsters.ui.Top;
+import com.hanna.mobsters.ui.Window;
 
 /**
  * @author Chris Hanna
@@ -35,12 +38,16 @@ public class ActorController {
 				actionController.setMessage(response.getMessage());
 				return a;
 			}
+			@Override
+			public void closingActionPanel(ActionPanel p){
+				Top.toolBar.clearFocusPanel();
+			}
 		};
 
 		this.panel.getPostButton().addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				panel.setActionPanel(actionController.getPanel());
+				setToolBarToAction();
 			}});
 
 		this.panel.getWakeUpButton().addActionListener(new ActionListener(){
@@ -66,6 +73,11 @@ public class ActorController {
 		return this.panel;
 	}
 
+	public void setToolBarToAction(){
+		this.panel.setActionPanel(this.actionController.getPanel());
+		Top.toolBar.setFocusPanel(this.actionController.getPanel(), "ACTOR: " + this.actor.getName());
+	}
+	
 	public void runAction(){
 		this.panel.getPendingActionList().removeElement(this.actor.getPQ().peek());
 		String output = this.actor.evaluateAction();

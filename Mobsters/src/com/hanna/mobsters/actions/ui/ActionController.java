@@ -3,6 +3,7 @@
  */
 package com.hanna.mobsters.actions.ui;
 
+import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -26,12 +27,6 @@ public class ActionController {
 	private Action action;
 	private ActionPanel panel;
 
-
-	public @interface Disp{
-		String text() default "test";
-	}
-
-	@Disp(text = "This is a test display text")
 	public ActionController(Action action){
 
 		this.action = action;
@@ -64,12 +59,25 @@ public class ActionController {
 				}
 			}});
 		
-		
+		this.panel.getCloseButton().addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				closingActionPanel(panel);
+				if (panel.getParent()!=null){
+					Container parent = panel.getParent();
+					panel.getParent().remove(panel);
+					parent.revalidate();
+					parent.repaint();
+				}
+			}});
 		
 	}
 
 	public Action fireActionCreation(Action a){
 		return a;
+	}
+	public void closingActionPanel(ActionPanel panel){
+		
 	}
 	
 	public void setMessage(String message){

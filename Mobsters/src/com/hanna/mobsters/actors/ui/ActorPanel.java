@@ -7,6 +7,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -97,7 +98,8 @@ public class ActorPanel extends Panel{
 
 	public void setUpComponents(Object... parameters) {
 		if (this.doesInputMatchExpected(parameters)){
-
+			Actor actor = (Actor)parameters[0];
+			this.title.setText("Actor: " + actor.getName());
 		} else System.err.println("Could not set up actor because parameters did not match expected");
 	}
 
@@ -125,15 +127,18 @@ public class ActorPanel extends Panel{
 		return this.clearOutputButton;
 	}
 
+	public ActionPanel getActionPanel(){
+		return this.actionPanel;
+	}
+	
 	public void setActionPanel(ActionPanel panel) {
 		if (panel != null){
 			if (this.contains(this.actionPanel))
 				this.remove(this.actionPanel);
 			this.actionPanel = panel;
-			this.add(this.actionPanel, "cell 1 1, spany, top");
-
-			this.revalidate();
-			this.repaint();
+			//this.add(this.actionPanel, "cell 1 1, spany, top");
+			//this.revalidate();
+			//this.repaint();
 		}
 	}
 }
