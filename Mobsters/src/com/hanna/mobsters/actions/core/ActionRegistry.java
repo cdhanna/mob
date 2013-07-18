@@ -4,6 +4,13 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+
+import org.reflections.Reflections;
+
+
+
+
 
 import com.hanna.mobsters.actions.MathAction;
 import com.hanna.mobsters.actions.SongAction;
@@ -22,14 +29,20 @@ public class ActionRegistry {
 	private ActionRegistry(){
 		this.actions = new ArrayList<>();
 
-		//TODO replace with reflections
-		this.register(MathAction.class);
-		this.register(SongAction.class);
-
-
+		this.scanForActions();
 
 	}
 
+	private void scanForActions(){
+		Reflections r = new Reflections("com.hanna.mobsters.actions");
+		Set<Class<? extends Action>> subTypes = r.getSubTypesOf(Action.class);
+		System.out.println("Scanned " +subTypes.size());
+		for (Class<? extends Action> c : subTypes){
+			System.out.println(c);
+			this.register(c);
+		}
+	}
+	
 	private void register(Class<? extends Action> actionClass){
 		this.actions.add(actionClass);
 	}
