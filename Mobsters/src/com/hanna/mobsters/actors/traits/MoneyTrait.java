@@ -12,7 +12,9 @@ public class MoneyTrait extends Trait {
 	public double compute(Action a) {
 		ActionTraitElement t = a.getTraitVal(MoneyTrait.class);
 		Double moneyVal = t.getNumVal();
-		return (moneyVal/Math.abs(moneyVal)) * Math.pow(moneyVal, importance) /1000;
+		Double absMoney = Math.abs(moneyVal);
+		Double coefficient = 1.0;
+		return coefficient * (moneyVal/absMoney) * Math.pow(absMoney, importance);
 	}
 
 

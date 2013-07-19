@@ -54,14 +54,16 @@ public class MathAction extends Action{
 
 	@Override
 	public Action mutateAction(double x) {
-		if (x<10)
+		if(x<0)
 			return new SongAction("Ohhhh I hate doing math but I love to sing!", this.priority,0.0);
-		else if (x<5)
+	
+		if (x<5)
+			this.b -= 1;
+		
+		if (x<10)
 			this.a = this.a + 2;
 		
-		ActionTraitElement t = traitVals.get(MoneyTrait.class);
-		double money = t.getNumVal();
-		return new MathAction(this.a, this.b, this.op,this.priority,money);
+		return this;
 		
 	}
 

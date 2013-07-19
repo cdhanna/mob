@@ -41,11 +41,11 @@ public class Actor {
 		String str;
 		boolean yesno = false;
 		double decision = decider(a,personality);
-		if (decision > 0){
+		a = a.mutateAction(decision);
+		if (a != null){
 			str = "I will do it";
 			yesno = true;
-			Action modAction = a.mutateAction(decision);
-			pq.add(modAction);
+			pq.add(a);
 		}
 		else{
 			str = "I will not do it";
