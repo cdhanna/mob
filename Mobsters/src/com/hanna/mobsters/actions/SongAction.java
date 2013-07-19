@@ -32,5 +32,15 @@ public class SongAction extends Action {
 	public String toString(){
 		return song + " , PRIORITY IS " + priority + ", COST IS " + traitVals.get(MoneyTrait.class).getNumVal();
 	}
+	@Override
+	public Action mutateAction(double x) {
+		// TODO Auto-generated method stub
+		if (x<10)
+			this.song = song.substring(3);
+		if (x<10)
+			this.priority = 1;
+		
+		return this;
+	}
 
 }
