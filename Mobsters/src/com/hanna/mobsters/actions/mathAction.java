@@ -60,9 +60,7 @@ public class MathAction extends Action{
 		else if (x<10)
 			this.a = this.a + 2;
 		
-		ActionTraitElement t = traitVals.get(MoneyTrait.class);
-		double money = t.getNumVal();
-		return new MathAction(this.a, this.b, this.op,this.priority,money);
+		return this;
 		
 	}
 
