@@ -54,10 +54,13 @@ public class MathAction extends Action{
 
 	@Override
 	public Action mutateAction(double x) {
-		
-		if (x<5)
+		if(x<0)
 			return new SongAction("Ohhhh I hate doing math but I love to sing!", this.priority,0.0);
-		else if (x<10)
+	
+		if (x<5)
+			this.b -= 1;
+		
+		if (x<10)
 			this.a = this.a + 2;
 		
 		return this;

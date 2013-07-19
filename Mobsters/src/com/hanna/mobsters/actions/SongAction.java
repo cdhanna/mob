@@ -35,8 +35,12 @@ public class SongAction extends Action {
 	@Override
 	public Action mutateAction(double x) {
 		// TODO Auto-generated method stub
+		if (x<0)
+			return null;
+		
 		if (x<10)
 			this.song = song.substring(3);
+		
 		if (x<5)
 			this.priority = 1;
 		
