@@ -8,5 +8,6 @@
 	<classpathentry kind="lib" path="lib/reflections-0.9.9-RC1-uberjar.jar"/>
 	<classpathentry kind="lib" path="lib/javassist.jar"/>
 	<classpathentry kind="lib" path="lib/reflection/guava-14.0.1.jar"/>
+	<classpathentry kind="lib" path="lib/kryo-2.21-all.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

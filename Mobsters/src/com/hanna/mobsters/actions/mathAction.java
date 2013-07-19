@@ -7,7 +7,7 @@ import com.hanna.mobsters.actors.traits.*;
 public class MathAction extends Action{
 	double a,b;
 	String op;
-	
+	 
 	@ActionInfoAnnotation(params = { "a", "b","Operation", "Priority", "moneyVal" })
 	public MathAction(Double a, Double b,String op, Integer priority, Double moneyVal) {
 		this.a = a;
