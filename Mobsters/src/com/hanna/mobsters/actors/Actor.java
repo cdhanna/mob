@@ -36,7 +36,8 @@ public class Actor {
 		if (decision > 0){
 			str = "I will do it";
 			yesno = true;
-			pq.add(a);
+			Action modAction = a.mutateAction(decision);
+			pq.add(modAction);
 		}
 		else{
 			str = "I will not do it";

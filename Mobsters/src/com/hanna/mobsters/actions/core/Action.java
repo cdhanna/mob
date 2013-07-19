@@ -32,6 +32,13 @@ public abstract class Action implements Comparable<Action> {
 	 */
 	public abstract String doIt();
 	
+	/**
+	 * @param x the value from the actor decider method
+	 * @return a (possibly) modified version of the action
+	 */
+	public abstract Action mutateAction(double x);
+
+	
 	public ActionTraitElement getTraitVal(Class<? extends Trait> key ){
 		if (traitVals.containsKey(key))
 			return traitVals.get(key);
