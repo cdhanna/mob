@@ -27,15 +27,15 @@ public class TransferMoneyAction extends Action {
 	}
 
 	@Override
-	public String doIt(Actor actor) {
+	public String doIt(Actor self) {
 		Double transferCash = traitVals.get(MoneyTrait.class).getNumVal();
-		Double onHandCash = actor.getPropertyValue(MoneyProperty.class);
+		Double onHandCash = self.getPropertyValue(MoneyProperty.class);
 		if (onHandCash < transferCash)
 			transferCash = onHandCash;
 		
 		Double receiverCash = this.gettingActor.getPropertyValue(MoneyProperty.class);
 		
-		actor.setPropertyValue(MoneyProperty.class, onHandCash - transferCash);
+		self.setPropertyValue(MoneyProperty.class, onHandCash - transferCash);
 		this.gettingActor.setPropertyValue(MoneyProperty.class, receiverCash + transferCash);
 		return "I transfered the money boss";
 		
