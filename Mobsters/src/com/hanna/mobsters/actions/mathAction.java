@@ -2,6 +2,8 @@ package com.hanna.mobsters.actions;
 
 import com.hanna.mobsters.actions.core.Action;
 import com.hanna.mobsters.actions.core.ActionInfoAnnotation;
+import com.hanna.mobsters.actors.Actor;
+import com.hanna.mobsters.actors.properties.impl.MoneyProperty;
 import com.hanna.mobsters.actors.traits.*;
 
 public class MathAction extends Action{
@@ -18,7 +20,7 @@ public class MathAction extends Action{
 		traitVals.put(MoneyTrait.class, t);
 	}
 	
-	public String doIt(){
+	public String doIt(Actor actor){
 		String str;
 		
 		switch (op.charAt(0)){
@@ -38,8 +40,11 @@ public class MathAction extends Action{
 		break;
 		}
 		
+		Double newMoney = traitVals.get(MoneyTrait.class).getNumVal() + actor.getPropertyValue(MoneyProperty.class);
+		actor.setPropertyValue(MoneyProperty.class, newMoney);
+		System.out.println(actor.getPropertyValue(MoneyProperty.class));
 		return str;
-			
+		
 	}
 	
 	@Override

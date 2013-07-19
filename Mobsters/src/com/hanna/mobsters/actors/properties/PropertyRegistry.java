@@ -17,10 +17,6 @@ import com.hanna.mobsters.actions.core.Action;
  *
  */
 public class PropertyRegistry {
-
-	public static void main(String[] args){
-		getInstance();
-	}
 	
 	private static PropertyRegistry instance;
 	public static PropertyRegistry getInstance(){

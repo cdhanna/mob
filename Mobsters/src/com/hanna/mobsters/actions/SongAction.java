@@ -2,6 +2,7 @@ package com.hanna.mobsters.actions;
 
 import com.hanna.mobsters.actions.core.Action;
 import com.hanna.mobsters.actions.core.ActionInfoAnnotation;
+import com.hanna.mobsters.actors.Actor;
 import com.hanna.mobsters.actors.traits.ActionTraitElement;
 import com.hanna.mobsters.actors.traits.MoneyTrait;
 
@@ -23,7 +24,7 @@ public class SongAction extends Action {
 		return arg0.getPriority() - this.priority;
 	}
 	@Override
-	public String doIt() {
+	public String doIt(Actor actor) {
 		// TODO Auto-generated method stub
 		return song;
 	}

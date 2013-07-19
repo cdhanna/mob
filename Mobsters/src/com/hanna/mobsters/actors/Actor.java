@@ -22,17 +22,18 @@ public class Actor {
 		this.name = name;
 		this.money = money;
 		personality = new ArrayList<Trait>();
-		personality.add(new MoneyTrait(2)); // money value will be squared for this character
+		personality.add(new MoneyTrait(5)); // money value will be squared for this character
 		pq = new PriorityQueue<Action>();
 
 		this.propertyTable = PropertyRegistry.getInstance().makePropertyTable();
 		
 	}
 	// static decision making method common to all actors
-	private static double decider(Action a, ArrayList<Trait> personality){
+	private static double decider(Action a, Actor actor){
+		List<Trait> personality = actor.personality;
 		double w = 0;
 		for (Trait t:personality)
-			w+=t.compute(a);
+			w+=t.compute(a, actor);
 
 		return w;
 	}
@@ -40,7 +41,7 @@ public class Actor {
 	public Response speakTo(Action a){
 		String str;
 		boolean yesno = false;
-		double decision = decider(a,personality);
+		double decision = decider(a,this);
 		a = a.mutateAction(decision);
 		if (a != null){
 			str = "I will do it";
@@ -57,7 +58,7 @@ public class Actor {
 	public String evaluateAction(){
 		
 		if (!pq.isEmpty())
-			return pq.remove().doIt();
+			return pq.remove().doIt(this);
 		else
 			return "I ain't got shit to do";
 	}

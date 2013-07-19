@@ -1,5 +1,7 @@
 package com.hanna.mobsters.actions.core;
 import java.util.*;
+
+import com.hanna.mobsters.actors.Actor;
 import com.hanna.mobsters.actors.traits.*;
 /* THREE IMPORTANT NOTES ABOUT ACTIONS:
 // 1: There can only be ONE constructor for any particular action
@@ -30,7 +32,7 @@ public abstract class Action implements Comparable<Action> {
 	/**
 	 * all actions must have a method that describes how to complete the action
 	 */
-	public abstract String doIt();
+	public abstract String doIt(Actor actor);
 	
 	/**
 	 * @param x the value from the actor decider method
