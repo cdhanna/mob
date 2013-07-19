@@ -22,7 +22,7 @@ public class Actor {
 		this.name = name;
 		this.money = money;
 		personality = new ArrayList<Trait>();
-		personality.add(new MoneyTrait(5)); // money value will be squared for this character
+		personality.add(new MoneyTrait(2)); // money value will be squared for this character
 		pq = new PriorityQueue<Action>();
 
 		this.propertyTable = PropertyRegistry.getInstance().makePropertyTable();
@@ -94,5 +94,8 @@ public class Actor {
 	
 	public String getName(){return name;}
 	public PriorityQueue<Action> getPQ(){return pq;}
+	
+	@Override
+	public String toString(){ return this.name;}
 
 }

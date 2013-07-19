@@ -17,8 +17,12 @@ public class MoneyTrait extends Trait {
 		Double absMoney = Math.abs(moneyVal);
 		Double coefficient = 1.0;
 		if (actor.getPropertyValue(MoneyProperty.class) == 0)
-			coefficient = 10.0;
+			coefficient = 0.0;
 		else coefficient = 1/actor.getPropertyValue(MoneyProperty.class);
+		
+		if (absMoney == 0)
+			absMoney = 1.0;
+		
 		return coefficient * (moneyVal/absMoney) * Math.pow(absMoney, importance);
 	}
 

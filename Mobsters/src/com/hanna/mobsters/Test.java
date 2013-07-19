@@ -5,6 +5,8 @@ package com.hanna.mobsters;
 
 import com.hanna.mobsters.actions.*;
 import com.hanna.mobsters.actors.Actor;
+import com.hanna.mobsters.actors.Response;
+import com.hanna.mobsters.actors.properties.impl.MoneyProperty;
 
 
 /**
@@ -21,15 +23,16 @@ public class Test {
 		
 		// Will - 15 July 2013
 		Actor joe = new Actor("Joe",100);
-		SongAction mySong = new SongAction("Home on the range!",1,1.0);
-		System.out.println(mySong.toString());
-		MathAction minusAction = new MathAction(5.0,2.5,"-",2,-1.0);
-		System.out.println(minusAction.toString());
-		System.out.println(joe.speakTo(mySong));
-		System.out.println(joe.speakTo(minusAction));
+		Actor bob = new Actor("bob",100);
+		TransferMoneyAction transferCash = new TransferMoneyAction(8.0,bob,1);
+		System.out.println(transferCash.toString());
+		System.out.println(joe.getPropertyValue(MoneyProperty.class));
+		System.out.println(bob.getPropertyValue(MoneyProperty.class));
+		Response r = joe.speakTo(transferCash);
+		System.out.println(r.getMessage());
 		System.out.println(joe.evaluateAction());
-		System.out.println(joe.evaluateAction());
-		System.out.println(joe.evaluateAction());
+		System.out.println(joe.getPropertyValue(MoneyProperty.class));
+		System.out.println(bob.getPropertyValue(MoneyProperty.class));
 		// end of Will's edits.
 	}
 
