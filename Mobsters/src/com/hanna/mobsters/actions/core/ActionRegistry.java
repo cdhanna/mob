@@ -36,9 +36,9 @@ public class ActionRegistry {
 	private void scanForActions(){
 		Reflections r = new Reflections("com.hanna.mobsters.actions");
 		Set<Class<? extends Action>> subTypes = r.getSubTypesOf(Action.class);
-		System.out.println("Scanned " +subTypes.size());
+		System.out.println("Actions Scanned " +subTypes.size());
 		for (Class<? extends Action> c : subTypes){
-			System.out.println(c);
+			System.out.println("\t"+c);
 			this.register(c);
 		}
 	}
