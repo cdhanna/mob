@@ -91,10 +91,6 @@ public class Actor {
 		p.setValue(value);
 	}
 	
-	//	public final <T> void setPropertyValue(Class<? extends Property<T>> property, T object){
-	//		this.propertyTable.get(property).setValue(object);
-	//	}
-
 	public String getName(){return name;}
 	public PriorityQueue<Action> getPQ(){return pq;}
 
