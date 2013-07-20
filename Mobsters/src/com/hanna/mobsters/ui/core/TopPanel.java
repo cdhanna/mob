@@ -4,7 +4,7 @@
 package com.hanna.mobsters.ui.core;
 
 
-import com.hanna.mobsters.actions.MathAction;
+import com.hanna.mobsters.actions.impl.MathAction;
 import com.hanna.mobsters.actions.ui.ActionController;
 import com.hanna.mobsters.actors.Actor;
 import com.hanna.mobsters.actors.ui.ActorController;

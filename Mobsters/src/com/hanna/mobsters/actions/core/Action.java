@@ -28,6 +28,7 @@ public abstract class Action implements Comparable<Action> {
 	@ActionInfoAnnotation(name = "Base Action", params = {  })
 	public Action(){
 		traitVals = new HashMap<Class<? extends Trait>,ActionTraitElement>();
+		
 	}
 	/**
 	 * all actions must have a method that describes how to complete the action

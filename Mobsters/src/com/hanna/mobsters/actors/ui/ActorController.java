@@ -8,8 +8,8 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hanna.mobsters.actions.MathAction;
 import com.hanna.mobsters.actions.core.Action;
+import com.hanna.mobsters.actions.impl.MathAction;
 import com.hanna.mobsters.actions.ui.ActionController;
 import com.hanna.mobsters.actions.ui.ActionPanel;
 import com.hanna.mobsters.actors.Actor;

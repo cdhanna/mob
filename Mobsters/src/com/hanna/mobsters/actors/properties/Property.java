@@ -3,6 +3,8 @@
  */
 package com.hanna.mobsters.actors.properties;
 
+
+
 /**
  * @author Chris Hanna
  *
@@ -29,6 +31,7 @@ public abstract class Property<T> {
 	}
 	
 	public final Class<?> getType(){
+		
 		return this.getDefaultValue().getClass();
 	}
 	

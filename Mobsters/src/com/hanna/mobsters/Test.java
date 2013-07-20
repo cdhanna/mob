@@ -4,6 +4,7 @@
 package com.hanna.mobsters;
 
 import com.hanna.mobsters.actions.*;
+import com.hanna.mobsters.actions.impl.TransferMoneyAction;
 import com.hanna.mobsters.actors.Actor;
 import com.hanna.mobsters.actors.ActorBin;
 import com.hanna.mobsters.actors.Response;

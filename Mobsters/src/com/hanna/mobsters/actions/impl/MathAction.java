@@ -1,4 +1,4 @@
-package com.hanna.mobsters.actions;
+package com.hanna.mobsters.actions.impl;
 
 import com.hanna.mobsters.actions.core.Action;
 import com.hanna.mobsters.actions.core.ActionInfoAnnotation;

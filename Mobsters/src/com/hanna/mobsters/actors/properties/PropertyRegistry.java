@@ -5,16 +5,13 @@ package com.hanna.mobsters.actors.properties;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.lang.reflect.TypeVariable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
-import org.reflections.Reflections;
-
-import com.hanna.mobsters.actions.core.Action;
 import com.hanna.mobsters.utilities.KryoHelper;
+import com.hanna.mobsters.utilities.ReflectionsHelper;
 
 /**
  * @author Chris Hanna
@@ -85,11 +82,11 @@ public class PropertyRegistry {
 	}
 	
 	private void scanForProperties(){
-		Reflections r = new Reflections("com.hanna.mobsters.actors.properties.impl");
-		Set<Class<? extends Property>> subTypes = r.getSubTypesOf(Property.class);
-		System.out.println("Properties Scanned " +subTypes.size());
+		
+		Set<Class<? extends Property>> subTypes = ReflectionsHelper.getInstance().getSubTypes(Property.class, "com.hanna.mobsters.actors.properties.impl");
+		//System.out.println("Properties Scanned " +subTypes.size());
 		for (Class<? extends Property> c : subTypes){
-			System.out.println("\t"+c);
+			//System.out.println("\t"+c);
 			Class<? extends Property<?>> c2 = (Class<? extends Property<?>>) c;
 			this.register(c2);
 		}

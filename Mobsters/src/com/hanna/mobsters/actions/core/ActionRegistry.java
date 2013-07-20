@@ -6,14 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import org.reflections.Reflections;
-
-
-
-
-
-import com.hanna.mobsters.actions.MathAction;
-import com.hanna.mobsters.actions.SongAction;
+import com.hanna.mobsters.utilities.ReflectionsHelper;
 
 public class ActionRegistry {
 
@@ -34,11 +27,11 @@ public class ActionRegistry {
 	}
 
 	private void scanForActions(){
-		Reflections r = new Reflections("com.hanna.mobsters.actions");
-		Set<Class<? extends Action>> subTypes = r.getSubTypesOf(Action.class);
-		System.out.println("Actions Scanned " +subTypes.size());
+		
+		Set<Class<? extends Action>> subTypes = ReflectionsHelper.getInstance().getSubTypes(Action.class, "com.hanna.mobsters.actions.impl");
+		//System.out.println("Actions Scanned " +subTypes.size());
 		for (Class<? extends Action> c : subTypes){
-			System.out.println("\t"+c);
+			//System.out.println("\t"+c);
 			this.register(c);
 		}
 	}
