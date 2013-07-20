@@ -42,7 +42,6 @@ public class MathAction extends Action{
 		
 		Double newMoney = traitVals.get(MoneyTrait.class).getNumVal() + actor.getPropertyValue(MoneyProperty.class);
 		actor.setPropertyValue(MoneyProperty.class, newMoney);
-		System.out.println(actor.getPropertyValue(MoneyProperty.class));
 		return str;
 		
 	}

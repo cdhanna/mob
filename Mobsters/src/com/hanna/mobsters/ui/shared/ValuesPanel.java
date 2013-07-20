@@ -1,9 +1,11 @@
 /**
  * 
  */
-package com.hanna.mobsters.actions.ui;
+package com.hanna.mobsters.ui.shared;
 
 import java.awt.Color;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,8 +15,8 @@ import javax.swing.JPanel;
 
 import com.hanna.mobsters.actions.core.ActionRegistry;
 import com.hanna.mobsters.actions.core.ActionRegistry.ActionInfo;
-import com.hanna.mobsters.ui.shared.Panel;
-import com.hanna.mobsters.ui.shared.TextField;
+import com.hanna.mobsters.actors.Actor;
+import com.hanna.mobsters.actors.ActorBin;
 
 /**
  * @author Chris Hanna
@@ -47,15 +49,19 @@ public class ValuesPanel extends Panel{
 	@Override
 	public void setUpComponents(Object... parameters) {
 		
-		
-		if (this.doesInputMatchExpected(parameters)){
+		if (parameters.length == 1 && parameters[0] instanceof ValuePanelContent){
+		//if (this.doesInputMatchExpected(parameters)){
 			this.removeAll();
 			this.values.clear();
 			this.valueStrings.clear();
 			this.valueTypes.clear();
-			Class<?>[] classes = (Class[])parameters[1];
-			ActionInfo info = (ActionInfo)parameters[0];
-			if (classes.length != info.getParameters().length)
+			ValuePanelContent content = (ValuePanelContent)parameters[0];
+			Class<?>[] classes = content.getTypes();
+			String[] descs = content.getTypeDescriptions();
+			Object[] IDs = content.getItemIDs();
+			if (IDs == null)
+				IDs = new Object[descs.length];
+			if (classes.length != descs.length || classes.length != IDs.length)
 			{
 				System.err.println("could not create values panel. Wrong number of annotations");
 				return;
@@ -65,7 +71,7 @@ public class ValuesPanel extends Panel{
 //				return;
 //			}
 			for (int i = 0 ; i < classes.length ; i ++)
-				this.addValue(info.getParameters()[i], classes[i]);
+				this.addValue(descs[i], classes[i], IDs[i]);
 			this.finalizeValues();
 			
 			
@@ -75,13 +81,35 @@ public class ValuesPanel extends Panel{
 
 	@Override
 	public Class<?>[] getSetUpParameterTypes() {
-		return new Class<?>[]{ActionInfo.class, Class[].class};
+		//return new Class<?>[]{ActionInfo.class, Class[].class};
+		return new Class<?>[]{ValuePanelContent.class};
 	}
 	
-	private void addValue(String desc, Class<?> type){
-		this.values.add(new Value(type));
+	public void setValues(Object[] vals){
+		if (vals.length == this.values.size()){
+			for (int i = 0 ; i < vals.length ; i ++){
+				if (vals[i] != null && vals[i].getClass() == this.values.get(i).type){
+					this.values.get(i).valueString = vals[i].toString();
+					this.valueStrings.get(i).setText(vals[i].toString());
+				}
+			}
+			this.repaint();
+		}
+	}
+	
+	private void addValue(String desc, Class<?> type, Object id){
+		final Value val = new Value(type, id);
+		this.values.add(val);
 		this.valueTypes.add(new JLabel(type.getSimpleName() + " " + desc));
-		this.valueStrings.add(new TextField("null"));
+		final TextField textField = new TextField("null");
+		textField.addKeyListener(new KeyAdapter(){
+			@Override
+			public void keyReleased(KeyEvent k){
+				val.valueString = textField.getText();
+				valueChangedAction(val);
+			}
+		});
+		this.valueStrings.add(textField);
 	}
 	
 	private void finalizeValues(){
@@ -89,13 +117,13 @@ public class ValuesPanel extends Panel{
 		for (int i = 0 ; i < this.values.size() ; i ++){
 			
 			this.add(this.valueTypes.get(i), "cell 0 " + i );
-			this.add(this.valueStrings.get(i), "cell 1 " + i + ", growx, pushx");
+			this.add(this.valueStrings.get(i), "cell 1 " + i + ", growx, pushx, spanx");
 		}
 		this.revalidate();
 		this.repaint();
 	}
 	
-	protected boolean hasAllValues(){
+	public boolean hasAllValues(){
 		boolean n = true;
 		Object[] vals = this.getValues();
 		for (Object val : vals)
@@ -103,11 +131,11 @@ public class ValuesPanel extends Panel{
 		return n;
 	}
 	
-	protected List<TextField> getTextFields(){
+	public List<TextField> getTextFields(){
 		return this.valueStrings;
 	}
 	
-	protected Object[] getValues(){
+	public Object[] getValues(){
 		Object[] vals = new Object[this.values.size()];
 		for (int i = 0 ; i < vals.length ; i ++){
 			this.values.get(i).valueString = this.valueStrings.get(i).getText();
@@ -116,12 +144,34 @@ public class ValuesPanel extends Panel{
 		return vals;
 	}
 	
-	private class Value{
-		public Class<?> type;
-		public String valueString;
-		public Value(Class<?> type){
+	protected void valueChangedAction(Value value){
+		
+	}
+	
+	public interface ValuePanelContent{
+		public Object[] getItemIDs();
+		public Class<?>[] getTypes();
+		public String[] getTypeDescriptions();
+	}
+	
+	
+	public class Value{
+		private Class<?> type;
+		private String valueString;
+		private Object id;
+		public Value(Class<?> type, Object ID){
 			this.type = type;
+			this.id = ID;
 		}
+		
+		public Class<?> getType(){
+			return this.type;
+		}
+	
+		public Object getID(){
+			return this.id;
+		}
+		
 		public Object getValue(){
 			Object val = null;
 			
@@ -129,7 +179,10 @@ public class ValuesPanel extends Panel{
 				try { val = Integer.parseInt(this.valueString);} catch (Exception e){}
 			else if (this.type == Double.class)
 				try { val = Double.parseDouble(this.valueString);} catch (Exception e){}
-			else if (this.type == String.class)
+			else if (this.type == Actor.class){
+				if (ActorBin.getInstance().lookUpActor(this.valueString) != null)
+					val = ActorBin.getInstance().lookUpActor(this.valueString);
+			} else if (this.type == String.class)
 				return this.valueString;
 //			try{val = Integer.parseInt(this.valueString);}
 //			catch (Exception e){
@@ -142,17 +195,5 @@ public class ValuesPanel extends Panel{
 			return val;
 		}
 	}
-//	private class ValuePanel extends JPanel{
-//		
-//		private JLabel typeLabel;
-//		private TextField valueField;
-//		
-//		private Class type;
-//		
-//		public ValuePanel(Class<?> type){
-//			this.type = type;
-//			
-//		}
-//		
-//	}
+
 }

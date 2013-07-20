@@ -5,6 +5,8 @@ package com.hanna.mobsters.actors.ui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.hanna.mobsters.actions.MathAction;
 import com.hanna.mobsters.actions.core.Action;
@@ -12,8 +14,11 @@ import com.hanna.mobsters.actions.ui.ActionController;
 import com.hanna.mobsters.actions.ui.ActionPanel;
 import com.hanna.mobsters.actors.Actor;
 import com.hanna.mobsters.actors.Response;
+import com.hanna.mobsters.actors.properties.Property;
+import com.hanna.mobsters.actors.properties.PropertyRegistry;
 import com.hanna.mobsters.ui.Top;
 import com.hanna.mobsters.ui.Window;
+import com.hanna.mobsters.ui.shared.ValuesPanel.Value;
 
 /**
  * @author Chris Hanna
@@ -21,14 +26,24 @@ import com.hanna.mobsters.ui.Window;
  */
 public class ActorController {
 
+	private static List<ActorController> all = new ArrayList<>();
+	
 	Actor actor;
 	ActorPanel panel;
 
 	ActionController actionController;
 
-	public ActorController(Actor actor){
+	public ActorController(final Actor actor){
+		all.add(this);
 		this.actor = actor;	
-		this.panel = new ActorPanel();
+		this.panel = new ActorPanel(){
+			@Override
+			protected void propertyChange(Value value){
+				if (value.getValue()!=null){
+					actor.setPropertyValueUnSafe(value.getID(), value.getValue());
+				}
+			}
+		};
 		this.panel.setUpComponents(this.actor);
 
 		this.actionController = new ActionController(new MathAction(1.0,1.0,"+",1,100.0)){
@@ -82,9 +97,25 @@ public class ActorController {
 		this.panel.getPendingActionList().removeElement(this.actor.getPQ().peek());
 		String output = this.actor.evaluateAction();
 		this.panel.getOutputList().addElement(output);
+		all_refreshActorProperties();
 		this.panel.repaint();
 	}
 
+	private void all_refreshActorProperties(){
+		for (ActorController c : all){
+			c.refreshActorProperties();
+		}
+	}
+	
+	public void refreshActorProperties(){
+		Object[] propValues = new Object[PropertyRegistry.getInstance().getKnownProperties().size()];
+		for (int i = 0 ; i < propValues.length ; i ++){
+			Class prop = PropertyRegistry.getInstance().getKnownProperties().get(i);
+			propValues[i] = actor.getPropertyValue(prop);
+		}
+		this.panel.setActorProperties(propValues);
+	}
+	
 	public Response speakTo(Action action){
 		Response response = this.actor.speakTo(action);
 		if (response.getYesNo()){

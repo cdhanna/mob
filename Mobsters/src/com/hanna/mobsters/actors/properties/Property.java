@@ -11,12 +11,13 @@ public abstract class Property<T> {
 
 	T value;
 	
+	
 	public Property(){
 		this.setValue(this.getDefaultValue());
 	}
 	
 	public abstract T getDefaultValue();
-	public abstract String getName();
+	public abstract String getPropertyName();
 	
 	
 	public T getValue(){
@@ -27,8 +28,12 @@ public abstract class Property<T> {
 		this.value = object;
 	}
 	
+	public final Class<?> getType(){
+		return this.getDefaultValue().getClass();
+	}
+	
 	@Override
 	public final String toString(){
-		return "Property: " + this.getName() + " = " + this.getValue();
+		return "Property: " + this.getPropertyName() + " = " + this.getValue();
 	}
 }

@@ -11,16 +11,16 @@ import com.hanna.mobsters.actors.traits.*;
 public class Actor {
 	ArrayList<Trait> personality;
 	String name;
-	int money; // dummy variable
+	//int money; // dummy variable
 	PriorityQueue<Action> pq; // for holding "to do list" of actions
 
 	private HashMap<Class<? extends Property<?>>, Property<?>> propertyTable;
 
 	// constructor - really just a stub right now
-	public Actor(String name,int money)
+	public Actor(String name)
 	{
 		this.name = name;
-		this.money = money;
+		//this.money = money;
 		personality = new ArrayList<Trait>();
 		personality.add(new MoneyTrait(2)); // money value will be squared for this character
 		pq = new PriorityQueue<Action>();
@@ -73,6 +73,7 @@ public class Actor {
 		return (P) this.propertyTable.get(property);
 	}
 	
+
 	/**
 	 * Grab the value of the given property
 	 * @param property
@@ -80,6 +81,19 @@ public class Actor {
 	 */
 	public final <T> T getPropertyValue(Class<? extends Property<T>> property){
 		return (T) this.propertyTable.get(property).getValue();
+	}
+	
+	/**
+	 * This seems pretty hoaky to me, but I am at my wits end. <br>
+	 * <b> WARNING </b><br>
+	 * only use this if YOU KNOW your inputs are valid
+	 * @param property the class of the property you get 
+	 * @return
+	 */
+	public final Object getPropertyValueUnSafe(Object property){
+		Property p = this.getProperty((Class<? extends Property<?>>) property);
+		if (p == null) System.err.println("Actor.getpropertyvalueUnSafe: " + property);
+		return p.getValue();
 	}
 	
 	/**
@@ -91,6 +105,20 @@ public class Actor {
 		Property<T> p = this.getProperty(property);
 		p.setValue(value);
 	}
+	
+	/**
+	 * This seems pretty hoaky to me, but I am at my wits end. <br>
+	 * <b> WARNING </b><br>
+	 * only use this if YOU KNOW your inputs are valid
+	 * @param property the class of the property you want to change
+	 * @param value a valid value for the property
+	 */
+	public final void setPropertyValueUnSafe(Object property, Object value){
+		Property p = this.getProperty((Class<? extends Property<?>>) property);
+		if (p == null) System.err.println("Actor.setpropertyvalueUnSafe: " + property);
+		p.setValue(value);
+	}
+	
 	
 	public String getName(){return name;}
 	public PriorityQueue<Action> getPQ(){return pq;}

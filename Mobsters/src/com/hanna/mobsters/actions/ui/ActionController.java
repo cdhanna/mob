@@ -40,10 +40,10 @@ public class ActionController {
 				Class<? extends Action> clazz = panel.getAvailableActionsBox().getSelection();
 				if (clazz!=null){
 					Constructor c = ActionRegistry.getInstance().getActionConstructor(clazz);
-					Class<?>[] p = ActionRegistry.getInstance().getActionConstructorParameterTypes(clazz);
+					//Class<?>[] p = ActionRegistry.getInstance().getActionConstructorParameterTypes(clazz);
 					panel.setConstructor(c);
-					ActionInfo info = ActionRegistry.getInstance().parseAnnotation(clazz);
-					panel.setUpValuesPanel(info, (Object[])p);
+					ActionInfo info = ActionRegistry.getInstance().getActionInfo(clazz);
+					panel.setUpValuesPanel(info);
 					
 				}
 			}});

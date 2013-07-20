@@ -22,6 +22,8 @@ import com.hanna.mobsters.actions.core.ActionRegistry.ActionInfo;
 import com.hanna.mobsters.ui.shared.ComboBox;
 import com.hanna.mobsters.ui.shared.Panel;
 import com.hanna.mobsters.ui.shared.TextField;
+import com.hanna.mobsters.ui.shared.ValuesPanel;
+import com.hanna.mobsters.ui.shared.ValuesPanel.ValuePanelContent;
 
 /**
  * @author Chris Hanna
@@ -114,8 +116,21 @@ public class ActionPanel extends Panel{
 		return this.valuesPanel.getValues();
 	}
 
-	public void setUpValuesPanel(ActionInfo info, Object[] p) {
-		this.valuesPanel.setUpComponents(info, p);
+	public void setUpValuesPanel(final ActionInfo info) {
+		ValuePanelContent c = new ValuePanelContent(){
+			@Override
+			public Class<?>[] getTypes() {
+				return info.getParameters();
+			}
+			@Override
+			public String[] getTypeDescriptions() {
+				return info.getParameterDescriptions();
+			}
+			@Override
+			public Object[] getItemIDs() {
+				return null;
+			}};
+		this.valuesPanel.setUpComponents(c);
 
 		for (TextField field : this.valuesPanel.getTextFields()){
 			field.addKeyListener(this.valuesListener);
@@ -125,7 +140,7 @@ public class ActionPanel extends Panel{
 	}
 
 	protected void setConstructor(Constructor c) {
-		this.actionLabel.setText(ActionRegistry.getInstance().parseAnnotation(c).getName());
+		this.actionLabel.setText(ActionRegistry.getInstance().getActionInfo(c).getName());
 		this.repaint();
 	}
 	

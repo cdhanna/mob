@@ -69,25 +69,17 @@ public class ActionRegistry {
 		} else return null;
 	}
 
-	public ActionInfo parseAnnotation(Class<? extends Action> clazz){
+	public ActionInfo getActionInfo(Class<? extends Action> clazz){
 		Constructor<?> con = ActionRegistry.getInstance().getActionConstructor(clazz);
-		if (con != null){
-			if (con.isAnnotationPresent(ActionInfoAnnotation.class)){
-				ActionInfoAnnotation test = (ActionInfoAnnotation) con.getAnnotation(ActionInfoAnnotation.class);
-				String name = test.name();
-				String[] params = test.params();
-				return new ActionInfo(name, params);
-			}
-		}
-		return null;
+		return this.getActionInfo(con);
 	}
-	public ActionInfo parseAnnotation(Constructor<?> con){
+	public ActionInfo getActionInfo(Constructor<?> con){
 		if (con != null){
 			if (con.isAnnotationPresent(ActionInfoAnnotation.class)){
 				ActionInfoAnnotation test = (ActionInfoAnnotation) con.getAnnotation(ActionInfoAnnotation.class);
 				String name = test.name();
 				String[] params = test.params();
-				return new ActionInfo(name, params);
+				return new ActionInfo(name, params, con.getParameterTypes());
 			}
 		}
 		return null;
@@ -132,20 +124,26 @@ public class ActionRegistry {
 	public class ActionInfo {
 
 		private String name;
-		private String[] patameters;
-		public ActionInfo(String name, String[] parameters){
+		private String[] parameterDescriptions;
+		private Class<?>[] parameters;
+		
+		public ActionInfo(String name, String[] parameterDescriptions, Class<?>[] parameters){
 			this.name = name;
-			this.patameters = parameters;
+			this.parameterDescriptions = parameterDescriptions;
+			this.parameters = parameters;
 			if (name == null)
 				this.name = "";
 			if (parameters == null)
-				this.patameters = new String[]{};
+				this.parameterDescriptions = new String[]{};
 		}
 		public String getName(){
 			return this.name;
 		}
-		public String[] getParameters(){
-			return this.patameters;
+		public String[] getParameterDescriptions(){
+			return this.parameterDescriptions;
+		}
+		public Class<?>[] getParameters(){
+			return this.parameters;
 		}
 	}
 }

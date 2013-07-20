@@ -17,7 +17,7 @@ public class MoneyProperty extends Property<Double> {
 	}
 
 	@Override
-	public String getName() {
+	public String getPropertyName() {
 		return "Money";
 	}
 

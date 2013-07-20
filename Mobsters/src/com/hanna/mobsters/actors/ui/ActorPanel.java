@@ -15,8 +15,13 @@ import javax.swing.JScrollPane;
 import com.hanna.mobsters.actions.core.Action;
 import com.hanna.mobsters.actions.ui.ActionPanel;
 import com.hanna.mobsters.actors.Actor;
+import com.hanna.mobsters.actors.properties.Property;
+import com.hanna.mobsters.actors.properties.PropertyRegistry;
 import com.hanna.mobsters.ui.shared.ObjectList;
 import com.hanna.mobsters.ui.shared.Panel;
+import com.hanna.mobsters.ui.shared.ValuesPanel;
+import com.hanna.mobsters.ui.shared.ValuesPanel.Value;
+import com.hanna.mobsters.ui.shared.ValuesPanel.ValuePanelContent;
 
 /**
  * @author Chris Hanna
@@ -35,8 +40,7 @@ public class ActorPanel extends Panel{
 	private JButton clearOutputButton;
 
 	private JLabel actorDetailsLabel;
-	private ActorDetailsTable actorDetailsTable;
-	private ActorDetailsTableModel detailsModel;
+	private ValuesPanel actorPropertiesPanel;
 
 	private ActionPanel actionPanel;
 
@@ -59,9 +63,12 @@ public class ActorPanel extends Panel{
 		this.clearOutputButton = new JButton("Clear Output");
 
 		this.actorDetailsLabel = new JLabel("Actor Details");
-		this.detailsModel = new ActorDetailsTableModel();
-		this.actorDetailsTable = new ActorDetailsTable(this.detailsModel);
-		this.actorDetailsTable.setPreferredSize(new Dimension(300,200));
+		this.actorPropertiesPanel = new ValuesPanel(){
+			@Override
+			protected void valueChangedAction(Value value){
+				propertyChange(value);
+			}
+		};
 	}
 
 	@Override
@@ -90,9 +97,7 @@ public class ActorPanel extends Panel{
 
 		//actor details
 		this.add(this.actorDetailsLabel, "cell 0 7");
-		JScrollPane tablePane = new JScrollPane(this.actorDetailsTable);
-		tablePane.setPreferredSize(new Dimension(320,200));
-		this.add(tablePane, "cell 0 8");
+		this.add(this.actorPropertiesPanel, "cell 0 8, pushx, growx");
 	}
 
 
@@ -100,6 +105,29 @@ public class ActorPanel extends Panel{
 		if (this.doesInputMatchExpected(parameters)){
 			Actor actor = (Actor)parameters[0];
 			this.title.setText("Actor: " + actor.getName());
+	
+			this.actorPropertiesPanel.setUpComponents(new ValuePanelContent(){
+				@Override
+				public Class<?>[] getTypes() {
+					return PropertyRegistry.getInstance().getKnownPropertyDataTypes().toArray(new Class<?>[0]);
+				}
+				@Override
+				public String[] getTypeDescriptions() {
+					return PropertyRegistry.getInstance().getKnownPropertyNames().toArray(new String[0]);
+				}
+				@Override
+				public Object[] getItemIDs() {
+					return PropertyRegistry.getInstance().getKnownProperties().toArray();
+				}});
+			
+			
+			Object[] propValues = new Object[PropertyRegistry.getInstance().getKnownProperties().size()];
+			for (int i = 0 ; i < propValues.length ; i ++){
+				Class prop = PropertyRegistry.getInstance().getKnownProperties().get(i);
+				propValues[i] = actor.getPropertyValue(prop);
+			}
+			this.setActorProperties(propValues);
+			
 		} else System.err.println("Could not set up actor because parameters did not match expected");
 	}
 
@@ -108,6 +136,9 @@ public class ActorPanel extends Panel{
 		return new Class<?>[]{Actor.class};
 	}
 
+	public void setActorProperties(Object[] propValues){
+		this.actorPropertiesPanel.setValues(propValues);
+	}
 
 	protected ObjectList<Action> getPendingActionList(){
 		return this.pendingActionsList;
@@ -129,6 +160,10 @@ public class ActorPanel extends Panel{
 
 	public ActionPanel getActionPanel(){
 		return this.actionPanel;
+	}
+	
+	protected void propertyChange(Value value){
+		
 	}
 	
 	public void setActionPanel(ActionPanel panel) {
