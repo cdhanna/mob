@@ -13,7 +13,7 @@ import com.hanna.mobsters.actors.traits.*;
 public class Actor {
 	private List<Trait> personality;
 	private String name;
-	//int money; // dummy variable
+	
 	private PriorityQueue<Action> pq; // for holding "to do list" of actions
 
 	private HashMap<Class<? extends Property<?>>, Property<?>> propertyTable;
@@ -50,30 +50,30 @@ public class Actor {
 
 	}
 	// static decision making method common to all actors
-	private static double decider(Action a, Actor actor){
-		List<Trait> personality = actor.personality;
-		double w = 0;
-		for (Trait t:personality)
-			w+=t.compute(a, actor);
+	private static double decider(Action action, Actor actor){
+		
+		double combinedWeight = 0;
+		for (Trait trait : actor.personality)
+			combinedWeight+=trait.compute(action, actor);
 
-		return w;
+		return combinedWeight;
 	}
 
-	public Response speakTo(Action a){
-		String str;
+	public Response speakTo(Action action){
+		String responseMessage;
 		boolean yesno = false;
-		double decision = decider(a,this);
-		a = a.mutateAction(decision);
-		if (a != null){
-			str = "I will do it";
+		double decision = decider(action, this);
+		action = action.mutateAction(decision);
+		if (action != null){
+			responseMessage = "I will do it";
 			yesno = true;
-			pq.add(a);
+			pq.add(action);
 		}
 		else{
-			str = "I will not do it";
+			responseMessage = "I will not do it";
 			yesno = false;
 		}
-		return new Response(yesno, str);
+		return new Response(yesno, responseMessage);
 	}
 
 	public String evaluateAction(){
@@ -141,7 +141,12 @@ public class Actor {
 	}
 
 
+	/**
+	 * @return The name of this actor. 
+	 */
 	public String getName(){return name;}
+	
+	
 	public PriorityQueue<Action> getPQ(){return pq;}
 
 	@Override
