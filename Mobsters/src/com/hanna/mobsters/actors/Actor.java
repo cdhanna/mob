@@ -26,18 +26,18 @@ public class Actor {
 		this.personalityType = personalityType;
 		this.personality = PersonalityRegistry.getInstance().getPersonality(personalityType);
 
-		if (personalityOverrides != null){
-			List<Trait> unAddedTraits = new ArrayList<>(personalityOverrides); //make a list to hold traits that don't wind up being in personality
-			for (Trait overrideTrait : personalityOverrides){
-				for (Trait regularTrait : this.personality){
-					if (overrideTrait.getClass() == regularTrait.getClass()){ //if the override trait is the regular trait
-						regularTrait = overrideTrait; //make the regular BE the override
-						unAddedTraits.remove(overrideTrait); //we added this trait, so we don't need to add it later
-					}
-				}
-			}
-			this.personality.addAll(unAddedTraits); //add the rest of the override traits
-		}
+//		if (personalityOverrides != null){
+//			List<Trait> unAddedTraits = new ArrayList<>(personalityOverrides); //make a list to hold traits that don't wind up being in personality
+//			for (Trait overrideTrait : personalityOverrides){
+//				for (Trait regularTrait : this.personality){
+//					if (overrideTrait.getClass() == regularTrait.getClass()){ //if the override trait is the regular trait
+//						regularTrait = overrideTrait; //make the regular BE the override
+//						unAddedTraits.remove(overrideTrait); //we added this trait, so we don't need to add it later
+//					}
+//				}
+//			}
+//			this.personality.addAll(unAddedTraits); //add the rest of the override traits
+//		}
 
 		this.name = name;
 		//this.money = money;
@@ -53,8 +53,9 @@ public class Actor {
 	private static double decider(Action action, Actor actor){
 		
 		double combinedWeight = 0;
-		for (Trait trait : actor.personality)
+		for (Trait trait : actor.personality){
 			combinedWeight+=trait.compute(action, actor);
+		}
 
 		return combinedWeight;
 	}

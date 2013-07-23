@@ -1,19 +1,22 @@
 package com.hanna.mobsters.actors.traits;
 
 import com.hanna.mobsters.actions.core.Action;
+import com.hanna.mobsters.actions.core.ActionTraitElement;
 import com.hanna.mobsters.actors.Actor;
 import com.hanna.mobsters.actors.properties.impl.MoneyProperty;
 
 public class MoneyTrait extends Trait {
 
+	public MoneyTrait(){}
+	
 	public MoneyTrait(int importance) {
 		this.importance = importance;
 	}
 
 	@Override
 	public double compute(Action action, Actor actor) {
-		ActionTraitElement t = action.getTraitVal(MoneyTrait.class);
-		Double moneyVal = t.getNumVal();
+		ActionTraitElement<Double> t = action.getTraitVal(MoneyTrait.class);
+		Double moneyVal = t.getValue();
 		Double absMoney = Math.abs(moneyVal);
 		Double coefficient = 1.0;
 		if (actor.getPropertyValue(MoneyProperty.class) == 0)

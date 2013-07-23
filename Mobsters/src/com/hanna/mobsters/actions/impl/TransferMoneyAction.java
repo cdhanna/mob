@@ -2,9 +2,9 @@ package com.hanna.mobsters.actions.impl;
 
 import com.hanna.mobsters.actions.core.Action;
 import com.hanna.mobsters.actions.core.ActionInfoAnnotation;
+import com.hanna.mobsters.actions.core.ActionTraitElement;
 import com.hanna.mobsters.actors.Actor;
 import com.hanna.mobsters.actors.properties.impl.MoneyProperty;
-import com.hanna.mobsters.actors.traits.ActionTraitElement;
 import com.hanna.mobsters.actors.traits.MoneyTrait;
 
 
@@ -17,7 +17,7 @@ public class TransferMoneyAction extends Action {
 		this.priority = priority;
 		money = 1.0 * Math.abs(money);
 		
-		ActionTraitElement t = new ActionTraitElement("",money);
+		ActionTraitElement<Double> t = new ActionTraitElement<Double>(money);
 		traitVals.put(MoneyTrait.class, t);
 	}
 
@@ -28,7 +28,7 @@ public class TransferMoneyAction extends Action {
 
 	@Override
 	public String doIt(Actor self) {
-		Double transferCash = traitVals.get(MoneyTrait.class).getNumVal();
+		Double transferCash = this.getTraitVal(MoneyTrait.class).getValueAs(Double.class);
 		Double onHandCash = self.getPropertyValue(MoneyProperty.class);
 		if (onHandCash < transferCash)
 			transferCash = onHandCash;
@@ -56,11 +56,15 @@ public class TransferMoneyAction extends Action {
 			scaleFactor = 0.25;
 		
 		// bring the transfer amount back to a positive value
-		Double newMoney = scaleFactor * Math.abs( traitVals.get(MoneyTrait.class).getNumVal() );
+		Double newMoney = scaleFactor * Math.abs( (Double)this.getTraitVal(MoneyTrait.class).getValue() );
 		
 	
-		ActionTraitElement t = new ActionTraitElement("",newMoney);
-		this.traitVals.put(MoneyTrait.class, t);
+		//ActionTraitElement t = new ActionTraitElement("",newMoney);
+		//this.traitVals.put(MoneyTrait.class, t);
+		//((ActionTraitElement<Double>)this.getTraitVal(MoneyTrait.class)).setValue(newMoney);
+		//TODO uhm, this is still not all that pretty....
+		this.getTraitVal(MoneyTrait.class).setValue(newMoney);
+		
 		return this;
 	
 		
@@ -68,7 +72,7 @@ public class TransferMoneyAction extends Action {
 	
 	@Override
 	public String toString(){
-		return "give " + traitVals.get(MoneyTrait.class).getNumVal() + " dollars to " + this.gettingActor.toString();
+		return "give " + this.getTraitVal(MoneyTrait.class).getValue() + " dollars to " + this.gettingActor.toString();
 	}
 
 }

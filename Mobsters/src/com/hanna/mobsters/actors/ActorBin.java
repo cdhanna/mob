@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.hanna.mobsters.actors.personality.Personality;
+import com.hanna.mobsters.actors.properties.Location;
+import com.hanna.mobsters.actors.properties.impl.LocationProperty;
 import com.hanna.mobsters.actors.traits.Trait;
 
 /**
@@ -60,4 +62,18 @@ public class ActorBin {
 	public Actor lookUpActor(String name){
 		return this.table_nameToActor.get(name);
 	}
+	
+	public Actor[] getNearByActors(Actor actor){
+		
+		List<Actor> neighbors = new ArrayList<>();
+		for (Actor other : this.allKnownActors)
+			if (other != actor){
+				Location otherLocation = other.getPropertyValue(LocationProperty.class);
+				if (actor.getPropertyValue(LocationProperty.class).isOnStreet(otherLocation)){
+					neighbors.add(other);
+				}
+			}
+		return neighbors.toArray(new Actor[0]);
+	}
+	
 }

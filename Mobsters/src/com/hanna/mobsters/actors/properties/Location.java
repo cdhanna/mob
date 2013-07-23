@@ -19,6 +19,17 @@ public class Location {
 		this.streetNumber = streetNumber;
 	}
 	
+	public String getStreet(){
+		return this.streetName;
+	}
+	public Integer getStreetNumber(){
+		return this.streetNumber;
+	}
+	
+	public boolean isOnStreet(Location other){
+		return (this.streetName.equals(other.getStreet()));
+	}
+	
 	@Override
 	public boolean equals(Object obj){
 		if (obj instanceof Location){

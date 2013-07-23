@@ -3,25 +3,22 @@
  */
 package com.hanna.mobsters.actors.properties.impl;
 
-import com.hanna.mobsters.actors.properties.Location;
 import com.hanna.mobsters.actors.properties.Property;
 
 /**
  * @author Chris Hanna
  *
  */
-public class LocationProperty extends Property<Location> {
+public class SelfRespectProperty extends Property<Double>{
 
 	@Override
-	public Location getDefaultValue() {
-		return Location.MOB_HOME;
+	public Double getDefaultValue() {
+		return 1.0;
 	}
 
 	@Override
 	public String getPropertyName() {
-		return "Location";
+		return "Self Respect";
 	}
 
-
-	
 }

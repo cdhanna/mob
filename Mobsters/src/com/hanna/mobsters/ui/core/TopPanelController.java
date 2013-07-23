@@ -8,6 +8,7 @@ import java.util.List;
 
 import com.hanna.mobsters.actors.Actor;
 import com.hanna.mobsters.actors.ActorBin;
+import com.hanna.mobsters.actors.personality.Personality;
 import com.hanna.mobsters.actors.ui.ActorController;
 
 
@@ -25,8 +26,8 @@ public class TopPanelController {
 		
 		this.allActors = new ArrayList<>();
 		
-		this.addActor(ActorBin.getInstance().createActor("Mike"));
-		this.addActor(ActorBin.getInstance().createActor("Chuck"));
+		this.addActor(ActorBin.getInstance().createActor("Mike", Personality.GANGSTER));
+		this.addActor(ActorBin.getInstance().createActor("Chuck", Personality.GANGSTER));
 	}
 	
 	

@@ -15,7 +15,9 @@ import com.hanna.mobsters.actors.traits.*;
 public abstract class Action implements Comparable<Action> {
 	
 	protected int priority; // must have a priority.
-	protected HashMap<Class<? extends Trait>,ActionTraitElement> traitVals;
+	protected HashMap<Class<? extends Trait>,ActionTraitElement<?>> traitVals;
+	
+	
 	
 	/**
 	THREE IMPORTANT NOTES ABOUT ACTIONS:<br>
@@ -27,7 +29,7 @@ public abstract class Action implements Comparable<Action> {
 	 */
 	@ActionInfoAnnotation(name = "Base Action", params = {  })
 	public Action(){
-		traitVals = new HashMap<Class<? extends Trait>,ActionTraitElement>();
+		traitVals = new HashMap<Class<? extends Trait>,ActionTraitElement<?>>();
 		
 	}
 	/**
@@ -42,16 +44,24 @@ public abstract class Action implements Comparable<Action> {
 	public abstract Action mutateAction(double x);
 
 	
-	public ActionTraitElement getTraitVal(Class<? extends Trait> key ){
+	public <T> ActionTraitElement<T> getTraitVal(Class<? extends Trait> key ){
 		if (traitVals.containsKey(key))
-			return traitVals.get(key);
+			return (ActionTraitElement<T>) traitVals.get(key);
 		else
-			return new ActionTraitElement("",0.0);
+			return new ActionTraitElement<T>(null);//TODO this needs work. I don't even know if what I did is improvement //new ActionTraitElement<Double>(0.0);
 	}
 	public int getPriority() {
 		return this.priority;
 	}
 	
+//	public <T> ActionTraitElement<T> getTrailVal(Class<? extends Trait> trait){
+//		if (this.traitVals.containsKey(trait)){
+////			if (this.traitVals.get(trait).getType() == ){
+////				
+////			}
+//			return (ActionTraitElement<T>) this.traitVals.get(trait);
+//		} else return null;
+//	}
 	
 	/**
 	 * the decider method in the actor class needs these parameters for decision making

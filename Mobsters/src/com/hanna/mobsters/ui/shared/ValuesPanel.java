@@ -17,6 +17,7 @@ import com.hanna.mobsters.actions.core.ActionRegistry;
 import com.hanna.mobsters.actions.core.ActionRegistry.ActionInfo;
 import com.hanna.mobsters.actors.Actor;
 import com.hanna.mobsters.actors.ActorBin;
+import com.hanna.mobsters.utilities.parsers.ParseRegistry;
 
 /**
  * @author Chris Hanna
@@ -175,15 +176,18 @@ public class ValuesPanel extends Panel{
 		public Object getValue(){
 			Object val = null;
 			
-			if (this.type == Integer.class)
-				try { val = Integer.parseInt(this.valueString);} catch (Exception e){}
-			else if (this.type == Double.class)
-				try { val = Double.parseDouble(this.valueString);} catch (Exception e){}
-			else if (this.type == Actor.class){
-				if (ActorBin.getInstance().lookUpActor(this.valueString) != null)
-					val = ActorBin.getInstance().lookUpActor(this.valueString);
-			} else if (this.type == String.class)
-				return this.valueString;
+			val = ParseRegistry.getInstance().parse(this.valueString, this.getType());
+			
+//			if (this.type == Integer.class)
+//				try { val = Integer.parseInt(this.valueString);} catch (Exception e){}
+//			else if (this.type == Double.class)
+//				try { val = Double.parseDouble(this.valueString);} catch (Exception e){}
+//			else if (this.type == Actor.class){
+//				if (ActorBin.getInstance().lookUpActor(this.valueString) != null)
+//					val = ActorBin.getInstance().lookUpActor(this.valueString);
+//			} 
+//			else if (this.type == String.class)
+//				return this.valueString;
 //			try{val = Integer.parseInt(this.valueString);}
 //			catch (Exception e){
 //				try{val = Double.parseDouble(this.valueString);}

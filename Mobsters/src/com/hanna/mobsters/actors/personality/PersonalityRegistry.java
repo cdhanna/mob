@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hanna.mobsters.actors.traits.MoneyTrait;
+import com.hanna.mobsters.actors.traits.ShyTrait;
 import com.hanna.mobsters.actors.traits.Trait;
 import com.hanna.mobsters.utilities.KryoHelper;
 import com.hanna.mobsters.utilities.Registry;
@@ -17,9 +18,6 @@ import com.hanna.mobsters.utilities.Registry;
  */
 public class PersonalityRegistry{
 
-	public static void main(String[] args){
-		getInstance();
-	}
 	
 	private static PersonalityRegistry instance;
 	public static PersonalityRegistry getInstance(){
@@ -42,6 +40,7 @@ public class PersonalityRegistry{
 	private void setUpGANGSTER(){
 		this.GANGSTER = new ArrayList<>();
 		this.GANGSTER.add(new MoneyTrait(2));
+		this.GANGSTER.add(new ShyTrait());
 	}
 	
 	private void setUpCIVILIAN(){

@@ -2,6 +2,7 @@ package com.hanna.mobsters.actions.impl;
 
 import com.hanna.mobsters.actions.core.Action;
 import com.hanna.mobsters.actions.core.ActionInfoAnnotation;
+import com.hanna.mobsters.actions.core.ActionTraitElement;
 import com.hanna.mobsters.actors.Actor;
 import com.hanna.mobsters.actors.properties.impl.MoneyProperty;
 import com.hanna.mobsters.actors.traits.*;
@@ -16,7 +17,7 @@ public class MathAction extends Action{
 		this.b = b;
 		this.op = op;
 		this.priority = priority;
-		ActionTraitElement t = new ActionTraitElement("",moneyVal);
+		ActionTraitElement<Double> t = new ActionTraitElement<Double>(moneyVal);
 		traitVals.put(MoneyTrait.class, t);
 	}
 	
@@ -40,7 +41,8 @@ public class MathAction extends Action{
 		break;
 		}
 		
-		Double newMoney = traitVals.get(MoneyTrait.class).getNumVal() + actor.getPropertyValue(MoneyProperty.class);
+		
+		Double newMoney = this.getTraitVal(MoneyTrait.class).getValueAs(Double.class) + actor.getPropertyValue(MoneyProperty.class);
 		actor.setPropertyValue(MoneyProperty.class, newMoney);
 		return str;
 		
@@ -48,7 +50,7 @@ public class MathAction extends Action{
 	
 	@Override
 	public String toString(){
-		return "OPERATION IS " +a+op+b +", PRIORITY IS " + priority + ", COST IS " + traitVals.get(MoneyTrait.class).getNumVal();
+		return "OPERATION IS " +a+op+b +", PRIORITY IS " + priority + ", COST IS " + this.getTraitVal(MoneyTrait.class).getValue();
 	}
 
 	@Override

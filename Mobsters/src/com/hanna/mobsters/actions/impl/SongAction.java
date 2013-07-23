@@ -2,9 +2,10 @@ package com.hanna.mobsters.actions.impl;
 
 import com.hanna.mobsters.actions.core.Action;
 import com.hanna.mobsters.actions.core.ActionInfoAnnotation;
+import com.hanna.mobsters.actions.core.ActionTraitElement;
 import com.hanna.mobsters.actors.Actor;
-import com.hanna.mobsters.actors.traits.ActionTraitElement;
 import com.hanna.mobsters.actors.traits.MoneyTrait;
+import com.hanna.mobsters.actors.traits.ShyTrait;
 
 public class SongAction extends Action {
 	String song;
@@ -14,8 +15,13 @@ public class SongAction extends Action {
 		super();
 		this.song = song;
 		this.priority = priority;
-		ActionTraitElement t = new ActionTraitElement("",moneyVal);
+		ActionTraitElement<Double> t = new ActionTraitElement<Double>(moneyVal);
 		traitVals.put(MoneyTrait.class, t);
+		
+		//added a bit of sheepishness. Hopefully, if actors are on the same street, a gangster won't sing
+		ActionTraitElement<Double> shy = new ActionTraitElement<Double>(5.0);
+		traitVals.put(ShyTrait.class, shy);
+		
 		// TODO Auto-generated constructor stub
 	}
 	@Override
@@ -31,13 +37,13 @@ public class SongAction extends Action {
 	
 	@Override
 	public String toString(){
-		return song + " , PRIORITY IS " + priority + ", COST IS " + traitVals.get(MoneyTrait.class).getNumVal();
+		return song + " , PRIORITY IS " + priority + ", COST IS " + this.getTraitVal(MoneyTrait.class).getValue();
 	}
 	@Override
 	public Action mutateAction(double x) {
 		// TODO Auto-generated method stub
 		if (x<0)
-			return null;
+			this.song = "... singing is for chumps, boss.";
 		
 		if (x<10)
 			this.song = song.substring(3);
