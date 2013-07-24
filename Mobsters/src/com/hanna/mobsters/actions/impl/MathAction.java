@@ -45,15 +45,16 @@ public class MathAction extends Action{
 		}
 
 
-		Double newMoney = this.moneyValue + actor.getPropertyValue(MoneyProperty.class);
-		actor.setPropertyValue(MoneyProperty.class, newMoney);
+		actor.pay(this.moneyValue);
+//		Double newMoney = this.moneyValue + actor.getPropertyValue(MoneyProperty.class);
+//		actor.setPropertyValue(MoneyProperty.class, newMoney);
 		return str;
 
 	}
 
 	@Override
 	public String toString(){
-		return "OPERATION IS " +a+op+b +", PRIORITY IS " + priority + ", COST IS " + this.getWeight(MoneyTrait.class).getValue();
+		return "OPERATION IS " +a+op+b +", PRIORITY IS " + priority + ", COST IS " + this.moneyValue;
 	}
 
 	@Override

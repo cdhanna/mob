@@ -1,6 +1,7 @@
 package com.hanna.mobsters.actors;
 
 import java.util.*;
+
 import com.hanna.mobsters.actions.*;
 import com.hanna.mobsters.actions.core.Action;
 import com.hanna.mobsters.actors.personality.Personality;
@@ -10,6 +11,10 @@ import com.hanna.mobsters.actors.properties.PropertyRegistry;
 import com.hanna.mobsters.actors.properties.impl.MoneyProperty;
 import com.hanna.mobsters.actors.traits.*;
 
+/**
+ * @author Will
+ *
+ */
 public class Actor {
 	private List<Trait> personality;
 	private String name;
@@ -40,12 +45,7 @@ public class Actor {
 //		}
 
 		this.name = name;
-		//this.money = money;
-		//personality = new ArrayList<Trait>();
-		//personality.add(new MoneyTrait(2)); // money value will be squared for this character//THIS HAS
-		//BEEN MOVED TO BE THE GANGSTER PERSONALITY TYPE
 		pq = new PriorityQueue<Action>();
-
 		this.propertyTable = PropertyRegistry.getInstance().makePropertyTable();
 
 	}
@@ -152,5 +152,25 @@ public class Actor {
 
 	@Override
 	public String toString(){ return this.name;}
+	
+	
+	/** helper function used for paying an actor some money
+	 * @param amount the amount of money coming in to the actor
+	 */
+	public void pay(double amount){
+		amount = Math.abs(amount); // gets rid of accidental negative values
+		Double oldCash = getPropertyValue(MoneyProperty.class);
+		setPropertyValue(MoneyProperty.class, oldCash + amount);
+	}
+	
+	public Double takeMoney(Double amount){
+		Double existingMoney = getPropertyValue(MoneyProperty.class);
+		if ( amount > existingMoney ){
+			amount = existingMoney;
+		}
+		setPropertyValue(MoneyProperty.class, existingMoney - amount);
+		return amount;
+			
+	}
 
 }

@@ -35,12 +35,14 @@ public class SongAction extends Action {
 	@Override
 	public String doIt(Actor actor) {
 		// TODO Auto-generated method stub
+		actor.pay(this.moneyValue);
 		return song;
 	}
 	
 	@Override
 	public String toString(){
-		return song + " , PRIORITY IS " + priority + ", COST IS " + this.getWeight(MoneyTrait.class).getValue();
+		return song + " , PRIORITY IS " + priority + ", IT PAYS " + this.getWeight(MoneyTrait.class).getValue() +
+			   " PUBLICITY IS " + this.getWeight(ShyTrait.class).getValue();
 	}
 	@Override
 	public Action mutateAction(double x) {

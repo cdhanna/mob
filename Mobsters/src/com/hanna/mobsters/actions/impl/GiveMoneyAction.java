@@ -33,13 +33,13 @@ public class GiveMoneyAction extends Action {
 	public String doIt(Actor self) {
 		Double transferCash = this.moneyValue;
 		Double onHandCash = self.getPropertyValue(MoneyProperty.class);
-		if (onHandCash < transferCash)
+		if (onHandCash < transferCash){
 			transferCash = onHandCash;
+		}
 
-		Double receiverCash = this.gettingActor.getPropertyValue(MoneyProperty.class);
+		self.takeMoney(transferCash);
+		gettingActor.pay(transferCash);
 
-		self.setPropertyValue(MoneyProperty.class, onHandCash - transferCash);
-		this.gettingActor.setPropertyValue(MoneyProperty.class, receiverCash + transferCash);
 		return "I transfered the money boss";
 
 	}
@@ -60,15 +60,7 @@ public class GiveMoneyAction extends Action {
 
 		// bring the transfer amount back to a positive value
 		Double newMoney = scaleFactor * Math.abs( (Double)this.getWeight(MoneyTrait.class).getValue() );
-
-
-		//ActionTraitElement t = new ActionTraitElement("",newMoney);
-		//this.traitVals.put(MoneyTrait.class, t);
-		//((ActionTraitElement<Double>)this.getTraitVal(MoneyTrait.class)).setValue(newMoney);
-		//TODO uhm, this is still not all that pretty....
-		//this.getWeight(MoneyTrait.class).setValue(newMoney);
 		this.moneyValue = newMoney;
-
 
 		return this;
 
