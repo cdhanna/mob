@@ -19,28 +19,21 @@ public class ShyTrait extends Trait{
 	
 	public ShyTrait(){}
 	
+	
+	/**
+	 * @param Double shy - parameter describing how 'shy' the actor is. Positive values correspond to
+	 * high shyness. Negative values correspond to the actor being 'outgoing'.
+	 */
 	public ShyTrait(Double shy){
 		this.shy = shy;
 	}
 	
 	@Override
 	public double compute(Action action, Actor actor) {
-		
 		Double result = -this.shy * action.getContextWeight(actor, ShyTrait.class);
-		
-		
 		ActionWeight<Double> t = action.getWeight(ShyTrait.class);
 		result *= t.getValue();
-//		Double shyness = t.getValue();
-//		
-//		
-//		//work with 'shy' AND action.getTraitVal(ShyTrait.class) 
-//		
-//		//uh, this sucks for logic. Too late to think about this hard.
-//		//this will just be be a toggle pretty much
-//		if (shyness > 3.0 && ActorBin.getInstance().getNearByActors(actor).length > 0)
-//			return -10;
-//			
+
 		return result;
 	}
 

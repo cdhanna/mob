@@ -9,6 +9,10 @@ public class MoneyTrait extends Trait {
 
 	public MoneyTrait(){}
 	
+	
+	/**
+	 * @param int importance - how much the actor cares about money. High values correspond to 'greediness'.
+	 */
 	public MoneyTrait(int importance) {
 		this.importance = importance;
 	}
@@ -19,19 +23,6 @@ public class MoneyTrait extends Trait {
 		Double contextWeight = action.getContextWeight(actor, MoneyTrait.class);
 		
 		return t.getValue() * contextWeight * importance;
-//		ActionWeight<Double> t = action.getWeight(MoneyTrait.class);
-//		Double moneyVal = t.getValue();
-//		Double absMoney = Math.abs(moneyVal);
-//		Double coefficient = 1.0;
-//		if (actor.getPropertyValue(MoneyProperty.class) == 0)
-//			coefficient = 0.0;
-//		else coefficient = 1/actor.getPropertyValue(MoneyProperty.class);
-//		
-//		if (absMoney == 0) //wait what?
-//			absMoney = 1.0;
-//		
-//		return coefficient * (moneyVal/absMoney) * Math.pow(absMoney, importance);
 	}
-
 
 }

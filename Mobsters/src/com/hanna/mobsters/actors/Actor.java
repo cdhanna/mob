@@ -18,19 +18,18 @@ import com.hanna.mobsters.actors.traits.*;
 public class Actor {
 	private List<Trait> personality;
 	private String name;
-	
 	private PriorityQueue<Action> pq; // for holding "to do list" of actions
-
 	private HashMap<Class<? extends Property<?>>, Property<?>> propertyTable;
 
 	private Personality personalityType;
 
-	// constructor - really just a stub right now
+	
 	public Actor(String name, Personality personalityType, List<Trait> personalityOverrides)
 	{
 		this.personalityType = personalityType;
 		this.personality = PersonalityRegistry.getInstance().getPersonality(personalityType);
 
+		// CAN WE DELETE THIS COMMENTED CODE? - Will 24 July
 //		if (personalityOverrides != null){
 //			List<Trait> unAddedTraits = new ArrayList<>(personalityOverrides); //make a list to hold traits that don't wind up being in personality
 //			for (Trait overrideTrait : personalityOverrides){
@@ -49,7 +48,17 @@ public class Actor {
 		this.propertyTable = PropertyRegistry.getInstance().makePropertyTable();
 
 	}
-	// static decision making method common to all actors
+	
+	
+	/**
+	 * A static method for making decisions. An action and an actor are passed in.
+	 * For each trait in the actor's personality a weight is computed, and the sum of all the 
+	 * weights (positive and negative) will be returned.
+	 * @param Action action - the action to be considered
+	 * @param Actor actor - the actor making the decision
+	 * @return Double combinedWeight - an UNBOUNDED number corresponding to how strongly the actor does or does 
+	 *  not want to do the action
+	 */
 	private static double decider(Action action, Actor actor){
 		
 		double combinedWeight = 0;
@@ -60,6 +69,16 @@ public class Actor {
 		return combinedWeight;
 	}
 
+	
+	/**
+	 * This method takes an action as input and passes it to the static decider method in the Actor class.
+	 * Based on the return value of the decider, the action may or may not be added to the priority queue
+	 * of actions for the actor. If it is added to the queue, it is also possible that the action will be 
+	 * modified by changing its parameters in a call to the mutateAction method.
+	 * @param Action action - the action given to the actor for consideration
+	 * @return Response - a wrapper object containing a boolean decision value and a human-readable message
+	 * giving the actor's decision
+	 */
 	public Response speakTo(Action action){
 		String responseMessage;
 		boolean yesno = false;
@@ -77,6 +96,11 @@ public class Actor {
 		return new Response(yesno, responseMessage);
 	}
 
+	
+	/**
+	 * Removes the highest priority element in the actor's priority queue and evaluates it.
+	 * @return String - a human readable message describing the result of the action.
+	 */
 	public String evaluateAction(){
 
 		if (!pq.isEmpty())
@@ -148,6 +172,9 @@ public class Actor {
 	public String getName(){return name;}
 	
 	
+	/**
+	 * @return the priority queue of this actor
+	 */
 	public PriorityQueue<Action> getPQ(){return pq;}
 
 	@Override
@@ -165,8 +192,9 @@ public class Actor {
 	
 	
 	/** helper function to remove money from an actor
-	 * @param amount the amount of money to take away
-	 * @return
+	 * @param Double amount - the amount of money to take away
+	 * @return Double amount - the amount of money taken away. May be less that the amount asked for,
+	 * if the actor did not have that much money to begin with.
 	 */
 	public Double takeMoney(Double amount){
 		Double existingMoney = getPropertyValue(MoneyProperty.class);

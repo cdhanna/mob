@@ -10,7 +10,10 @@ import com.hanna.mobsters.actors.traits.*;
 public class MathAction extends Action{
 	double a,b;
 	String op;
-
+	/**
+	 * The money value associated with this action. This is always a positive value. If the action would
+	 * 'cost' money to do, this is reflected in the ActionWeight for the MoneyTrait.
+	 */
 	Double moneyValue;
 
 	@ActionInfoAnnotation(params = { "a", "b","Operation", "Priority", "moneyVal" })
@@ -44,12 +47,8 @@ public class MathAction extends Action{
 		break;
 		}
 
-
 		actor.pay(this.moneyValue);
-//		Double newMoney = this.moneyValue + actor.getPropertyValue(MoneyProperty.class);
-//		actor.setPropertyValue(MoneyProperty.class, newMoney);
 		return str;
-
 	}
 
 	@Override
