@@ -1,9 +1,9 @@
 package com.hanna.mobsters.actions.core;
 
-public class ActionTraitElement <T> {
+public class ActionWeight <T> {
 
 	T value;
-	public ActionTraitElement(T value){
+	public ActionWeight(T value){
 		this.value = value;
 	}
 	

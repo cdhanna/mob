@@ -103,7 +103,7 @@ public class ActionRegistry {
 					return action;
 				} catch (InstantiationException | IllegalAccessException
 						| IllegalArgumentException | InvocationTargetException e) {
-					// TODO Auto-generated catch block
+					
 					e.printStackTrace();
 				}
 

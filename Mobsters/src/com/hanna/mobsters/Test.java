@@ -4,7 +4,7 @@
 package com.hanna.mobsters;
 
 import com.hanna.mobsters.actions.*;
-import com.hanna.mobsters.actions.impl.TransferMoneyAction;
+import com.hanna.mobsters.actions.impl.GiveMoneyAction;
 import com.hanna.mobsters.actors.Actor;
 import com.hanna.mobsters.actors.ActorBin;
 import com.hanna.mobsters.actors.Response;
@@ -26,8 +26,8 @@ public class Test {
 		// Will - 15 July 2013
 		Actor joe = ActorBin.getInstance().createActor("Joe"); //new Actor("Joe",100); Chris swapped this out.
 		Actor bob = ActorBin.getInstance().createActor("bob"); //new Actor("bob",100); Eventually the createActor will also take a personality
-		TransferMoneyAction transferCash = new TransferMoneyAction(8.0,bob,1);
-		TransferMoneyAction giveBack = new TransferMoneyAction(4.0,joe,1);
+		GiveMoneyAction transferCash = new GiveMoneyAction(8.0,bob,1);
+		GiveMoneyAction giveBack = new GiveMoneyAction(4.0,joe,1);
 		System.out.println(transferCash.toString());
 		
 		System.out.println(joe.getPropertyValue(MoneyProperty.class));

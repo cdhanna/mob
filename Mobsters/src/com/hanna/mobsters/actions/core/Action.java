@@ -15,7 +15,7 @@ import com.hanna.mobsters.actors.traits.*;
 public abstract class Action implements Comparable<Action> {
 	
 	protected int priority; // must have a priority.
-	protected HashMap<Class<? extends Trait>,ActionTraitElement<?>> traitVals;
+	protected HashMap<Class<? extends Trait>,ActionWeight<?>> traitVals;
 	
 	
 	
@@ -29,8 +29,11 @@ public abstract class Action implements Comparable<Action> {
 	 */
 	@ActionInfoAnnotation(name = "Base Action", params = {  })
 	public Action(){
-		traitVals = new HashMap<Class<? extends Trait>,ActionTraitElement<?>>();
+		traitVals = new HashMap<Class<? extends Trait>,ActionWeight<?>>();
 		
+		
+		traitVals.put(ShyTrait.class, new ActionWeight<Double>(0.0));
+		traitVals.put(MoneyTrait.class, new ActionWeight<Double>(0.0));
 	}
 	/**
 	 * all actions must have a method that describes how to complete the action
@@ -44,14 +47,18 @@ public abstract class Action implements Comparable<Action> {
 	public abstract Action mutateAction(double x);
 
 	
-	public <T> ActionTraitElement<T> getTraitVal(Class<? extends Trait> key ){
+	public <T> ActionWeight<T> getWeight(Class<? extends Trait> key ){
 		if (traitVals.containsKey(key))
-			return (ActionTraitElement<T>) traitVals.get(key);
+			return (ActionWeight<T>) traitVals.get(key);
 		else
-			return new ActionTraitElement<T>(null);//TODO this needs work. I don't even know if what I did is improvement //new ActionTraitElement<Double>(0.0);
+			return new ActionWeight<T>(null);//TODO this needs work. I don't even know if what I did is improvement //new ActionTraitElement<Double>(0.0);
 	}
 	public int getPriority() {
 		return this.priority;
+	}
+	
+	public Double getContextWeight(Actor actor, Class<? extends Trait> clazz) {
+		return 0.0;
 	}
 	
 //	public <T> ActionTraitElement<T> getTrailVal(Class<? extends Trait> trait){

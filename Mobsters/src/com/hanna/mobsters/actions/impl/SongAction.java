@@ -2,24 +2,27 @@ package com.hanna.mobsters.actions.impl;
 
 import com.hanna.mobsters.actions.core.Action;
 import com.hanna.mobsters.actions.core.ActionInfoAnnotation;
-import com.hanna.mobsters.actions.core.ActionTraitElement;
+import com.hanna.mobsters.actions.core.ActionWeight;
 import com.hanna.mobsters.actors.Actor;
+import com.hanna.mobsters.actors.ActorBin;
+import com.hanna.mobsters.actors.properties.impl.MoneyProperty;
 import com.hanna.mobsters.actors.traits.MoneyTrait;
 import com.hanna.mobsters.actors.traits.ShyTrait;
+import com.hanna.mobsters.actors.traits.Trait;
 
 public class SongAction extends Action {
 	String song;
-
-	@ActionInfoAnnotation(params = { "Song", "Priority", "MoneyVal" })
-	public SongAction(String song, Integer priority, Double moneyVal) {
+	Double moneyValue;
+	@ActionInfoAnnotation(params = { "Song", "Priority", "MoneyVal" , "Publicity"})
+	public SongAction(String song, Integer priority, Double moneyVal, Double publicity) {
 		super();
 		this.song = song;
 		this.priority = priority;
-		ActionTraitElement<Double> t = new ActionTraitElement<Double>(moneyVal);
+		ActionWeight<Double> t = new ActionWeight<Double>(moneyVal);
 		traitVals.put(MoneyTrait.class, t);
-		
+		this.moneyValue = moneyVal;
 		//added a bit of sheepishness. Hopefully, if actors are on the same street, a gangster won't sing
-		ActionTraitElement<Double> shy = new ActionTraitElement<Double>(5.0);
+		ActionWeight<Double> shy = new ActionWeight<Double>(publicity);
 		traitVals.put(ShyTrait.class, shy);
 		
 		// TODO Auto-generated constructor stub
@@ -37,7 +40,7 @@ public class SongAction extends Action {
 	
 	@Override
 	public String toString(){
-		return song + " , PRIORITY IS " + priority + ", COST IS " + this.getTraitVal(MoneyTrait.class).getValue();
+		return song + " , PRIORITY IS " + priority + ", COST IS " + this.getWeight(MoneyTrait.class).getValue();
 	}
 	@Override
 	public Action mutateAction(double x) {
@@ -52,6 +55,25 @@ public class SongAction extends Action {
 			this.priority = 1;
 		
 		return this;
+	}
+	
+	
+	@Override
+	public Double getContextWeight(Actor actor, Class<? extends Trait> clazz) {
+		
+		if (clazz == ShyTrait.class){
+			return (double) ActorBin.getInstance().getNearByActors(actor).length;
+		}
+		
+		if (clazz == MoneyTrait.class){
+			Double coefficient = 1.0;
+			if (actor.getPropertyValue(MoneyProperty.class) < 1.0)
+				coefficient = this.moneyValue;
+			else coefficient = this.moneyValue/actor.getPropertyValue(MoneyProperty.class);
+			return coefficient;
+		}
+		
+		return 0.0;
 	}
 
 }
