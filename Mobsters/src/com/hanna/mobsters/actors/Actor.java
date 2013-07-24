@@ -163,6 +163,11 @@ public class Actor {
 		setPropertyValue(MoneyProperty.class, oldCash + amount);
 	}
 	
+	
+	/** helper function to remove money from an actor
+	 * @param amount the amount of money to take away
+	 * @return
+	 */
 	public Double takeMoney(Double amount){
 		Double existingMoney = getPropertyValue(MoneyProperty.class);
 		if ( amount > existingMoney ){
