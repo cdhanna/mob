@@ -15,24 +15,26 @@ import com.hanna.mobsters.actors.traits.*;
 public class MurderAction extends Action{
 	Actor target;
 	Double moneyRating; 
+	Double physicalRiskRating;
 	/**
 	 * @param target the actor to be killed.
 	 * @param priority the priority value used in the actor's queue.
 	 * @param moneyRating - how much money will be paid to the actor for the job.
 	 * @param dangerRating - how dangerous the murder will be to carry out.
 	 */
-	@ActionInfoAnnotation(params = { "target", "priority", "moneyRating" , "dangerRating"})
-	public MurderAction(Actor target, Integer priority, Double moneyRating, Double dangerRating){
+	@ActionInfoAnnotation(params = { "target", "priority", "moneyRating" , "physicaRiskRating"})
+	public MurderAction(Actor target, Integer priority, Double moneyRating, Double physicalRiskRating){
 		super();
 		this.priority = priority;
 		this.target = target;
 		this.moneyRating = moneyRating;
+		this.physicalRiskRating = physicalRiskRating;
 		Double moralRating = -0.95; // murder is about the most immoral thing you can do!
 		ActionWeight<Double> t = new ActionWeight<Double>(moneyRating);
 		traitVals.put(MoneyTrait.class, t);
 		ActionWeight<Double> t1 = new ActionWeight<Double>(moralRating);
 		traitVals.put(MoralityTrait.class, t1);
-		ActionWeight<Double> t2 = new ActionWeight<Double>(dangerRating);
+		ActionWeight<Double> t2 = new ActionWeight<Double>(physicalRiskRating);
 		traitVals.put(DangerTrait.class, t2);
 
 	}
@@ -48,6 +50,11 @@ public class MurderAction extends Action{
 		String str = "I killed him good!";
 		this.target.setPropertyValue(MedicalStateProperty.class, 0.0);
 		//TODO actually make this destroy the target actor.
+		return str;
+	}
+	@Override
+	public String toString(){
+		String str = "I am getting paid " + this.moneyRating + " to kill " + this.target + ". Physical Risk is " + this.physicalRiskRating; 
 		return str;
 	}
 
