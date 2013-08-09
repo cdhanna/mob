@@ -36,7 +36,7 @@ public abstract class Action implements Comparable<Action> {
 	public Action(){
 		// put in default trait weights. They are all zero.
 		traitVals = new HashMap<Class<? extends Trait>,ActionWeight<?>>();
-		traitVals.put(DangerTrait.class, new ActionWeight<Double>(0.0));
+		traitVals.put(PhysicalRiskTrait.class, new ActionWeight<Double>(0.0));
 		traitVals.put(LoyaltyTrait.class, new ActionWeight<Double>(0.0));
 		traitVals.put(MoneyTrait.class, new ActionWeight<Double>(0.0));
 		traitVals.put(MoralityTrait.class, new ActionWeight<Double>(0.0));

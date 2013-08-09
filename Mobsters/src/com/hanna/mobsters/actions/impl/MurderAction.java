@@ -35,7 +35,7 @@ public class MurderAction extends Action{
 		ActionWeight<Double> t1 = new ActionWeight<Double>(moralRating);
 		traitVals.put(MoralityTrait.class, t1);
 		ActionWeight<Double> t2 = new ActionWeight<Double>(physicalRiskRating);
-		traitVals.put(DangerTrait.class, t2);
+		traitVals.put(PhysicalRiskTrait.class, t2);
 
 	}
 	
@@ -81,7 +81,7 @@ public class MurderAction extends Action{
 			return coefficient;
 		}
 		
-		if (clazz == DangerTrait.class){
+		if (clazz == PhysicalRiskTrait.class){
 			Double coefficient = 1.0;
 			return coefficient;
 		}
