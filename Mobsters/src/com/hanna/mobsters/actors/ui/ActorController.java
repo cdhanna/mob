@@ -16,6 +16,7 @@ import com.hanna.mobsters.actors.Actor;
 import com.hanna.mobsters.actors.Response;
 import com.hanna.mobsters.actors.properties.Property;
 import com.hanna.mobsters.actors.properties.PropertyRegistry;
+import com.hanna.mobsters.actors.traits.Trait;
 import com.hanna.mobsters.ui.Top;
 import com.hanna.mobsters.ui.Window;
 import com.hanna.mobsters.ui.shared.ValuesPanel.Value;
@@ -42,6 +43,16 @@ public class ActorController {
 			protected void propertyChange(Value value){
 				if (value.getValue()!=null){
 					actor.setPropertyValueUnSafe(value.getID(), value.getValue());
+				}
+			}
+			@Override
+			protected void traitChange(Value value){
+				if (value.getValue() != null){
+					Trait trait = (Trait) value.getID();
+					trait.setImportance((int)value.getValue());
+					System.out.println("trait change to " + value.getValue());
+					int s = actor.getPersonality().get(actor.getPersonality().indexOf(trait)).getImportance();
+					System.out.println(s);
 				}
 			}
 		};

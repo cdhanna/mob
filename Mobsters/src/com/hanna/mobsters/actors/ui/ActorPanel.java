@@ -79,7 +79,7 @@ public class ActorPanel extends Panel{
 		this.actorTraitsPanel = new ValuesPanel(){
 			@Override
 			protected void valueChangedAction(Value value){
-				System.out.println(value);
+				traitChange(value);
 			}
 		};
 	}
@@ -151,10 +151,12 @@ public class ActorPanel extends Panel{
 			final Trait[] traits = new Trait[actor.getPersonality().size()];
 			final Class<?>[] traitTypes = new Class<?>[traits.length];
 			final String[] traitNames = new String[traits.length];
+			final Integer[] traitImportance = new Integer[traits.length];
 			for (int i = 0 ; i < traits.length ; i ++){
 				traits[i] = actor.getPersonality().get(i);
-				traitTypes[i] = actor.getPersonality().get(i).getClass();
+				traitTypes[i] = Integer.class;
 				traitNames[i] = actor.getPersonality().get(i).getClass().getSimpleName();
+				traitImportance[i] = actor.getPersonality().get(i).getImportance();
 			}
 			
 			this.actorTraitsPanel.setUpComponents(new ValuePanelContent(){
@@ -172,7 +174,7 @@ public class ActorPanel extends Panel{
 				public String[] getTypeDescriptions() {
 					return traitNames;
 				}});
-			this.setActorTraits(traits);
+			this.setActorTraitImportanceValues(traitImportance);
 			
 			
 		} else System.err.println("Could not set up actor because parameters did not match expected");
@@ -187,8 +189,8 @@ public class ActorPanel extends Panel{
 		this.actorPropertiesPanel.setValues(propValues);
 	}
 	
-	public void setActorTraits(Trait[] traits){
-		this.actorTraitsPanel.setValues(traits);
+	public void setActorTraitImportanceValues(Integer[] traitImportanceValues){
+		this.actorTraitsPanel.setValues(traitImportanceValues);
 	}
 
 	protected ObjectList<Action> getPendingActionList(){

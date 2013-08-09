@@ -22,5 +22,12 @@ public abstract class Trait {
 	public int getImportance(){
 		return this.importance;
 	}
+
+	/**
+	 * @param importance of the trait
+	 */
+	public void setImportance(Integer importance) {
+		this.importance = importance;
+	}
 	
 }
