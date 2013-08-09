@@ -28,11 +28,12 @@ public class ActorController {
 
 	private static List<ActorController> all = new ArrayList<>();
 	
-	Actor actor;
-	ActorPanel panel;
+	private Actor actor;
+	private ActorPanel panel;
 
-	ActionController actionController;
-
+	private ActionController actionController;
+	
+	
 	public ActorController(final Actor actor){
 		all.add(this);
 		this.actor = actor;	

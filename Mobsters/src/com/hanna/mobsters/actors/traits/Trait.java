@@ -16,5 +16,11 @@ public abstract class Trait {
 	 */
 	public abstract double compute(Action action, Actor actor);
 
-
+	/**
+	 * @return the importance of this trait
+	 */
+	public int getImportance(){
+		return this.importance;
+	}
+	
 }

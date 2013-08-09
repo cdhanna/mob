@@ -5,6 +5,7 @@ package com.hanna.mobsters.actors.ui;
 
 import java.awt.Color;
 import java.awt.Dimension;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -17,6 +18,7 @@ import com.hanna.mobsters.actions.ui.ActionPanel;
 import com.hanna.mobsters.actors.Actor;
 import com.hanna.mobsters.actors.properties.Property;
 import com.hanna.mobsters.actors.properties.PropertyRegistry;
+import com.hanna.mobsters.actors.traits.Trait;
 import com.hanna.mobsters.ui.shared.ObjectList;
 import com.hanna.mobsters.ui.shared.Panel;
 import com.hanna.mobsters.ui.shared.ValuesPanel;
@@ -42,6 +44,9 @@ public class ActorPanel extends Panel{
 	private JLabel actorDetailsLabel;
 	private ValuesPanel actorPropertiesPanel;
 
+	private JLabel actorTraitsLabel;
+	private ValuesPanel actorTraitsPanel;
+	
 	private ActionPanel actionPanel;
 
 	@Override
@@ -67,6 +72,14 @@ public class ActorPanel extends Panel{
 			@Override
 			protected void valueChangedAction(Value value){
 				propertyChange(value);
+			}
+		};
+		
+		this.actorTraitsLabel = new JLabel("Actor Traits");
+		this.actorTraitsPanel = new ValuesPanel(){
+			@Override
+			protected void valueChangedAction(Value value){
+				System.out.println(value);
 			}
 		};
 	}
@@ -98,6 +111,10 @@ public class ActorPanel extends Panel{
 		//actor details
 		this.add(this.actorDetailsLabel, "cell 0 7");
 		this.add(this.actorPropertiesPanel, "cell 0 8, pushx, growx");
+		
+		//actor traits
+		this.add(this.actorTraitsLabel, "cell 0 9");
+		this.add(this.actorTraitsPanel, "cell 0 10, pushx, growx");
 	}
 
 
@@ -106,6 +123,7 @@ public class ActorPanel extends Panel{
 			Actor actor = (Actor)parameters[0];
 			this.title.setText("Actor: " + actor.getName());
 	
+			//details
 			this.actorPropertiesPanel.setUpComponents(new ValuePanelContent(){
 				@Override
 				public Class<?>[] getTypes() {
@@ -128,6 +146,35 @@ public class ActorPanel extends Panel{
 			}
 			this.setActorProperties(propValues);
 			
+			//traits
+			
+			final Trait[] traits = new Trait[actor.getPersonality().size()];
+			final Class<?>[] traitTypes = new Class<?>[traits.length];
+			final String[] traitNames = new String[traits.length];
+			for (int i = 0 ; i < traits.length ; i ++){
+				traits[i] = actor.getPersonality().get(i);
+				traitTypes[i] = actor.getPersonality().get(i).getClass();
+				traitNames[i] = actor.getPersonality().get(i).getClass().getSimpleName();
+			}
+			
+			this.actorTraitsPanel.setUpComponents(new ValuePanelContent(){
+				@Override
+				public Object[] getItemIDs() {
+					return traits;
+				}
+
+				@Override
+				public Class<?>[] getTypes() {
+					return traitTypes;
+				}
+
+				@Override
+				public String[] getTypeDescriptions() {
+					return traitNames;
+				}});
+			this.setActorTraits(traits);
+			
+			
 		} else System.err.println("Could not set up actor because parameters did not match expected");
 	}
 
@@ -138,6 +185,10 @@ public class ActorPanel extends Panel{
 
 	public void setActorProperties(Object[] propValues){
 		this.actorPropertiesPanel.setValues(propValues);
+	}
+	
+	public void setActorTraits(Trait[] traits){
+		this.actorTraitsPanel.setValues(traits);
 	}
 
 	protected ObjectList<Action> getPendingActionList(){
@@ -163,6 +214,9 @@ public class ActorPanel extends Panel{
 	}
 	
 	protected void propertyChange(Value value){
+		
+	}
+	protected void traitChange(Value value){
 		
 	}
 	

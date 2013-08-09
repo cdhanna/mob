@@ -15,8 +15,8 @@ public class MoralityTrait extends Trait{
 
 	@Override
 	public double compute(Action action, Actor actor) {
-		ActionWeight<Double> t = action.getWeight(MoneyTrait.class);
-		Double contextWeight = action.getContextWeight(actor, MoneyTrait.class);
+		ActionWeight<Double> t = action.getWeight(MoralityTrait.class);
+		Double contextWeight = action.getContextWeight(actor, MoralityTrait.class);
 		
 		return t.getValue() * contextWeight * importance;
 	}

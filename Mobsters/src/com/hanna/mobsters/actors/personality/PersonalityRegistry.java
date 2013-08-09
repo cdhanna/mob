@@ -40,7 +40,7 @@ public class PersonalityRegistry{
 	private void setUpGANGSTER(){
 		this.GANGSTER = new ArrayList<>();
 		this.GANGSTER.add(new MoneyTrait(2));
-		this.GANGSTER.add(new ShyTrait(1.0));
+		this.GANGSTER.add(new ShyTrait(1));
 	}
 	
 	private void setUpCIVILIAN(){

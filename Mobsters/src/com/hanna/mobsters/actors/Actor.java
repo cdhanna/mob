@@ -171,6 +171,12 @@ public class Actor {
 	 */
 	public String getName(){return name;}
 	
+	/**
+	 * @return the set of the actor's personality. Becare, if you edit this list, you will edit the actors personality
+	 */
+	public List<Trait> getPersonality(){
+		return this.personality;
+	}
 	
 	/**
 	 * @return the priority queue of this actor

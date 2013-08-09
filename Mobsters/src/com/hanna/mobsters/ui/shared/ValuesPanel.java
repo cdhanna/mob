@@ -150,8 +150,20 @@ public class ValuesPanel extends Panel{
 	}
 	
 	public interface ValuePanelContent{
+		
+		/**
+		 * @return a list of names for the objects in the value panel
+		 */
 		public Object[] getItemIDs();
+		
+		/**
+		 * @return a list of types for the objects in the value panel
+		 */
 		public Class<?>[] getTypes();
+		
+		/**
+		 * @return a list of descriptions for the objects in the value panel
+		 */
 		public String[] getTypeDescriptions();
 	}
 	
