@@ -4,6 +4,7 @@ import com.hanna.mobsters.actions.core.Action;
 import com.hanna.mobsters.actions.core.ActionInfoAnnotation;
 import com.hanna.mobsters.actions.core.ActionWeight;
 import com.hanna.mobsters.actors.Actor;
+import com.hanna.mobsters.actors.properties.impl.MoneyProperty;
 import com.hanna.mobsters.actors.traits.*;
 /**
  * @author Will
@@ -50,8 +51,32 @@ public class MurderAction extends Action{
 
 	@Override
 	public Action mutateAction(double x) {
-		// TODO Auto-generated method stub
-		return null;
+		if (x > 0)
+			return this;
+		else
+			return null;
+	}
+	
+	public Double getContextWeight(Actor actor, Class<? extends Trait> clazz) {
+		
+		if (clazz == MoneyTrait.class){
+			Double coefficient = 1.0;
+			if (actor.getPropertyValue(MoneyProperty.class) < 1.0)
+				coefficient = this.moneyRating;
+			else coefficient = this.moneyRating/actor.getPropertyValue(MoneyProperty.class);
+			return coefficient;
+		}
+		
+		if (clazz == MoralityTrait.class){
+			Double coefficient = 1.0;
+			return coefficient;
+		}
+		
+		if (clazz == DangerTrait.class){
+			Double coefficient = 1.0;
+			return coefficient;
+		}
+		return 0.0;
 	}
 
 }
