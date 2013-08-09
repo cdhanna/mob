@@ -24,17 +24,14 @@ public class SongAction extends Action {
 		//added a bit of sheepishness. Hopefully, if actors are on the same street, a gangster won't sing
 		ActionWeight<Double> shy = new ActionWeight<Double>(publicity);
 		traitVals.put(ShyTrait.class, shy);
-		
-		// TODO Auto-generated constructor stub
+
 	}
 	@Override
 	public int compareTo(Action arg0) {
-		// TODO Auto-generated method stub
 		return arg0.getPriority() - this.priority;
 	}
 	@Override
 	public String doIt(Actor actor) {
-		// TODO Auto-generated method stub
 		actor.pay(this.moneyValue);
 		return song;
 	}
@@ -46,7 +43,6 @@ public class SongAction extends Action {
 	}
 	@Override
 	public Action mutateAction(double x) {
-		// TODO Auto-generated method stub
 		if (x<0)
 			this.song = "... singing is for chumps, boss.";
 		

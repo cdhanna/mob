@@ -15,6 +15,8 @@ public abstract class Trait {
 	 * wont do it.
 	 */
 	public abstract double compute(Action action, Actor actor);
+	
+
 
 	/**
 	 * @return the importance of this trait
