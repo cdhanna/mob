@@ -4,15 +4,12 @@ import com.hanna.mobsters.actions.core.Action;
 import com.hanna.mobsters.actions.core.ActionWeight;
 import com.hanna.mobsters.actors.Actor;
 
-public class MoneyTrait extends Trait {
-
-	public MoneyTrait(){}
-	
+public class MoralityTrait extends Trait{
 	
 	/**
-	 * @param importance - how much the actor cares about money. High values correspond to 'greedy'.
+	 * @param importance - how much the actor cares about morality. High values correspond to 'righteous'.
 	 */
-	public MoneyTrait(int importance) {
+	public MoralityTrait(int importance){
 		this.importance = importance;
 	}
 

@@ -7,7 +7,6 @@ import com.hanna.mobsters.actions.core.Action;
 import com.hanna.mobsters.actions.core.ActionWeight;
 
 import com.hanna.mobsters.actors.Actor;
-import com.hanna.mobsters.actors.ActorBin;
 
 /**
  * @author Chris Hanna
