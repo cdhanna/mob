@@ -8,6 +8,7 @@ import com.hanna.mobsters.actors.personality.Personality;
 import com.hanna.mobsters.actors.personality.PersonalityRegistry;
 import com.hanna.mobsters.actors.properties.Property;
 import com.hanna.mobsters.actors.properties.PropertyRegistry;
+import com.hanna.mobsters.actors.properties.impl.MedicalStateProperty;
 import com.hanna.mobsters.actors.properties.impl.MoneyProperty;
 import com.hanna.mobsters.actors.traits.*;
 
@@ -23,33 +24,33 @@ public class Actor {
 
 	private Personality personalityType;
 
-	
+
 	public Actor(String name, Personality personalityType, List<Trait> personalityOverrides)
 	{
 		this.personalityType = personalityType;
 		this.personality = PersonalityRegistry.getInstance().getPersonality(personalityType);
 
 		// CAN WE DELETE THIS COMMENTED CODE? - Will 24 July
-//		if (personalityOverrides != null){
-//			List<Trait> unAddedTraits = new ArrayList<>(personalityOverrides); //make a list to hold traits that don't wind up being in personality
-//			for (Trait overrideTrait : personalityOverrides){
-//				for (Trait regularTrait : this.personality){
-//					if (overrideTrait.getClass() == regularTrait.getClass()){ //if the override trait is the regular trait
-//						regularTrait = overrideTrait; //make the regular BE the override
-//						unAddedTraits.remove(overrideTrait); //we added this trait, so we don't need to add it later
-//					}
-//				}
-//			}
-//			this.personality.addAll(unAddedTraits); //add the rest of the override traits
-//		}
+		//		if (personalityOverrides != null){
+		//			List<Trait> unAddedTraits = new ArrayList<>(personalityOverrides); //make a list to hold traits that don't wind up being in personality
+		//			for (Trait overrideTrait : personalityOverrides){
+		//				for (Trait regularTrait : this.personality){
+		//					if (overrideTrait.getClass() == regularTrait.getClass()){ //if the override trait is the regular trait
+		//						regularTrait = overrideTrait; //make the regular BE the override
+		//						unAddedTraits.remove(overrideTrait); //we added this trait, so we don't need to add it later
+		//					}
+		//				}
+		//			}
+		//			this.personality.addAll(unAddedTraits); //add the rest of the override traits
+		//		}
 
 		this.name = name;
 		pq = new PriorityQueue<Action>();
 		this.propertyTable = PropertyRegistry.getInstance().makePropertyTable();
 
 	}
-	
-	
+
+
 	/**
 	 * A static method for making decisions. An action and an actor are passed in.
 	 * For each trait in the actor's personality a weight is computed, and the sum of all the 
@@ -60,7 +61,7 @@ public class Actor {
 	 *  not want to do the action
 	 */
 	private static double decider(Action action, Actor actor){
-		
+
 		double combinedWeight = 0;
 		for (Trait trait : actor.personality){
 			combinedWeight+=trait.compute(action, actor);
@@ -69,7 +70,7 @@ public class Actor {
 		return combinedWeight;
 	}
 
-	
+
 	/**
 	 * This method takes an action as input and passes it to the static decider method in the Actor class.
 	 * Based on the return value of the decider, the action may or may not be added to the priority queue
@@ -80,33 +81,36 @@ public class Actor {
 	 * giving the actor's decision
 	 */
 	public Response speakTo(Action action){
-		String responseMessage;
-		boolean yesno = false;
-		double decision = decider(action, this);
-		action = action.mutateAction(decision);
-		if (action != null){
-			responseMessage = "I will do it";
-			yesno = true;
-			pq.add(action);
-		}
-		else{
-			responseMessage = "I will not do it";
-			yesno = false;
-		}
-		return new Response(yesno, responseMessage);
+		if (this.getPropertyValue(MedicalStateProperty.class) > 0.0){
+			String responseMessage;
+			boolean yesno = false;
+			double decision = decider(action, this);
+			action = action.mutateAction(decision);
+			if (action != null){
+				responseMessage = "I will do it";
+				yesno = true;
+				pq.add(action);
+			}
+			else{
+				responseMessage = "I will not do it";
+				yesno = false;
+			}
+			return new Response(yesno, responseMessage);
+		} else return new Response(false, "No. I'm currently dead.");
 	}
 
-	
+
 	/**
 	 * Removes the highest priority element in the actor's priority queue and evaluates it.
 	 * @return String - a human readable message describing the result of the action.
 	 */
 	public String evaluateAction(){
-
-		if (!pq.isEmpty())
-			return pq.remove().doIt(this);
-		else
-			return "I ain't got shit to do";
+		if (this.getPropertyValue(MedicalStateProperty.class) > 0.0){
+			if (!pq.isEmpty())
+				return pq.remove().doIt(this);
+			else
+				return "I ain't got shit to do";
+		} else return "I am dead, you jerk.";
 	}
 
 
@@ -170,14 +174,14 @@ public class Actor {
 	 * @return The name of this actor. 
 	 */
 	public String getName(){return name;}
-	
+
 	/**
 	 * @return the set of the actor's personality. Becare, if you edit this list, you will edit the actors personality
 	 */
 	public List<Trait> getPersonality(){
 		return this.personality;
 	}
-	
+
 	/**
 	 * @return the priority queue of this actor
 	 */
@@ -185,8 +189,8 @@ public class Actor {
 
 	@Override
 	public String toString(){ return this.name;}
-	
-	
+
+
 	/** helper function used for paying an actor some money
 	 * @param amount the amount of money coming in to the actor
 	 */
@@ -195,8 +199,8 @@ public class Actor {
 		Double oldCash = getPropertyValue(MoneyProperty.class);
 		setPropertyValue(MoneyProperty.class, oldCash + amount);
 	}
-	
-	
+
+
 	/** helper function to remove money from an actor
 	 * @param Double amount - the amount of money to take away
 	 * @return Double amount - the amount of money taken away. May be less that the amount asked for,
@@ -209,7 +213,7 @@ public class Actor {
 		}
 		setPropertyValue(MoneyProperty.class, existingMoney - amount);
 		return amount;
-			
+
 	}
 
 }

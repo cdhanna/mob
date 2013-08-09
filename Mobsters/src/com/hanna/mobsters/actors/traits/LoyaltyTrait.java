@@ -12,7 +12,8 @@ public class LoyaltyTrait extends Trait{
 	public LoyaltyTrait(int importance){
 		this.importance = importance;
 	}
-
+	public LoyaltyTrait(){}
+	
 	@Override
 	public double compute(Action action, Actor actor) {
 		ActionWeight<Double> t = action.getWeight(LoyaltyTrait.class);

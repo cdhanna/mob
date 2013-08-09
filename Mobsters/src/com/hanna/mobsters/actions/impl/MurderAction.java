@@ -4,6 +4,7 @@ import com.hanna.mobsters.actions.core.Action;
 import com.hanna.mobsters.actions.core.ActionInfoAnnotation;
 import com.hanna.mobsters.actions.core.ActionWeight;
 import com.hanna.mobsters.actors.Actor;
+import com.hanna.mobsters.actors.properties.impl.MedicalStateProperty;
 import com.hanna.mobsters.actors.properties.impl.MoneyProperty;
 import com.hanna.mobsters.actors.traits.*;
 /**
@@ -45,6 +46,7 @@ public class MurderAction extends Action{
 	public String doIt(Actor actor) {
 		actor.pay(this.moneyRating);
 		String str = "I killed him good!";
+		this.target.setPropertyValue(MedicalStateProperty.class, 0.0);
 		//TODO actually make this destroy the target actor.
 		return str;
 	}

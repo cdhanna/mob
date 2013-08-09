@@ -12,6 +12,7 @@ public class MoralityTrait extends Trait{
 	public MoralityTrait(int importance){
 		this.importance = importance;
 	}
+	public MoralityTrait(){}
 
 	@Override
 	public double compute(Action action, Actor actor) {

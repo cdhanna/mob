@@ -12,6 +12,7 @@ public class DangerTrait extends Trait{
 	public DangerTrait(int importance){
 		this.importance = importance;
 	}
+	public DangerTrait(){}
 
 	@Override
 	public double compute(Action action, Actor actor) {

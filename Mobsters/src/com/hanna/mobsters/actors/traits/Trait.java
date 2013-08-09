@@ -1,12 +1,19 @@
 package com.hanna.mobsters.actors.traits;
 import com.hanna.mobsters.actions.core.Action;
 import com.hanna.mobsters.actors.Actor;
+/**
+ * @author NOT
+ *<b>IMPORTANT: INCLUDE A CONSTRUCTOR WITH NO ARGS FOR KRYO</b>
+ */
 public abstract class Trait {
 	
 	int importance;
 	
-	
+
 	/**
+	 * 
+	 * 
+	 * 
 	 * @param action 
 	 * What action to compute
 	 * @param actor

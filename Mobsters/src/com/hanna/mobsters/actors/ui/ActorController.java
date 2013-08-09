@@ -28,13 +28,13 @@ import com.hanna.mobsters.ui.shared.ValuesPanel.Value;
 public class ActorController {
 
 	private static List<ActorController> all = new ArrayList<>();
-	
+
 	private Actor actor;
 	private ActorPanel panel;
 
 	private ActionController actionController;
-	
-	
+
+
 	public ActorController(final Actor actor){
 		all.add(this);
 		this.actor = actor;	
@@ -48,11 +48,20 @@ public class ActorController {
 			@Override
 			protected void traitChange(Value value){
 				if (value.getValue() != null){
+					//set trait value
 					Trait trait = (Trait) value.getID();
 					trait.setImportance((int)value.getValue());
-					System.out.println("trait change to " + value.getValue());
-					int s = actor.getPersonality().get(actor.getPersonality().indexOf(trait)).getImportance();
-					System.out.println(s);
+					if (actor.getPersonality().contains(trait)){
+						//System.out.println("modified");
+					} else {
+						actor.getPersonality().add(trait);
+						//System.out.println("added");
+					}
+				} else {
+					if (actor.getPersonality().contains((Trait)value.getID())){
+						//System.out.println("removed");
+						actor.getPersonality().remove((Trait)value.getID());
+					}
 				}
 			}
 		};
@@ -104,7 +113,7 @@ public class ActorController {
 		this.panel.setActionPanel(this.actionController.getPanel());
 		Top.toolBar.setFocusPanel(this.actionController.getPanel(), "ACTOR: " + this.actor.getName());
 	}
-	
+
 	public void runAction(){
 		this.panel.getPendingActionList().removeElement(this.actor.getPQ().peek());
 		String output = this.actor.evaluateAction();
@@ -118,7 +127,7 @@ public class ActorController {
 			c.refreshActorProperties();
 		}
 	}
-	
+
 	public void refreshActorProperties(){
 		Object[] propValues = new Object[PropertyRegistry.getInstance().getKnownProperties().size()];
 		for (int i = 0 ; i < propValues.length ; i ++){
@@ -127,7 +136,7 @@ public class ActorController {
 		}
 		this.panel.setActorProperties(propValues);
 	}
-	
+
 	public Response speakTo(Action action){
 		Response response = this.actor.speakTo(action);
 		if (response.getYesNo()){
