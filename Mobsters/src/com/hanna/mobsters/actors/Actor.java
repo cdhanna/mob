@@ -60,14 +60,14 @@ public class Actor {
 	 * @return Double combinedWeight - an UNBOUNDED number corresponding to how strongly the actor does or does 
 	 *  not want to do the action
 	 */
-	private static double decider(Action action, Actor actor){
-
-		double combinedWeight = 0;
+	private static Decision decider(Action action, Actor actor){
+		Decision d = new Decision();
 		for (Trait trait : actor.personality){
-			combinedWeight+=trait.compute(action, actor);
+			d.addTerm(trait.getClass(), trait.compute(action, actor));
 		}
+		d.makeDecision();
 
-		return combinedWeight;
+		return d;
 	}
 
 
@@ -84,7 +84,8 @@ public class Actor {
 		if (this.getPropertyValue(MedicalStateProperty.class) > 0.0){
 			String responseMessage;
 			boolean yesno = false;
-			double decision = decider(action, this);
+			Decision d = decider(action, this);
+			Double decision = d.getDecision();
 			action = action.mutateAction(decision);
 			if (action != null){
 				responseMessage = "I will do it";
@@ -95,8 +96,8 @@ public class Actor {
 				responseMessage = "I will not do it";
 				yesno = false;
 			}
-			return new Response(yesno, responseMessage);
-		} else return new Response(false, "No. I'm currently dead.");
+			return new Response(yesno, responseMessage, d);
+		} else return new Response(false, "No. I'm currently dead.",new Decision());
 	}
 
 

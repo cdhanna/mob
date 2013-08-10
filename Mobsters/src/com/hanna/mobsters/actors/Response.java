@@ -11,10 +11,12 @@ public class Response {
 
 	private boolean yesno;
 	private String message;
+	private Decision decision;
 	
-	public Response(boolean yesno, String message){
+	public Response(boolean yesno, String message, Decision decision){
 		this.yesno = yesno;
 		this.message = message;
+		this.decision = decision;
 	}
 	
 	public boolean getYesNo(){
@@ -22,5 +24,8 @@ public class Response {
 	}
 	public String getMessage(){
 		return this.message;
+	}
+	public Decision getDecision(){
+		return this.decision;
 	}
 }
