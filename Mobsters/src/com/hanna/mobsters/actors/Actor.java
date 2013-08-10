@@ -2,7 +2,6 @@ package com.hanna.mobsters.actors;
 
 import java.util.*;
 
-import com.hanna.mobsters.actions.*;
 import com.hanna.mobsters.actions.core.Action;
 import com.hanna.mobsters.actors.personality.Personality;
 import com.hanna.mobsters.actors.personality.PersonalityRegistry;
@@ -55,10 +54,9 @@ public class Actor {
 	 * A static method for making decisions. An action and an actor are passed in.
 	 * For each trait in the actor's personality a weight is computed, and the sum of all the 
 	 * weights (positive and negative) will be returned.
-	 * @param Action action - the action to be considered
-	 * @param Actor actor - the actor making the decision
-	 * @return Double combinedWeight - an UNBOUNDED number corresponding to how strongly the actor does or does 
-	 *  not want to do the action
+	 * @param action - the action to be considered
+	 * @param actor - the actor making the decision
+	 * @return - Decision object which contains information about how the actor made the decision
 	 */
 	private static Decision decider(Action action, Actor actor){
 		Decision d = new Decision();
@@ -77,8 +75,9 @@ public class Actor {
 	 * of actions for the actor. If it is added to the queue, it is also possible that the action will be 
 	 * modified by changing its parameters in a call to the mutateAction method.
 	 * @param Action action - the action given to the actor for consideration
-	 * @return Response - a wrapper object containing a boolean decision value and a human-readable message
-	 * giving the actor's decision
+	 * @return Response - a wrapper object containing a boolean decision value, a human-readable message
+	 * giving the actor's decision, and a Decision object which contains information about how the actor 
+	 * made the decision
 	 */
 	public Response speakTo(Action action){
 		if (this.getPropertyValue(MedicalStateProperty.class) > 0.0){
