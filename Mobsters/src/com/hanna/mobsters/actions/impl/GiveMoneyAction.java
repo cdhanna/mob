@@ -19,10 +19,11 @@ public class GiveMoneyAction extends Action {
 		this.priority = priority;
 		money = 1.0 * Math.abs(money);
 		this.moneyValue = money;
-		ActionWeight<Double> t = new ActionWeight<Double>(-1.0);
+		ActionWeight<Double> t = new ActionWeight<Double>(-this.moneyValue);
 		traitVals.put(MoneyTrait.class, t);
 		ActionWeight<Double> t1 = new ActionWeight<Double>(this.priority*1.0);
 		traitVals.put(LoyaltyTrait.class, t1);
+		
 	}
 
 	@Override
@@ -77,7 +78,11 @@ public class GiveMoneyAction extends Action {
 	public Double getContextWeight(Actor actor, Class<? extends Trait> clazz) {
 
 		if (clazz == MoneyTrait.class){
-			return 1.0 + this.moneyValue / actor.getPropertyValue(MoneyProperty.class);
+			Double coefficient = 1.0;
+			if (actor.getPropertyValue(MoneyProperty.class) < 1.0)
+				coefficient = this.moneyValue;
+			else coefficient = this.moneyValue/actor.getPropertyValue(MoneyProperty.class);
+			return coefficient;
 		}
 		if (clazz == LoyaltyTrait.class)
 		{

@@ -38,7 +38,7 @@ public class SongAction extends Action {
 	
 	@Override
 	public String toString(){
-		return song + " , PRIORITY IS " + priority + ", IT PAYS " + this.getWeight(MoneyTrait.class).getValue() +
+		return song + " , PRIORITY IS " + priority + ", IT PAYS " + this.moneyValue +
 			   " PUBLICITY IS " + this.getWeight(ShyTrait.class).getValue();
 	}
 	@Override
@@ -64,11 +64,7 @@ public class SongAction extends Action {
 		}
 		
 		if (clazz == MoneyTrait.class){
-			Double coefficient = 1.0;
-			if (actor.getPropertyValue(MoneyProperty.class) < 1.0)
-				coefficient = this.moneyValue;
-			else coefficient = this.moneyValue/actor.getPropertyValue(MoneyProperty.class);
-			return coefficient;
+			return this.moneyValue/actor.getPropertyValue(MoneyProperty.class);
 		}
 		
 		return 0.0;
