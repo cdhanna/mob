@@ -5,8 +5,7 @@ import com.hanna.mobsters.actions.core.ActionInfoAnnotation;
 import com.hanna.mobsters.actions.core.ActionWeight;
 import com.hanna.mobsters.actors.Actor;
 import com.hanna.mobsters.actors.properties.impl.MoneyProperty;
-import com.hanna.mobsters.actors.traits.MoneyTrait;
-import com.hanna.mobsters.actors.traits.Trait;
+import com.hanna.mobsters.actors.traits.*;
 
 
 public class GiveMoneyAction extends Action {
@@ -22,6 +21,8 @@ public class GiveMoneyAction extends Action {
 		this.moneyValue = money;
 		ActionWeight<Double> t = new ActionWeight<Double>(-1.0);
 		traitVals.put(MoneyTrait.class, t);
+		ActionWeight<Double> t1 = new ActionWeight<Double>(this.priority*1.0);
+		traitVals.put(LoyaltyTrait.class, t1);
 	}
 
 	@Override
@@ -59,8 +60,8 @@ public class GiveMoneyAction extends Action {
 			scaleFactor = 0.25;
 
 		// bring the transfer amount back to a positive value
-		Double newMoney = scaleFactor * Math.abs( (Double)this.getWeight(MoneyTrait.class).getValue() );
-		this.moneyValue = newMoney;
+		Double newMoney = scaleFactor * this.moneyValue;
+		this.moneyValue = Math.min(newMoney, this.moneyValue);
 
 		return this;
 
@@ -69,30 +70,22 @@ public class GiveMoneyAction extends Action {
 
 	@Override
 	public String toString(){
-		return "give " + this.getWeight(MoneyTrait.class).getValue() + " dollars to " + this.gettingActor.toString();
+		return "give " + this.moneyValue + " dollars to " + this.gettingActor.toString();
 	}
 
 	@Override
 	public Double getContextWeight(Actor actor, Class<? extends Trait> clazz) {
 
-		//Double coefficient = 1.0;
 		if (clazz == MoneyTrait.class){
-			Double ratio = this.moneyValue / actor.getPropertyValue(MoneyProperty.class);
-			if (ratio > 1)
-				return Double.MAX_VALUE;
-			else return ratio;
+			return 1.0 + this.moneyValue / actor.getPropertyValue(MoneyProperty.class);
+		}
+		if (clazz == LoyaltyTrait.class)
+		{
+			return 1.0; // some dummy value for now
 		}
 		return 0.0;
 
-		//		if (this.moneyValue > actor.getPropertyValue(MoneyProperty.class)){
-		//			
-		//		}
-		//		
-		//		if (actor.getPropertyValue(MoneyProperty.class) < 1.0)
-		//			coefficient = this.moneyValue;
-		//		else coefficient = this.moneyValue/actor.getPropertyValue(MoneyProperty.class);
-		//		
-		//		return coefficient;
+
 	}
 
 }

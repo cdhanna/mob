@@ -48,6 +48,10 @@ public class Decision {
 	}
 	
 
+	/**
+	 * @return the first magnitude in the list. Eventually this should be changed to be able
+	 * to return the highest value in the list (List needs a sorting function)
+	 */
 	public Double getTerm(){
 		if (magnitudes.size() > 0)
 			return magnitudes.remove(0);
@@ -55,6 +59,10 @@ public class Decision {
 			return null;
 	}
 	
+	/**
+	 * @return the first trait name in the list. Eventually this should be changed to be able
+	 * to return the highest value in the list (List needs a sorting function)
+	 */
 	public Class<?> getTermName(){
 		if (names.size() > 0)
 			return names.remove(0);
