@@ -10,6 +10,7 @@ public class Decision {
 	public Decision(){
 		this.val = 0.0;
 		magnitudes = new ArrayList<Double>();
+		names = new ArrayList<>();
 	}
 	
 	public void addTerm(Class<?> name, Double term){
@@ -28,14 +29,14 @@ public class Decision {
 	
 	public Double getTerm(){
 		if (magnitudes.size() > 0)
-			return magnitudes.remove(1);
+			return magnitudes.remove(0);
 		else
 			return null;
 	}
 	
 	public Class<?> getTermName(){
 		if (names.size() > 0)
-			return names.remove(1);
+			return names.remove(0);
 		else
 			return null;
 	}

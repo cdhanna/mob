@@ -13,10 +13,13 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.lang.reflect.Constructor;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.hanna.mobsters.actions.core.Action;
 import com.hanna.mobsters.actions.core.ActionRegistry;
 import com.hanna.mobsters.actions.core.ActionRegistry.ActionInfo;
+import com.hanna.mobsters.actors.Decision;
 
 /**
  * @author Chris Hanna
@@ -90,6 +93,24 @@ public class ActionController {
 
 	public ActionPanel getPanel() {
 		return this.panel;
+	}
+
+	public void setDecisionValues(Decision decision) {
+		List<String> decisionNames = new ArrayList<>();
+		List<Double> decisionMags = new ArrayList<>();
+		
+		boolean keepGoing = true;
+		System.out.println("DECISION TRAIT WEIGHTS...");
+	    while (keepGoing){
+	    	Double mag = decision.getTerm();
+	    	Class<?> name = decision.getTermName();
+	    	if (mag != null && name != null){
+	    		System.out.println("\tTRAIT : " + name + " =  " + mag);
+	    	} else {
+	    		keepGoing = false;
+	    	}
+	    }
+		
 	}
 
 	

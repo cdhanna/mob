@@ -72,6 +72,7 @@ public class ActorController {
 			public Action fireActionCreation(Action a){
 				Response response = speakTo(a);
 				actionController.setMessage(response.getMessage());
+				actionController.setDecisionValues(response.getDecision());
 				return a;
 			}
 			@Override
