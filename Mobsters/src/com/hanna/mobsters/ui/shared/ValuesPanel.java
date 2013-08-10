@@ -7,6 +7,7 @@ import java.awt.Color;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -28,7 +29,8 @@ public class ValuesPanel extends Panel{
 	private List<Value> values;
 	private List<JLabel> valueTypes;
 	private List<TextField> valueStrings;
-	
+	private HashMap<Object, TextField> idToTextField;
+	private HashMap<Object, Value> idToValue;
 	
 	@Override
 	protected void initComponents() {
@@ -37,8 +39,8 @@ public class ValuesPanel extends Panel{
 		this.values = new ArrayList<>();
 		this.valueTypes = new ArrayList<>();
 		this.valueStrings = new ArrayList<>();
-	
-		
+		this.idToTextField = new HashMap<>();
+		this.idToValue = new HashMap<>();
 	}
 
 	@Override
@@ -56,6 +58,8 @@ public class ValuesPanel extends Panel{
 			this.values.clear();
 			this.valueStrings.clear();
 			this.valueTypes.clear();
+			this.idToTextField.clear();
+			this.idToValue.clear();
 			ValuePanelContent content = (ValuePanelContent)parameters[0];
 			Class<?>[] classes = content.getTypes();
 			String[] descs = content.getTypeDescriptions();
@@ -88,6 +92,7 @@ public class ValuesPanel extends Panel{
 	
 	public void setValues(Object[] vals){
 		if (vals.length == this.values.size()){
+			
 			for (int i = 0 ; i < vals.length ; i ++){
 				if (vals[i] != null && vals[i].getClass() == this.values.get(i).type){
 					this.values.get(i).valueString = vals[i].toString();
@@ -96,6 +101,11 @@ public class ValuesPanel extends Panel{
 			}
 			this.repaint();
 		}
+	}
+	
+	public void setValue(Object id, Object value){
+		this.idToTextField.get(id).setText(value.toString());
+		this.valueChangedAction(this.idToValue.get(id));
 	}
 	
 	private void addValue(String desc, Class<?> type, Object id){
@@ -110,6 +120,8 @@ public class ValuesPanel extends Panel{
 				valueChangedAction(val);
 			}
 		});
+		this.idToTextField.put(id, textField);
+		this.idToValue.put(id,  val);
 		this.valueStrings.add(textField);
 	}
 	
@@ -134,6 +146,10 @@ public class ValuesPanel extends Panel{
 	
 	public List<TextField> getTextFields(){
 		return this.valueStrings;
+	}
+
+	public List<Value> getVals(){
+		return this.values;
 	}
 	
 	public Object[] getValues(){

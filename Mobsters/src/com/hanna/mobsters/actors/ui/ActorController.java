@@ -67,7 +67,7 @@ public class ActorController {
 		};
 		this.panel.setUpComponents(this.actor);
 
-		this.actionController = new ActionController(new MathAction(1.0,1.0,"+",1,100.0)){
+		this.actionController = new ActionController(this.actor, new MathAction(1.0,1.0,"+",1,100.0)){
 			@Override
 			public Action fireActionCreation(Action a){
 				Response response = speakTo(a);

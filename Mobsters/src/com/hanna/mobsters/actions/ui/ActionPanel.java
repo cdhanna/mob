@@ -10,6 +10,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.TypeVariable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -19,10 +21,14 @@ import javax.swing.JScrollPane;
 import com.hanna.mobsters.actions.core.Action;
 import com.hanna.mobsters.actions.core.ActionRegistry;
 import com.hanna.mobsters.actions.core.ActionRegistry.ActionInfo;
+import com.hanna.mobsters.actors.Actor;
+import com.hanna.mobsters.actors.Decision;
+import com.hanna.mobsters.actors.traits.Trait;
 import com.hanna.mobsters.ui.shared.ComboBox;
 import com.hanna.mobsters.ui.shared.Panel;
 import com.hanna.mobsters.ui.shared.TextField;
 import com.hanna.mobsters.ui.shared.ValuesPanel;
+import com.hanna.mobsters.ui.shared.ValuesPanel.Value;
 import com.hanna.mobsters.ui.shared.ValuesPanel.ValuePanelContent;
 
 /**
@@ -40,6 +46,8 @@ public class ActionPanel extends Panel{
 	private JButton closeButton;
 	private JLabel messageLabel;
 	private KeyAdapter valuesListener;
+	
+	private ValuesPanel decisionWeightsPanel;
 	
 	@Override
 	protected void initComponents() {
@@ -65,6 +73,10 @@ public class ActionPanel extends Panel{
 			}
 		};
 		
+		
+		this.decisionWeightsPanel = new ValuesPanel();
+
+		
 	}
 
 	@Override
@@ -75,7 +87,8 @@ public class ActionPanel extends Panel{
 		this.add(this.valuesPanel, "cell 0 3, right, pushx, growx");
 		this.add(this.postButton, "cell 0 4, right, pushx, growx");
 		this.add(this.messageLabel, "cell 0 5");
-		this.add(this.closeButton, "cell 0 6, right, pushx, growx");
+		this.add(this.decisionWeightsPanel, "cell 0 6, pushx, growx");
+		this.add(this.closeButton, "cell 0 7, right, pushx, growx");
 		
 		
 	}
@@ -85,15 +98,44 @@ public class ActionPanel extends Panel{
 		if (this.doesInputMatchExpected(parameters)){
 			Action action = (Action)parameters[0];
 			ActionRegistry registry = (ActionRegistry)parameters[1];
-		
+			Actor actor = (Actor)parameters[2];
 			this.availableActionsBox.setElements(registry.getRegisteredClasses());
+			
+			
+			final Trait[] traits = new Trait[actor.getPersonality().size()];
+			final Class<?>[] traitTypes = new Class<?>[traits.length];
+			final String[] traitNames = new String[traits.length];
+			final Integer[] traitImportance = new Integer[traits.length];
+			for (int i = 0 ; i < traits.length ; i ++){
+				traits[i] = actor.getPersonality().get(i);
+				traitTypes[i] = Integer.class;
+				traitNames[i] = actor.getPersonality().get(i).getClass().getSimpleName();
+				traitImportance[i] = actor.getPersonality().get(i).getImportance();
+			}
+			
+			this.decisionWeightsPanel.setUpComponents(new ValuePanelContent(){
+				@Override
+				public Object[] getItemIDs() {
+					return traits;
+				}
+
+				@Override
+				public Class<?>[] getTypes() {
+					return traitTypes;
+				}
+
+				@Override
+				public String[] getTypeDescriptions() {
+					return traitNames;
+				}});
+			
 			
 		} else System.err.println("Could not set up Action. invalid params");
 	}
 
 	@Override
 	public Class<?>[] getSetUpParameterTypes() {
-		return new Class<?>[]{Action.class, ActionRegistry.class};
+		return new Class<?>[]{Action.class, ActionRegistry.class, Actor.class};
 	}
 
 	protected ComboBox<Class<? extends Action>> getAvailableActionsBox() {
@@ -147,6 +189,35 @@ public class ActionPanel extends Panel{
 	protected void setMessage(String string){
 		this.messageLabel.setText(string);
 		this.repaint();
+	}
+	protected void setDecisionWeights(Decision decision){
+		List<String> decisionNames = new ArrayList<>();
+		List<Double> decisionMags = new ArrayList<>();
+		
+		Object[] params = new Object[this.decisionWeightsPanel.getTextFields().size()];
+		int paramIndex = 0;
+		for (Object param : params)
+			param = "nil";
+		
+		
+		boolean keepGoing = true;
+		System.out.println("DECISION TRAIT WEIGHTS...");
+	    while (keepGoing){
+	    	Double mag = decision.getTerm();
+	    	Class<?> name = decision.getTermName();
+	    	if (mag != null && name != null){
+	    		List<Value> vals = this.decisionWeightsPanel.getVals();
+	    		for (Value val : vals){
+	    			if (val.getID().getClass() == name){
+	    				this.decisionWeightsPanel.setValue(val.getID(), mag);
+	    			}
+	    		}
+	    		//find the trait in the table
+	    	} else {
+	    		keepGoing = false;
+	    	}
+	    }
+		
 	}
 
 

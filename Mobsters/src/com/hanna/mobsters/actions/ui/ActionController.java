@@ -19,6 +19,7 @@ import java.util.List;
 import com.hanna.mobsters.actions.core.Action;
 import com.hanna.mobsters.actions.core.ActionRegistry;
 import com.hanna.mobsters.actions.core.ActionRegistry.ActionInfo;
+import com.hanna.mobsters.actors.Actor;
 import com.hanna.mobsters.actors.Decision;
 
 /**
@@ -30,11 +31,11 @@ public class ActionController {
 	private Action action;
 	private ActionPanel panel;
 
-	public ActionController(Action action){
+	public ActionController(Actor actor, Action action){
 
 		this.action = action;
 		this.panel = new ActionPanel();
-		this.panel.setUpComponents(this.action, ActionRegistry.getInstance());
+		this.panel.setUpComponents(this.action, ActionRegistry.getInstance(), actor);
 
 		this.panel.getAvailableActionsBox().addItemListener(new ItemListener(){
 			@Override
@@ -96,21 +97,7 @@ public class ActionController {
 	}
 
 	public void setDecisionValues(Decision decision) {
-		List<String> decisionNames = new ArrayList<>();
-		List<Double> decisionMags = new ArrayList<>();
-		
-		boolean keepGoing = true;
-		System.out.println("DECISION TRAIT WEIGHTS...");
-	    while (keepGoing){
-	    	Double mag = decision.getTerm();
-	    	Class<?> name = decision.getTermName();
-	    	if (mag != null && name != null){
-	    		System.out.println("\tTRAIT : " + name + " =  " + mag);
-	    	} else {
-	    		keepGoing = false;
-	    	}
-	    }
-		
+		this.panel.setDecisionWeights(decision);
 	}
 
 	
