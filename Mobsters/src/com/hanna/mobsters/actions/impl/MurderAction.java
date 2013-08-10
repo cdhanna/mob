@@ -75,21 +75,26 @@ public class MurderAction extends Action{
 	
 	public Double getContextWeight(Actor actor, Class<? extends Trait> clazz) {
 		
+		// scaled by how much money the actor currently has
 		if (clazz == MoneyTrait.class){
 			return 1.0 / actor.getPropertyValue(MoneyProperty.class);
 		}
 		
+		// stub for now
 		if (clazz == MoralityTrait.class){
 			Double coefficient = 1.0;
 			return coefficient;
 		}
 		
+		// scaled by how healthy the actor currently is
 		if (clazz == PhysicalRiskTrait.class){
 			return actor.getPropertyValue(MedicalStateProperty.class) / 50.0;
 		}
 		
 		if (clazz == LoyaltyTrait.class)
 			return 1.0; // dummy value for now
+		
+		// if trait is not part of action
 		return 0.0;
 	}
 

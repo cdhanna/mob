@@ -77,13 +77,18 @@ public class GiveMoneyAction extends Action {
 	@Override
 	public Double getContextWeight(Actor actor, Class<? extends Trait> clazz) {
 
+		// scaled by how much money the actor currently has
 		if (clazz == MoneyTrait.class){
 			return 1.0 / actor.getPropertyValue(MoneyProperty.class);
 		}
+		
+		// stub for now
 		if (clazz == LoyaltyTrait.class)
 		{
 			return 1.0; // some dummy value for now
 		}
+		
+		// if trait is not part of the action
 		return 0.0;
 
 
