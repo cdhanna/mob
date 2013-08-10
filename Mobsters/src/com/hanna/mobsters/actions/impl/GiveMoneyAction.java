@@ -78,11 +78,7 @@ public class GiveMoneyAction extends Action {
 	public Double getContextWeight(Actor actor, Class<? extends Trait> clazz) {
 
 		if (clazz == MoneyTrait.class){
-			Double coefficient = 1.0;
-			if (actor.getPropertyValue(MoneyProperty.class) < 1.0)
-				coefficient = this.moneyValue;
-			else coefficient = this.moneyValue/actor.getPropertyValue(MoneyProperty.class);
-			return coefficient;
+			return 1.0 / actor.getPropertyValue(MoneyProperty.class);
 		}
 		if (clazz == LoyaltyTrait.class)
 		{

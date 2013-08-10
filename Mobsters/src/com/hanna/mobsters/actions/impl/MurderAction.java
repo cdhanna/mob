@@ -48,9 +48,14 @@ public class MurderAction extends Action{
 
 	@Override
 	public String doIt(Actor actor) {
-		actor.pay(this.moneyRating);
-		String str = "I killed him good!";
-		this.target.setPropertyValue(MedicalStateProperty.class, 0.0);
+		String str = "";
+		if (this.target.getPropertyValue(MedicalStateProperty.class) == 0)
+			str = "He's already dead boss.";
+		else {
+			actor.pay(this.moneyRating);
+			str = "I killed him good!";
+			this.target.setPropertyValue(MedicalStateProperty.class, 0.0); 
+		}
 		//TODO actually make this destroy the target actor.
 		return str;
 	}
@@ -71,11 +76,7 @@ public class MurderAction extends Action{
 	public Double getContextWeight(Actor actor, Class<? extends Trait> clazz) {
 		
 		if (clazz == MoneyTrait.class){
-			Double coefficient = 1.0;
-			if (actor.getPropertyValue(MoneyProperty.class) < 1.0)
-				coefficient = this.moneyRating;
-			else coefficient = this.moneyRating/actor.getPropertyValue(MoneyProperty.class);
-			return coefficient;
+			return 1.0 / actor.getPropertyValue(MoneyProperty.class);
 		}
 		
 		if (clazz == MoralityTrait.class){
@@ -84,8 +85,11 @@ public class MurderAction extends Action{
 		}
 		
 		if (clazz == PhysicalRiskTrait.class){
-			return actor.getPropertyValue(MedicalStateProperty.class) / 100.0;
+			return actor.getPropertyValue(MedicalStateProperty.class) / 50.0;
 		}
+		
+		if (clazz == LoyaltyTrait.class)
+			return 1.0; // dummy value for now
 		return 0.0;
 	}
 
