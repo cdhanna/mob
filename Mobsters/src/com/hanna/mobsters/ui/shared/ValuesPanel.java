@@ -122,6 +122,7 @@ public class ValuesPanel extends Panel{
 		});
 		this.idToTextField.put(id, textField);
 		this.idToValue.put(id,  val);
+		textField.setEditable(this.isEnabled());
 		this.valueStrings.add(textField);
 	}
 	
@@ -163,6 +164,13 @@ public class ValuesPanel extends Panel{
 	
 	protected void valueChangedAction(Value value){
 		
+	}
+	
+	@Override
+	public void setEnabled(boolean enabled){
+		super.setEnabled(enabled);
+		for (TextField t : this.getTextFields())
+			t.setEditable(enabled);
 	}
 	
 	public interface ValuePanelContent{

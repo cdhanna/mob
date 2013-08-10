@@ -75,7 +75,7 @@ public class ActionPanel extends Panel{
 		
 		
 		this.decisionWeightsPanel = new ValuesPanel();
-
+		this.decisionWeightsPanel.setEnabled(false);
 		
 	}
 
@@ -201,7 +201,7 @@ public class ActionPanel extends Panel{
 		
 		
 		boolean keepGoing = true;
-		System.out.println("DECISION TRAIT WEIGHTS...");
+		
 	    while (keepGoing){
 	    	Double mag = decision.getTerm();
 	    	Class<?> name = decision.getTermName();

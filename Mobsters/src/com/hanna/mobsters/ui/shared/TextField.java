@@ -15,4 +15,10 @@ public class TextField extends JTextField{
 		super();
 	}
 	
+	@Override
+	public void setEnabled(boolean enabled){
+		System.out.println(enabled);
+		super.setEnabled(enabled);
+	}
+	
 }
