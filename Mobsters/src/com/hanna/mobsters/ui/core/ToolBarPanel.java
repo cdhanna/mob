@@ -12,6 +12,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import net.miginfocom.swing.MigLayout;
+
 import com.hanna.mobsters.ui.shared.Panel;
 
 /**
@@ -64,7 +66,9 @@ public class ToolBarPanel extends Panel{
 			this.remove(this.focusPanelPane);
 		if (this.focusPanelPane!=null)
 			this.focusPanelPane.removeAll();
-		this.focusPanel = focusPanel;
+		this.focusPanel = new JPanel();
+		this.focusPanel.setLayout( new MigLayout());
+		this.focusPanel.add(focusPanel, "growx, pushx, wrap");
 		this.focusPanelPane = new JScrollPane(this.focusPanel);
 		this.add(this.focusPanelPane, "cell 0 2, pushx, growx, pushy, growy");
 
@@ -72,6 +76,13 @@ public class ToolBarPanel extends Panel{
 		
 		this.revalidate();
 		this.repaint();
+	}
+	
+	public void addToFocusPanel(JPanel add, String constraints){
+		if (this.contains(this.focusPanelPane))
+		{
+			this.focusPanel.add(add, constraints);
+		}
 	}
 	
 	public void clearFocusPanel(){

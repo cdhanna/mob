@@ -11,6 +11,7 @@ import com.hanna.mobsters.actors.personality.Personality;
 import com.hanna.mobsters.actors.properties.Location;
 import com.hanna.mobsters.actors.properties.impl.LocationProperty;
 import com.hanna.mobsters.actors.traits.Trait;
+import com.hanna.mobsters.actors.ui.bin.ActorBinController;
 
 /**
  * @author Chris Hanna
@@ -36,6 +37,10 @@ public class ActorBin {
 	private Actor setUpActor(Actor actor, String name){
 		this.allKnownActors.add(actor);
 		this.table_nameToActor.put(name, actor);
+		
+		//TODO remove this. THis should exist elsewhere, and when we move to the real game, this wont be here...
+		ActorBinController.getInstance().addActor(actor);
+		
 		return actor;
 	}
 	
@@ -76,4 +81,10 @@ public class ActorBin {
 		return neighbors.toArray(new Actor[0]);
 	}
 	
+	/**
+	 * @return all of the actors. be careful, removing an actor from list will also remove it form the bin.
+	 */
+	public List<Actor> getAllActors(){
+		return this.allKnownActors;
+	}
 }
