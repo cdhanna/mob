@@ -8,6 +8,9 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
 import com.hanna.mobsters.actions.core.Action;
 import com.hanna.mobsters.actions.impl.MathAction;
 import com.hanna.mobsters.actions.ui.ActionController;
@@ -113,6 +116,9 @@ public class ActorController {
 	public void setToolBarToAction(){
 		this.panel.setActionPanel(this.actionController.getPanel());
 		Top.toolBar.setFocusPanel(this.actionController.getPanel(), "ACTOR: " + this.actor.getName());
+		JPanel t = new JPanel();
+		t.add(new JLabel("TEST"));
+		Top.toolBar.addToFocusPanel(t, "cell 1 0");
 	}
 
 	public void runAction(){

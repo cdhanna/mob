@@ -38,6 +38,9 @@ public class ToolBarController {
 	public void setFocusPanel(JPanel focusPanel, String signerature){
 		this.panel.setFocusPanel(focusPanel, signerature);
 	}
+	public void addToFocusPanel(JPanel addition, String constraints){
+		this.panel.addToFocusPanel(addition, constraints);
+	}
 	
 	public void clearFocusPanel(){
 		this.panel.clearFocusPanel();
