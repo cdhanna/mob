@@ -1,0 +1,5 @@
+ERR:    [1:30:57 AM]   [Thread-3] INFO org.reflections.Reflections - Reflections took 481 ms to scan 1 urls, producing 1 keys and 6 values 
+ERR:    [1:30:57 AM]   [Thread-3] INFO org.reflections.Reflections - Reflections took 126 ms to scan 1 urls, producing 1 keys and 4 values 
+ERR:    [1:30:58 AM]   [Thread-3] INFO org.reflections.Reflections - Reflections took 122 ms to scan 1 urls, producing 5 keys and 10 values 
+ERR:    [1:30:58 AM]   [Thread-3] INFO org.reflections.Reflections - Reflections took 18 ms to scan 1 urls, producing 2 keys and 3 values 
+ERR:    [1:30:58 AM]   [Thread-3] INFO org.reflections.Reflections - Reflections took 31 ms to scan 1 urls, producing 2 keys and 8 values 

@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import com.hanna.mobsters.actions.impl.NoMutateAction;
+import com.hanna.mobsters.ui.Splasher;
 import com.hanna.mobsters.utilities.ReflectionsHelper;
 
 public class ActionRegistry {
@@ -32,12 +34,15 @@ public class ActionRegistry {
 		//System.out.println("Actions Scanned " +subTypes.size());
 		for (Class<? extends Action> c : subTypes){
 			//System.out.println("\t"+c);
-			this.register(c);
+			
+			if (c != NoMutateAction.class)
+				this.register(c);
 		}
 	}
 	
 	private void register(Class<? extends Action> actionClass){
 		this.actions.add(actionClass);
+		Splasher.setMsg(actionClass.getSimpleName() + " action");
 	}
 
 	public List<Class<? extends Action>> getRegisteredClasses(){
@@ -72,6 +77,7 @@ public class ActionRegistry {
 				ActionInfoAnnotation test = (ActionInfoAnnotation) con.getAnnotation(ActionInfoAnnotation.class);
 				String name = test.name();
 				String[] params = test.params();
+				
 				return new ActionInfo(name, params, con.getParameterTypes());
 			}
 		}

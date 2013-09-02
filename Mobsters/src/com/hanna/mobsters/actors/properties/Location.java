@@ -10,6 +10,7 @@ package com.hanna.mobsters.actors.properties;
 public class Location {
 
 	public static final Location MOB_HOME = new Location("Sketchy Lane", 12);
+	public static final Location NOWHERE = new Location("nowhere", 0);
 	
 	private String streetName;
 	private Integer streetNumber;
@@ -19,11 +20,19 @@ public class Location {
 		this.streetNumber = streetNumber;
 	}
 	
+	public Location(){}
+	
 	public String getStreet(){
 		return this.streetName;
 	}
 	public Integer getStreetNumber(){
 		return this.streetNumber;
+	}
+	public void setStreet(String street){
+		this.streetName = street;
+	}
+	public void setStreetNumber(Integer number){
+		this.streetNumber = number;
 	}
 	
 	public boolean isOnStreet(Location other){

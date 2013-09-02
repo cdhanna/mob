@@ -64,7 +64,8 @@ public abstract class Panel extends JPanel{
 		if (types.length != parameters.length) 
 			return false;
 		else for (int i = 0 ; i < types.length ; i ++){
-			
+			if (parameters[i] == null)
+				return false;
 			if (types[i] != parameters[i].getClass())
 				if (parameters[i].getClass().getSuperclass() != types[i])
 					return false;

@@ -27,9 +27,11 @@ import com.hanna.mobsters.actors.traits.Trait;
 import com.hanna.mobsters.ui.shared.ComboBox;
 import com.hanna.mobsters.ui.shared.Panel;
 import com.hanna.mobsters.ui.shared.TextField;
-import com.hanna.mobsters.ui.shared.ValuesPanel;
-import com.hanna.mobsters.ui.shared.ValuesPanel.Value;
-import com.hanna.mobsters.ui.shared.ValuesPanel.ValuePanelContent;
+import com.hanna.mobsters.ui.shared.valuepanel.ValuesPanel;
+import com.hanna.mobsters.ui.shared.valuepanel.ValuesPanel.Value;
+import com.hanna.mobsters.ui.shared.valuepanel.ValuesPanel.ValuePanelContent;
+import com.hanna.mobsters.utilities.inputbox.InputBox;
+import com.hanna.mobsters.utilities.inputbox.InputBox.ValueChangedListener;
 
 /**
  * @author Chris Hanna
@@ -66,12 +68,12 @@ public class ActionPanel extends Panel{
 		this.postButton = new JButton("post");
 		this.postButton.setEnabled(false);
 		this.closeButton = new JButton("close");
-		this.valuesListener = new KeyAdapter(){
-			@Override
-			public void keyReleased(KeyEvent k){
-				postButton.setEnabled(valuesPanel.hasAllValues());
-			}
-		};
+//		this.valuesListener = new KeyAdapter(){
+//			@Override
+//			public void keyReleased(KeyEvent k){
+//				postButton.setEnabled(valuesPanel.hasAllValues());
+//			}
+//		};
 		
 		
 		this.decisionWeightsPanel = new ValuesPanel();
@@ -127,6 +129,11 @@ public class ActionPanel extends Panel{
 				@Override
 				public String[] getTypeDescriptions() {
 					return traitNames;
+				}
+
+				@Override
+				public Object[] getActualObjects() {
+					return traitImportance;
 				}});
 			
 			
@@ -159,6 +166,9 @@ public class ActionPanel extends Panel{
 	}
 
 	public void setUpValuesPanel(final ActionInfo info) {
+		
+		final Object[] values = new Object[info.getParameters().length];
+		
 		ValuePanelContent c = new ValuePanelContent(){
 			@Override
 			public Class<?>[] getTypes() {
@@ -171,13 +181,23 @@ public class ActionPanel extends Panel{
 			@Override
 			public Object[] getItemIDs() {
 				return null;
+			}
+			@Override
+			public Object[] getActualObjects() {
+				return values;
 			}};
 		this.valuesPanel.setUpComponents(c);
 
-		for (TextField field : this.valuesPanel.getTextFields()){
-			field.addKeyListener(this.valuesListener);
+//		for (TextField field : this.valuesPanel.getTextFields()){
+//			field.addKeyListener(this.valuesListener);
+//		}
+		for (InputBox field : this.valuesPanel.getTextFields()){
+			field.addValueChangedListener(new ValueChangedListener(){
+				@Override
+				public void valueChanged(Object instance) {
+					postButton.setEnabled(valuesPanel.hasAllValues());
+				}});
 		}
-			
 		
 	}
 

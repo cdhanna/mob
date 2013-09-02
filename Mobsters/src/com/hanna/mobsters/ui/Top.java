@@ -3,8 +3,7 @@
  */
 package com.hanna.mobsters.ui;
 
-import com.hanna.mobsters.ui.core.ToolBarController;
-import com.hanna.mobsters.ui.core.TopPanelController;
+import com.hanna.mobsters.ui.core.tabs.actor.ActorTopPanelController;
 
 /**
  * @author Chris Hanna
@@ -12,7 +11,7 @@ import com.hanna.mobsters.ui.core.TopPanelController;
  */
 public class Top {
 
-	public static final TopPanelController controller = Window.getInstance().getController();
-	public static final ToolBarController toolBar = controller.getPanel().getToolBarController();
+	//public static final ActorTopPanelController controller = Window.getInstance().getController();
+	//public static final ToolBarController toolBar = controller.getPanel().getToolBarController();
 	
 }

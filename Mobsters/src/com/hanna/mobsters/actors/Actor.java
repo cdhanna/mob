@@ -3,6 +3,8 @@ package com.hanna.mobsters.actors;
 import java.util.*;
 
 import com.hanna.mobsters.actions.core.Action;
+import com.hanna.mobsters.actions.core.ActionResult;
+import com.hanna.mobsters.actions.impl.results.RefusedResult;
 import com.hanna.mobsters.actors.personality.Personality;
 import com.hanna.mobsters.actors.personality.PersonalityRegistry;
 import com.hanna.mobsters.actors.properties.Property;
@@ -10,6 +12,9 @@ import com.hanna.mobsters.actors.properties.PropertyRegistry;
 import com.hanna.mobsters.actors.properties.impl.MedicalStateProperty;
 import com.hanna.mobsters.actors.properties.impl.MoneyProperty;
 import com.hanna.mobsters.actors.traits.*;
+import com.hanna.mobsters.histories.GameEvent;
+import com.hanna.mobsters.histories.EventKey;
+import com.hanna.mobsters.histories.GameHistory;
 
 /**
  * @author Will
@@ -20,7 +25,7 @@ public class Actor {
 	private String name;
 	private PriorityQueue<Action> pq; // for holding "to do list" of actions
 	private HashMap<Class<? extends Property<?>>, Property<?>> propertyTable;
-
+	private ArrayList<EventKey> history;
 	private Personality personalityType;
 
 
@@ -42,7 +47,7 @@ public class Actor {
 		//			}
 		//			this.personality.addAll(unAddedTraits); //add the rest of the override traits
 		//		}
-
+		history = new ArrayList<EventKey>();
 		this.name = name;
 		pq = new PriorityQueue<Action>();
 		this.propertyTable = PropertyRegistry.getInstance().makePropertyTable();
@@ -80,12 +85,19 @@ public class Actor {
 	 * made the decision
 	 */
 	public Response speakTo(Action action){
+		//TODO Make the thread ID actally work
+		Integer threadID = 1;
+		GameHistory gameHistory = GameHistory.getInstance();
+		Response response;
+		EventKey eventKey = action.addToHistory(threadID,gameHistory);
+		GameEvent event = gameHistory.getEvent(eventKey);
 		if (this.getPropertyValue(MedicalStateProperty.class) > 0.0){
 			String responseMessage;
 			boolean yesno = false;
 			Decision d = decider(action, this);
 			Double decision = d.getDecision();
 			action = action.mutateAction(decision);
+			event.setMutation(action);
 			if (action != null){
 				responseMessage = "I will do it";
 				yesno = true;
@@ -93,11 +105,18 @@ public class Actor {
 			}
 			else{
 				responseMessage = "I will not do it";
+				event.setResult(new RefusedResult());
 				yesno = false;
 			}
-			return new Response(yesno, responseMessage, d);
-		} else return new Response(false, "No. I'm currently dead.",new Decision());
+			response =  new Response(yesno, responseMessage, d);
+		} else response =  new Response(false, "No. I'm currently dead.",new Decision());
+		
+		event.setResponse(response);
+		history.add(eventKey);
+		gameHistory.putEvent(eventKey, event);
+		return response;
 	}
+	
 
 
 	/**
@@ -105,13 +124,32 @@ public class Actor {
 	 * @return String - a human readable message describing the result of the action.
 	 */
 	public String evaluateAction(){
+		GameHistory gameHistory = GameHistory.getInstance();
+		ActionResult actionResult;
+		Action action;
+		String result;
+		Boolean flag = true;
 		if (this.getPropertyValue(MedicalStateProperty.class) > 0.0){
-			if (!pq.isEmpty())
-				return pq.remove().doIt(this);
-			else
-				return "I ain't got shit to do";
-		} else return "I am dead, you jerk.";
-	}
+			if (!pq.isEmpty()){
+				action = pq.remove();
+				result =  action.doIt(this);
+				actionResult = new ActionResult(result);
+				EventKey eventKey = action.getEventKey();
+				GameEvent event = gameHistory.getEvent(eventKey);
+				event.setResult(actionResult);
+				gameHistory.putEvent(eventKey, event);
+			}
+			else{
+				result =  "I ain't got shit to do";
+				flag = false;
+			}
+		} else result = "I am dead, you jerk.";
+		
+		
+		return result;
+			
+		}
+	
 
 
 	/**
@@ -214,6 +252,28 @@ public class Actor {
 		setPropertyValue(MoneyProperty.class, existingMoney - amount);
 		return amount;
 
+	}
+	
+	public ArrayList<GameEvent> tellHistory(Integer nTurns){
+		//TODO this does not find events from earlier turns that are added later to the history
+		if (history.size() == 0)
+		return null;
+		
+		ArrayList<GameEvent> masterList = new ArrayList<GameEvent>();
+		if (nTurns<=0)
+			return null;
+		
+		GameHistory gameHistory = GameHistory.getInstance();
+		int len = history.size();
+		nTurns = Math.min(nTurns, len);
+		int mostRecentTurn = history.get(len - 1).getTurnNumber();
+		int n = mostRecentTurn - nTurns + 1; // take care of offset
+		
+		for (EventKey eventKey : history){
+			if (eventKey.getTurnNumber() >= n)
+				masterList.add(gameHistory.getEvent(eventKey));
+		}
+		return masterList;
 	}
 
 }

@@ -1,0 +1,4 @@
+OUT:	[1:18:12 AM]	Creating ai sim window...
+OUT:	[1:18:12 AM]	media/x.png
+OUT:	[1:18:12 AM]	media/icon.png
+OUT:	[1:18:12 AM]	ai sim window created.

@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
+import com.hanna.mobsters.ui.Splasher;
 import com.hanna.mobsters.utilities.KryoHelper;
 import com.hanna.mobsters.utilities.ReflectionsHelper;
 
@@ -102,6 +103,9 @@ public class PropertyRegistry {
 			Method nameMethod = clazz.getMethod("getPropertyName", new Class[]{});
 			Object name = nameMethod.invoke(p, new Object[]{});
 			this.knownPropertyNames.add(""+name);
+			
+			Splasher.setMsg(clazz.getSimpleName() + " property");
+			
 		} catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | InstantiationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

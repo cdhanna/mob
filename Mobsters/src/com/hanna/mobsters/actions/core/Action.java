@@ -1,8 +1,10 @@
 package com.hanna.mobsters.actions.core;
+import java.awt.Event;
 import java.util.*;
 
 import com.hanna.mobsters.actors.Actor;
 import com.hanna.mobsters.actors.traits.*;
+import com.hanna.mobsters.histories.*;
 /* THREE IMPORTANT NOTES ABOUT ACTIONS:
 // 1: There can only be ONE constructor for any particular action
 // 2: Constructor input parameters cannot be primitives, make them wrapper classes
@@ -13,8 +15,8 @@ import com.hanna.mobsters.actors.traits.*;
  *  }
 */
 public abstract class Action implements Comparable<Action> {
-	
 	protected int priority; // must have a priority.
+	protected EventKey eventKey; // for referencing into the history
 	/**
 	 * maps implementations of Trait (specific traits) to corresponding weights for the action.
 	 * These weights are INDEPENDENT of circumstances or actor personality - they are inherent parameters
@@ -76,5 +78,24 @@ public abstract class Action implements Comparable<Action> {
 	public Double getContextWeight(Actor actor, Class<? extends Trait> clazz) {
 		return 0.0;
 	}
+
+	/**
+	 * @param threadID - the requesting thread
+	 * @param gameHistory - the GameHistory object to add the GameEvent to
+	 * @return an EventKey object used for accessing this GameEvent in the GameHistory.
+	 */
+	public EventKey addToHistory(Integer threadID, GameHistory gameHistory){
+		this.eventKey = gameHistory.getNextEventKey(threadID);
+		gameHistory.putEvent(eventKey, new GameEvent(this));
+		return eventKey;	
+	}
+	
+	/**
+	 * @return the EventKey used to reference the GameEvent containing this action in the GameHistory.
+	 */
+	public EventKey getEventKey(){
+		return this.eventKey;
+	}
+	
 
 }

@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
+import com.hanna.mobsters.ui.Splasher;
 import com.hanna.mobsters.utilities.ReflectionsHelper;
 import com.hanna.mobsters.utilities.parsers.impl.IntegerParser;
 
@@ -45,6 +46,8 @@ public class ParseRegistry {
 	private void register(Parser p){
 		this.parsers.add(p);
 		this.parseTable.put(p.getType(), p);
+		
+		Splasher.setMsg(p.getType().getSimpleName() + " parser");
 	}
 
 	public <T> T parse(String str, Class<T> clazz){

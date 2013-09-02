@@ -1,0 +1,14 @@
+OUT:    [1:30:55 AM]   Creating ai sim window...
+OUT:    [1:30:59 AM]   ai sim window created.
+OUT:    [1:31:27 AM]   ORIGINAL ORDER: OPERATION IS 4.0-3.0, PRIORITY IS 2, COST IS 3.0. 
+RESPONSE: No response given.. 
+MUTATED ACTION: None. 
+RESULT: Action has not been completed.
+OUT:    [1:31:27 AM]   ORIGINAL ORDER: OPERATION IS 6.0-2.0, PRIORITY IS 2, COST IS 3.0. 
+RESPONSE: I will do it. 
+MUTATED ACTION: OPERATION IS 6.0-2.0, PRIORITY IS 2, COST IS 3.0. 
+RESULT: Action has not been completed.
+OUT:    [1:31:27 AM]   ORIGINAL ORDER: OPERATION IS 6.0-2.0, PRIORITY IS 2, COST IS 3.0. 
+RESPONSE: I will do it. 
+MUTATED ACTION: OPERATION IS 6.0-2.0, PRIORITY IS 2, COST IS 3.0. 
+RESULT: Action has not been completed.

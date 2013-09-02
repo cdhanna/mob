@@ -20,9 +20,10 @@ import com.hanna.mobsters.actors.Response;
 import com.hanna.mobsters.actors.properties.Property;
 import com.hanna.mobsters.actors.properties.PropertyRegistry;
 import com.hanna.mobsters.actors.traits.Trait;
+import com.hanna.mobsters.items.ui.InventoryController;
 import com.hanna.mobsters.ui.Top;
 import com.hanna.mobsters.ui.Window;
-import com.hanna.mobsters.ui.shared.ValuesPanel.Value;
+import com.hanna.mobsters.ui.shared.valuepanel.ValuesPanel.Value;
 
 /**
  * @author Chris Hanna
@@ -68,6 +69,9 @@ public class ActorController {
 				}
 			}
 		};
+		
+		
+		
 		this.panel.setUpComponents(this.actor);
 
 		this.actionController = new ActionController(this.actor, new MathAction(1.0,1.0,"+",1,100.0)){
@@ -80,14 +84,14 @@ public class ActorController {
 			}
 			@Override
 			public void closingActionPanel(ActionPanel p){
-				Top.toolBar.clearFocusPanel();
+				//Top.toolBar.clearFocusPanel();
 			}
 		};
 
 		this.panel.getPostButton().addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				setToolBarToAction();
+				setActionPanel();
 			}});
 
 		this.panel.getWakeUpButton().addActionListener(new ActionListener(){
@@ -113,12 +117,10 @@ public class ActorController {
 		return this.panel;
 	}
 
-	public void setToolBarToAction(){
+	public void setActionPanel(){
 		this.panel.setActionPanel(this.actionController.getPanel());
-		Top.toolBar.setFocusPanel(this.actionController.getPanel(), "ACTOR: " + this.actor.getName());
-		JPanel t = new JPanel();
-		t.add(new JLabel("TEST"));
-		Top.toolBar.addToFocusPanel(t, "cell 1 0");
+//		Top.toolBar.setFocusPanel(this.actionController.getPanel(), "ACTOR: " + this.actor.getName());
+		
 	}
 
 	public void runAction(){
@@ -134,7 +136,9 @@ public class ActorController {
 			c.refreshActorProperties();
 		}
 	}
-
+	public void refreshInventory(){
+		this.panel.refresh();
+	}
 	public void refreshActorProperties(){
 		Object[] propValues = new Object[PropertyRegistry.getInstance().getKnownProperties().size()];
 		for (int i = 0 ; i < propValues.length ; i ++){
